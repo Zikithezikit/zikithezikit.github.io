@@ -2,7 +2,7 @@
 title: Understanding Kyber Crystal Cryptography
 description: Complete guide to Kyber Crystal Cryptography (ML-KEM) - quantum-resistant encryption, performance benchmarks, and migration strategies for the quantum era.
 author: Yoav Haimov
-date: 2026-02-07 12:00:00 +0800
+date: 2026-02-07 12:00:00 +0200
 categories: [Cryptography, Security, Quantum Computing]
 tags: [cryptography, quantum, security, encryption, post-quantum, kyber, ML-KEM, NIST, quantum-resistant, lattice-cryptography, learning-with-errors]
 pin: false
