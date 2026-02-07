@@ -180,17 +180,6 @@ $$
 \end{array}
 $$
 
-**The Magic of Decryption:**
-$$
-\begin{aligned}
-w &= v - \mathbf{u}^T \cdot \mathbf{s} \\
-  &= (\mathbf{b}^T \cdot \mathbf{r} + \text{encode}(m) + e_2) - (\mathbf{A}^T \cdot \mathbf{r} + \mathbf{e}_1)^T \cdot \mathbf{s} \\
-  &= (\mathbf{A} \cdot \mathbf{s} + \mathbf{e})^T \cdot \mathbf{r} + \text{encode}(m) + e_2 - \mathbf{r}^T \cdot \mathbf{A} \cdot \mathbf{s} - \mathbf{e}_1^T \cdot \mathbf{s} \\
-  &= \text{encode}(m) + e_2 - \mathbf{e}_1^T \cdot \mathbf{s} \\
-  &\approx \text{encode}(m) \text{ (error terms are designed to cancel)}
-\end{aligned}
-$$
-
 ### How Decryption Works
 
 When you receive the locked message, you use your secret key $\mathbf{secret\_vector}$ to open it:
