@@ -380,4 +380,3 @@ This combination is what makes modern AI assistants so capable - they can unders
 **Resources:**
 - [Official Documentation](https://modelcontextprotocol.io)
 - [GitHub Repository](https://github.com/modelcontextprotocol)
-- [Community Examples](https://github.com/modelcontextprotocol/examples)
