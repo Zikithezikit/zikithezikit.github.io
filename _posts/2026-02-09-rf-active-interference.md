@@ -16,7 +16,7 @@ summary: How companies across industries protect wireless systems from RF interf
 
 # Introduction
 
-Every wireless connection faces an invisible battlefield. Radio frequency (RF) interference—whether deliberate jamming by adversaries or accidental noise from nearby devices—can disrupt critical communications. 
+Every wireless connection faces an invisible battlefield. Radio frequency (RF) interference whether deliberate jamming by adversaries or accidental noise from nearby devices can disrupt critical communications. 
 
 Your smartphone drops calls in crowded stadiums. GPS navigation fails in military operations. Smart car safety systems malfunction in traffic. These aren't just inconveniences; they represent fundamental vulnerabilities in our wireless world.
 
@@ -37,7 +37,7 @@ Interference comes in several flavors, each exploiting different weaknesses in w
 
 ## Why Simple Defenses Fail
 
-Most basic receivers use **threshold detection**—they declare a signal present when its strength exceeds a set level. This approach works in clean environments but crumbles under attack:
+Most basic receivers use **threshold detection** they declare a signal present when its strength exceeds a set level. This approach works in clean environments but crumbles under attack:
 
 - A noise jammer raises the noise floor, hiding legitimate signals
 - A deceptive jammer mimics real signals above the threshold
@@ -70,7 +70,7 @@ The consequences range from reduced performance to complete system failure.
 ### Frequency-Hopping Spread Spectrum (FHSS)
 The classic defense: jump between dozens or hundreds of frequencies per second. Modern FHSS systems hop across 100+ channels in milliseconds, following pseudo-random patterns known only to authorized receivers.
 
-**How it works**: Both transmitter and receiver share a secret key determining the hop sequence. Without this key, jammers must blanket the entire frequency range—requiring massive power.
+**How it works**: Both transmitter and receiver share a secret key determining the hop sequence. Without this key, jammers must blanket the entire frequency range requiring massive power.
 
 ### Direct-Sequence Spread Spectrum (DSSS)
 Instead of hopping frequencies, DSSS spreads signals across wide bandwidths using mathematical codes. The signal appears as low-level noise unless you know the specific spreading code.
@@ -99,7 +99,7 @@ Software-Defined Radios (SDRs) allow rapid reconfiguration of RF parameters. Sys
 
 # Case Study: Automotive Radar Wars
 
-Imagine driving in bumper-to-bumper traffic. Your car's adaptive cruise control relies on millimeter-wave radar to maintain safe distances. But five nearby cars use similar radar systems—creating a symphony of interference.
+Imagine driving in bumper-to-bumper traffic. Your car's adaptive cruise control relies on millimeter-wave radar to maintain safe distances. But five nearby cars use similar radar systems creating a symphony of interference.
 
 **The problem**: Multiple radar signals overlap, causing false detections or missed vehicles.
 
