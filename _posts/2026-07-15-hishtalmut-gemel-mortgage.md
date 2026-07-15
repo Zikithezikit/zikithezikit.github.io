@@ -519,9 +519,9 @@ $$A = P \times (1 + r)^n$$
 ### חיסכון לכל ילד ומענקים
 - [ביטוח לאומי - תכנית חיסכון לכל ילד](https://www.btl.gov.il/benefits/children/hisaholayeled/pages/default.aspx)
 - [ביטוח לאומי - משיכת כספים מתכנית חיסכון לכל ילד](https://www.btl.gov.il/benefits/children/HisahoLayeled/Pages/MeshihaHisahon.aspx)
-- [ביטוח לאומי - שאלות ותשובות חיסכון לכל ילד](http://www.btl.gov.il/About/faq/SaveMoneyFAQ/Pages/default.aspx)
+- [ביטוח לאומי - שאלות ותשובות חיסכון לכל ילד](https://www.btl.gov.il/About/faq/SaveMoneyFAQ/Pages/default.aspx)
 - [ביטוח לאומי - מענקים בתכנית חיסכון](https://www.btl.gov.il/About/faq/SaveMoneyFAQ/Pages/maanak.aspx)
-- [ביטוח לאומי - מה קורה לחיסכון בגיל 18](http://www.btl.gov.il/About/faq/SaveMoneyFAQ/Pages/age18.aspx)
+- [ביטוח לאומי - מה קורה לחיסכון בגיל 18](https://www.btl.gov.il/About/faq/SaveMoneyFAQ/Pages/age18.aspx)
 
 ### חיילים משוחררים - מענק ופיקדון
 - [האגף לחיילים משוחררים - מענק שחרור](https://www.hachvana.mod.gov.il/GrantAndDeposit/Pages/Grant.aspx)
