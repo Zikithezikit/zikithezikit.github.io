@@ -1,0 +1,91 @@
+# The layout text of site
+
+# ----- Commons label -----
+
+layout:
+  post: פוסט
+  category: קטגוריה
+  tag: תגית
+
+# The tabs of sidebar
+tabs:
+  # format: <filename_without_extension>: <value>
+  home: בית
+  categories: קטגוריות
+  tags: תגיות
+  archives: ארכיון
+  about: אודות
+
+# the text displayed in the search bar & search results
+search:
+  hint: חיפוש
+  cancel: ביטול
+  no_results: מצטערים! לא נמצאו תוצאות.
+
+panel:
+  lastmod: עודכן לאחרונה
+  trending_tags: תגיות פופולריות
+  toc: תוכן עניינים
+
+copyright:
+  # Shown at the bottom of the post
+  license:
+    template: הפוסט הזה מוגן ברישיון :LICENSE_NAME על ידי המחבר.
+    name: CC BY 4.0
+    link: https://creativecommons.org/licenses/by/4.0/
+
+  # Displayed in the footer
+  brief: כל הזכויות שמורות.
+  verbose: >-
+    אלא אם צוין אחרת, הפוסטים בבלוג באתר זה מוגנים ברישיון
+    Creative Commons Attribution 4.0 International (CC BY 4.0) על ידי המחבר.
+
+meta: באמצעות :PLATFORM נושא :THEME
+
+not_found:
+  statement: סליחה, הקישור הזה לא חוקי או מצביע על דף שלא נמצא.
+
+notification:
+  update_found: גרסת תוכן חדשה זמינה.
+  update: עדכון
+
+# ----- Posts related labels -----
+
+post:
+  written_by: מאת
+  posted: פורסם
+  updated: עודכן
+  words: מילים
+  pageview_measure: צפיות
+  read_time:
+    unit: דקות
+    prompt: קריאה
+  relate_posts: קראו עוד
+  share: שתפו
+  button:
+    next: הבא
+    previous: הקודם
+    copy_code:
+      succeed: הועתק!
+    share_link:
+      title: העתקו קישור
+      succeed: הקישור הועתק בהצלחה!
+
+# Date time format.
+# See: <http://strftime.net/>, <https://day.js.org/docs/en/display/format>
+df:
+  post:
+    strftime: "%b %e, %Y"
+    dayjs: "ll"
+  archives:
+    strftime: "%b"
+    dayjs: "MMM"
+
+# categories page
+categories:
+  category_measure:
+    singular: קטגוריה
+    plural: קטגוריות
+  post_measure:
+    singular: פוסט
+    plural: פוסטים

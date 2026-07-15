@@ -1,0 +1,207 @@
+/* RTL (Right-to-Left) Support */
+
+[dir="rtl"] {
+  /* Text alignment */
+  text-align: right;
+
+  /* Flip margins and paddings */
+  margin-right: auto;
+  margin-left: 0;
+
+  /* Sidebar positioning */
+  #sidebar-wrapper {
+    right: 0;
+    left: auto;
+    border-right: none;
+    border-left: 1px solid var(--sidebar-border-color, #e0e0e0);
+
+    &.show {
+      transform: translateX(0);
+    }
+  }
+
+  /* Main content offset for RTL */
+  #main-wrapper {
+    direction: rtl;
+  }
+
+  /* Panel positioning */
+  #panel-wrapper {
+    padding-right: 0.5rem;
+    padding-left: 1rem;
+  }
+
+  /* Post content */
+  .post-content {
+    direction: rtl;
+    text-align: right;
+
+    /* Lists */
+    ul, ol {
+      padding-right: 1.5rem;
+      padding-left: 0;
+    }
+
+    /* Blockquotes */
+    blockquote {
+      border-right: 4px solid var(--blockquote-border-color, #e0e0e0);
+      border-left: none;
+      padding-right: 1rem;
+      padding-left: 0;
+      margin-right: 0;
+      margin-left: 1rem;
+    }
+
+    /* Code blocks */
+    pre {
+      direction: ltr;
+      text-align: left;
+    }
+
+    code {
+      direction: ltr;
+      unicode-bidi: embed;
+    }
+
+    /* Tables */
+    table {
+      direction: rtl;
+    }
+
+    /* Images */
+    img {
+      float: none;
+    }
+
+    /* Anchor links */
+    .anchor-heading {
+      float: left;
+      margin-left: 0.5rem;
+      margin-right: auto;
+    }
+  }
+
+  /* Navigation */
+  .post-nav {
+    .post-nav-item {
+      &.previous {
+        text-align: left;
+      }
+
+      &.next {
+        text-align: right;
+      }
+    }
+  }
+
+  /* Sidebar */
+  .sidebar {
+    text-align: right;
+
+    .sidebar-nav {
+      li {
+        text-align: right;
+      }
+    }
+  }
+
+  /* Search */
+  #search-results {
+    direction: rtl;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: right;
+  }
+
+  /* TOC */
+  .toc {
+    direction: rtl;
+
+    .toc-list {
+      padding-right: 1rem;
+      padding-left: 0;
+    }
+  }
+
+  /* Tags */
+  .post-tag {
+    margin-right: 0;
+    margin-left: 0.25rem;
+  }
+
+  /* Categories */
+  .category-list {
+    text-align: right;
+  }
+
+  /* Copy button */
+  .copy-link {
+    float: left;
+  }
+}
+
+/* RTL-specific font adjustments */
+[dir="rtl"] body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Ensure proper bidirectional text handling */
+[dir="rtl"] .post-content {
+  unicode-bidi: plaintext;
+}
+
+/* Fix for code blocks in RTL context */
+[dir="rtl"] pre,
+[dir="rtl"] code {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: embed;
+}
+
+/* RTL table of contents */
+[dir="rtl"] .toc-list-item {
+  text-align: right;
+}
+
+/* RTL archive list */
+[dir="rtl"] .archive-list {
+  text-align: right;
+}
+
+/* RTL tag cloud */
+[dir="rtl"] .tag-cloud {
+  text-align: right;
+}
+
+/* RTL search input */
+[dir="rtl"] #search-input {
+  text-align: right;
+}
+
+/* RTL back to top button */
+[dir="rtl"] #back-to-top {
+  right: auto;
+  left: 1rem;
+}
+
+/* RTL notification */
+[dir="rtl"] .notification {
+  text-align: right;
+}
+
+/* RTL pagination */
+[dir="rtl"] .post-paginator {
+  text-align: right;
+}
+
+/* RTL social sharing */
+[dir="rtl"] .post-sharing {
+  text-align: right;
+}
+
+/* RTL copyright */
+[dir="rtl"] .copyright {
+  text-align: right;
+}
