@@ -1,7 +1,7 @@
 ---
 title: "Israeli Taxing Wonders"
 author: yoav
-description: "A short guide to the Kohelet Policy Forum paper that measures how much tax each Israeli household pays and how many services and benefits it gets back. Charts, method, results in USD, and what the numbers do not say."
+description: "Israeli Haredi households get about $1,300 a month more than they pay. Non-Haredi Jewish households pay about $1,900 more than they get. A plain-English guide to the Kohelet paper behind the headlines: the charts, the method, and what the numbers do not say."
 date: 2026-11-10 09:00:00 +0200
 lang: en
 categories: [economics, public-policy]
@@ -17,14 +17,14 @@ image:
 
 ## 01. What the paper is
 
-"On Taxes and Wonders" (Hebrew title: "על המיסים ועל הנפלאות") is a paper by Ariel Karlinsky, Tom Sadeh, Eran Yogev and Michael Sarel ([Karlinsky et al., 2024](#ref-paper)). The research was done while all four worked at the Kohelet Policy Forum, a think tank in Jerusalem. The version I read was accepted on 24 June 2024 by the journal _HaRevaon LeKalkala_ (The Economic Quarterly).
+"On Taxes and Wonders" (Hebrew title: "על המיסים ועל הנפלאות") is a paper by Ariel Karlinsky, Tom Sadeh, Eran Yogev and Michael Sarel [\[1\]](#ref-1). The research was done while all four worked at the Kohelet Policy Forum, a think tank in Jerusalem. The version I read was accepted on 24 June 2024 by the journal _HaRevaon LeKalkala_ (The Economic Quarterly).
 
 It measures two things for Israeli households in 2018:
 
 - How much tax each household really pays.
 - How much it gets back, in cash benefits and in public services like schools and health care.
 
-The paper is about 47 pages, with 34 charts and one big table. I read it chart by chart, plus the 85-page technical appendix ([Technical appendix, 2025](#ref-appendix)). Here is the short version.
+The paper is about 47 pages, with 34 charts and one big table. I read it chart by chart, plus the 85-page technical appendix [\[2\]](#ref-2). Here is the short version.
 
 All numbers come from the paper. When I calculated something myself, I say so. Charts marked "my chart" are my redraws of the paper's values, not the originals.
 
@@ -41,17 +41,23 @@ Second, most of what the state gives is not cash. It is a school, a clinic, a bu
 
 So the paper assigns each household a tax burden and a value of services received, then subtracts.
 
-The paper's own example ([Karlinsky et al., 2024, p. 3](#ref-paper)): the Cohen family gets $790 a month from the state in cash. Another family gets no cash, but its kids go to a public school that costs the state the same $790 a month in teacher pay. For the treasury these are the same. For a payslip they look very different. The paper counts both.
+![Diagram: taxes flow from a household to the state, services and cash benefits flow from the state to the household, and the net transfer is services received minus taxes borne](net-transfer-concept.svg){: w="900" h="430" .shadow }
+_My chart of the paper's idea._
+
+The paper's own example [\[1, p. 3\]](#ref-1): the Cohen family gets $790 a month from the state in cash. Another family gets no cash, but its kids go to a public school that costs the state the same $790 a month in teacher pay. For the treasury these are the same. For a payslip they look very different. The paper counts both.
 
 ## 03. The headline result
 
-The paper's summary ([Karlinsky et al., 2024, p. 2](#ref-paper)), per household per month:
+The paper's summary [\[1, p. 2\]](#ref-1), per household per month:
 
 - Non-Haredi Jewish household: pays about $1,900 more than it gets back. About 70% of these households pay more than they get.
 - Haredi (ultra-Orthodox) household: gets about $1,300 more than it pays. About 80% get more.
 - Arab household: gets about $310 more. About 60% get more.
 
-> The paper is positive, not normative. It describes what is, and does not say if it is fair or right ([Karlinsky et al., 2024, p. 4](#ref-paper)).
+![Stacked bars of the share of households that pay more than they get or get more than they pay: non-Haredi Jews 70% and 30%, Haredi Jews 20% and 80%, Arab citizens 40% and 60%](headline.svg){: w="900" h="340" .shadow }
+_My chart, from the summary of the paper [\[1, p. 2\]](#ref-1). Averages and shares are rounded in the paper._
+
+> The paper is positive, not normative. It describes what is, and does not say if it is fair or right [\[1, p. 4\]](#ref-1).
 {: .prompt-info }
 
 ## 04. Terms
@@ -60,14 +66,17 @@ The paper's summary ([Karlinsky et al., 2024, p. 2](#ref-paper)), per household 
 - Decile => ten equal groups of households, ranked by income. Decile 1 is the lowest, decile 10 the highest.
 - Standard person => the paper adjusts for household size. A second person in the house does not double the cost of living, since you share rent and electricity. It uses the square root of household size. A household of 4 counts as 2 standard people. A household of 9 counts as 3 (my calculation).
 - Tax burden (incidence) => who actually carries a tax in the end, even if someone else sends it to the state.
-- Haredi => ultra-Orthodox Jews. The "Arab" group includes Arab, Bedouin and Druze citizens. Circassians are counted with non-Haredi Jews.[^circassians]
+- Haredi => ultra-Orthodox Jews. The "Arab" group includes Arab, Bedouin and Druze citizens. Circassians are counted with non-Haredi Jews [\[2\]](#ref-2).
 - CBS => Israel's Central Bureau of Statistics.
 
 ## 05. Where the numbers come from
 
-The data is the CBS Household Expenditure Survey ([CBS, 2023](#ref-cbs)). Households keep a spending diary, and CBS also records their income. The authors pooled three years, 2016 to 2018: 26,664 households, standing for about 2.6 million households and 8.6 million people ([Karlinsky et al., 2024, p. 6](#ref-paper)).
+The data is the CBS Household Expenditure Survey [\[3\]](#ref-3). Households keep a spending diary, and CBS also records their income. The authors pooled three years, 2016 to 2018: 26,664 households, standing for about 2.6 million households and 8.6 million people [\[1, p. 6\]](#ref-1).
 
 Why not newer years? The response rate fell from about 75% to about 64% in 2019 and 44% in 2020 and 2021. CBS also changed its method in 2019, which breaks the series. And Covid distorted 2020 and 2021.
+
+![Bar chart of the survey response rate: about 75% in 2016 to 2018, 64% in 2019, 44% in 2020 and 2021](response-rate.svg){: w="900" h="360" .shadow }
+_My chart, from the paper [\[1, p. 6\]](#ref-1)._
 
 The survey alone is not enough. People under-report what they spend, so the survey finds less VAT than the state collected. The fix is simple. The authors take the official total, divide it by the survey total, and multiply every household by that factor.
 
@@ -76,30 +85,28 @@ _My chart. The two totals are from Table 1 of the paper. The $310 household is m
 
 For VAT the factor is about 1.35 (my calculation: 99.87 divided by 73.97, in shekel billions). A household that reports $310 of VAT gets counted at about $420.
 
-> This assumes everybody under-reports by the same share. If richer households under-report more, the same factor does not fix it. I found no test of this in the paper or the appendix ([Technical appendix, 2025](#ref-appendix)).
+> This assumes everybody under-reports by the same share. If richer households under-report more, the same factor does not fix it. I found no test of this in the paper or the appendix [\[2\]](#ref-2).
 {: .prompt-warning }
 
 ## 06. Who bears each tax
 
 The paper has to decide who carries each tax. These are its choices:
 
-- Income tax => the worker.
-- VAT and fuel excise => the consumer.
-- Social insurance (National Insurance and health tax) => the employee, including the part the law puts on the employer. The paper treats the split as a fiction.
-- Corporate tax => one third on consumers (higher prices), one third on workers (lower pay), one third on owners of capital (lower profits).
-- Diesel tax and the business share of vehicle tax => like corporate tax.
-- Property tax on homes => the household. Property tax on businesses => like corporate tax.
+![Diagram mapping each tax to who carries it: income tax to the worker, VAT and fuel excise to the consumer, social insurance to the employee, corporate tax in thirds, property tax on homes to the household](tax-bearer-map.svg){: w="900" h="420" .shadow }
+_My chart of the paper's assumptions._
+
+The paper calls the split of social insurance between employee and employer a fiction, so the employee bears both parts.
 
 ![Diagram: corporate tax is split one third to consumers, one third to workers and one third to owners of capital, then assigned to each household by its share of spending, wages and capital income](corporate-tax-thirds.svg){: w="900" h="400" .shadow }
 _My chart of the paper's assumption._
 
-Why thirds for corporate tax? The literature gives wide ranges, and the authors split the difference. The paper admits this is an approximation. For example, exporters pay less, and part of the tax falls on foreigners ([Karlinsky et al., 2024, note 9](#ref-paper)).
+Why thirds for corporate tax? The literature gives wide ranges, and the authors split the difference. The paper admits this is an approximation. For example, exporters pay less, and part of the tax falls on foreigners [\[1, note 9\]](#ref-1).
 
 Cash benefits and services are counted by who uses them. Schools by the ages of the kids in the house. Health care by an age-based formula per person, whether or not they visited a doctor. Higher education by students.
 
 ## 07. The main chart: taxes, services, net
 
-Taxes counted in the main analysis: $127.5bn. Services counted: $84.2bn. The paper's tax total covers about 96% of what the state collects. Its spending total covers about 50% of what the state spends. Earlier studies, the authors say, covered about 27% of taxes and 14% of spending ([Karlinsky et al., 2024, p. 46](#ref-paper)).
+Taxes counted in the main analysis: $127.5bn. Services counted: $84.2bn. The paper's tax total covers about 96% of what the state collects. Its spending total covers about 50% of what the state spends. Earlier studies, the authors say, covered about 27% of taxes and 14% of spending [\[1, p. 46\]](#ref-1).
 
 Here are the values for each income decile (charts 6, 17 and 2 of the paper):
 
@@ -114,7 +121,7 @@ We can read three things:
 
 The top decile's net of −$9,020 a month is the biggest bar.
 
-> This does not mean the top decile "funds" the bottom one. Taxes also pay for things the paper does not count, like defense and interest. That is why taxes ($127.5bn) are bigger than the services counted ($84.2bn). The gap is about $43bn a year.[^gap]
+> This does not mean the top decile "funds" the bottom one. Taxes also pay for things the paper does not count, like defense and interest. That is why taxes ($127.5bn) are bigger than the services counted ($84.2bn). The gap is about $43bn a year (about 138 billion shekels, [\[1, p. 8\]](#ref-1)).
 {: .prompt-warning }
 
 ## 08. The same chart, by group
@@ -131,7 +138,7 @@ Where do the percentages from the summary come from? The paper also splits each 
 > A group's decile is inside that group. Decile 10 of the Arab group is not the national top decile.
 {: .prompt-tip }
 
-> Military service is not in the numbers. Conscription is a hidden tax, because conscripts earn less than their economic cost. A separate study ([Geibel & Sarel, 2020](#ref-geibel)) puts it at about 3.7% of GDP, about $15bn in 2018.[^military] The survey has no data on service, so the paper cannot assign it. The authors say the burden falls mostly on non-Haredi Jews, so their negative figure would be larger ([Karlinsky et al., 2024, p. 36](#ref-paper)).
+> Military service is not in the numbers. Conscription is a hidden tax, because conscripts earn less than their economic cost. A separate study [\[4\]](#ref-4) puts it at about 3.7% of GDP, about $15bn (49 billion shekels) in 2018. The survey has no data on service, so the paper cannot assign it. The authors say the burden falls mostly on non-Haredi Jews, so their negative figure would be larger [\[1, p. 36\]](#ref-1).
 {: .prompt-warning }
 
 ## 09. Taxes: who pays what
@@ -151,7 +158,7 @@ Two examples (my calculation):
 The income tax ratio is huge because the bottom decile pays only about $7 a month. Most of them are under the tax threshold.
 
 ![Funds flow diagram in USD billions: revenue of about $128bn in counted taxes plus about $39bn of other revenue and borrowing flows into the state, which spends about $84bn on counted services and about $82bn on items not counted](composition.svg){: w="900" h="580" .shadow }
-_My chart, from Table 1 of the paper ([Karlinsky et al., 2024, p. 38](#ref-paper)). The "other revenue, borrowing" bar is my calculation: total spending minus counted taxes._
+_My chart, from Table 1 of the paper [\[1, p. 38\]](#ref-1). The "other revenue, borrowing" bar is my calculation: total spending minus counted taxes._
 
 Read it left to right. VAT ($31.4bn) and income tax ($30.0bn) are the two biggest taxes. National Insurance and health tax is third ($22.2bn). Counted taxes add up to about $128bn. The state spends about $166bn in total, so about $39bn comes from other revenue and borrowing. That figure is my subtraction, not the paper's.
 
@@ -174,7 +181,7 @@ Schools are a strong example of the other direction. Decile 1 gets about $950 a 
 
 What is left out, and why. The first two enter only a second, wider analysis. The third is not counted anywhere.
 
-- Defense and internal security, about $30bn together. They are public goods. One person using them does not stop another. There is no agreed way to split them. The authors say the result of any split follows directly from the assumptions ([Karlinsky et al., 2024, p. 35](#ref-paper)).
+- Defense and internal security, about $30bn together. They are public goods. One person using them does not stop another. There is no agreed way to split them. The authors say the result of any split follows directly from the assumptions [\[1, p. 35\]](#ref-1).
 - Infrastructure, about $14bn. It serves future generations too, and the price of water or power already includes building it.
 - Interest on debt, about $10bn, and budget pensions. The debt was created in the past, so it is unclear who should carry today's payment.
 
@@ -215,7 +222,7 @@ Adding the missing taxes and services lowers measured inequality, from 0.326 to 
 
 ### Sensitivity (appendix)
 
-The appendix ([Technical appendix, 2025](#ref-appendix)) changes the assumptions one at a time, and then together:
+The appendix [\[2\]](#ref-2) changes the assumptions one at a time, and then together:
 
 - Add the missing spending, about $53bn, in three ways. Net-negative deciles shrink from 5 to 10 down to 8 to 10.
 - Scale spending up so it matches taxes. Then only the top five deciles of non-Haredi Jews pay net.
@@ -225,16 +232,16 @@ The appendix ([Technical appendix, 2025](#ref-appendix)) changes the assumptions
 
 The appendix describes its results in words, so I quote no numbers beyond the ones it gives. In all of these, deciles 1 to 4 still get more than they pay, and 5 to 10 still pay more.
 
-Why is it so stable? Labor income, spending and capital income are tightly linked across deciles. A household that earns a lot also spends a lot and owns a lot. So moving a tax from one base to another changes little ([Technical appendix, 2025](#ref-appendix)).
+Why is it so stable? Labor income, spending and capital income are tightly linked across deciles. A household that earns a lot also spends a lot and owns a lot. So moving a tax from one base to another changes little [\[2\]](#ref-2).
 
 ## 13. What the paper does not say
 
 - Net transfer is a gap between counted taxes and counted services. It is not a donation or a debt. The paper is positive, so any normative conclusion comes from the reader.
 - Decile figures are averages. Two households in the same decile can be at very different stages of life.
 - About $82bn of spending is not counted, and the answer depends on the choices made for it.
-- The paper counts what a service costs the state, not what it is worth to the household ([Karlinsky et al., 2024, note 2](#ref-paper)).
+- The paper counts what a service costs the state, not what it is worth to the household [\[1, note 2\]](#ref-1).
 - The data is 2018. The paper gives reasons, but there is no check against later years.
-- The paper assumes households do not change behavior. It warns that simulations need care ([Karlinsky et al., 2024, p. 46](#ref-paper)).
+- The paper assumes households do not change behavior. It warns that simulations need care [\[1, p. 46\]](#ref-1).
 
 
 > What I did not check: the top-decile values in chart 7 and chart 29 have no numbers I could read. I do not know if the spike in public housing at decile 5 (chart 25) is real. The appendix is the December 2025 print version and my main text is the 2024 accepted version, so small differences may exist.
@@ -242,20 +249,9 @@ Why is it so stable? Labor income, spending and capital income are tightly linke
 
 ## 14. References
 
-Karlinsky, A., Sadeh, T., Yogev, E., & Sarel, M. (2024). _On taxes and wonders: The distribution of government revenues and expenditures among households in Israel_ [Accepted for publication in _The Economic Quarterly_, 24 June 2024; Hebrew title: על המיסים ועל הנפלאות]. Kohelet Policy Forum. [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf)
-{: #ref-paper }
+1. <span id="ref-1"></span>Karlinsky, A., Sadeh, T., Yogev, E., & Sarel, M. (2024). _On taxes and wonders: The distribution of government revenues and expenditures among households in Israel_ [Accepted for publication in _The Economic Quarterly_, 24 June 2024; Hebrew title: על המיסים ועל הנפלאות]. Kohelet Policy Forum. [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf)
+2. <span id="ref-2"></span>Technical appendix. (2025). _Appendix: On taxes and wonders_ [Print version of _The Economic Quarterly_, December 2025]. Bank of Israel. [https://boi.org.il/media/ysmh4ykd/appendix.pdf](https://boi.org.il/media/ysmh4ykd/appendix.pdf)
+3. <span id="ref-3"></span>Central Bureau of Statistics. (2023). _Household Expenditure Survey_. [https://www.cbs.gov.il/he/Surveys/Pages/סקר-הוצאות-משקי-בית.aspx](https://www.cbs.gov.il/he/Surveys/Pages/%D7%A1%D7%A7%D7%A8-%D7%94%D7%95%D7%A6%D7%90%D7%95%D7%AA-%D7%9E%D7%A9%D7%A7%D7%99-%D7%91%D7%99%D7%AA.aspx)
+4. <span id="ref-4"></span>Geibel, G., & Sarel, M. (2020). _Economic costs of mandatory military service in Israel_ [In Hebrew]. Kohelet Policy Forum. Cited in the paper. I did not read it and found no link.
 
-Technical appendix. (2025). _Appendix: On taxes and wonders_ [Print version of _The Economic Quarterly_, December 2025]. Bank of Israel. [https://boi.org.il/media/ysmh4ykd/appendix.pdf](https://boi.org.il/media/ysmh4ykd/appendix.pdf)
-{: #ref-appendix }
-
-Central Bureau of Statistics. (2023). _Household Expenditure Survey_. [https://www.cbs.gov.il/he/Surveys/Pages/סקר-הוצאות-משקי-בית.aspx](https://www.cbs.gov.il/he/Surveys/Pages/%D7%A1%D7%A7%D7%A8-%D7%94%D7%95%D7%A6%D7%90%D7%95%D7%AA-%D7%9E%D7%A9%D7%A7%D7%99-%D7%91%D7%99%D7%AA.aspx)
-{: #ref-cbs }
-
-Geibel, G., & Sarel, M. (2020). _Economic costs of mandatory military service in Israel_ [In Hebrew]. Kohelet Policy Forum. Cited in the paper, not read by me, and I found no link.
-{: #ref-geibel }
-
-The paper's other sources are in its own reference list ([Karlinsky et al., 2024, pp. 48 to 58](#ref-paper)).
-
-[^circassians]: Per the appendix ([Technical appendix, 2025](#ref-appendix)). The survey has included Bedouin households since 2016.
-[^gap]: In shekels, the paper puts the gap at about 138 billion ([Karlinsky et al., 2024, p. 8](#ref-paper)).
-[^military]: In shekels, about 49 billion in 2018 ([Karlinsky et al., 2024, p. 36](#ref-paper)).
+The paper's other sources are in its own reference list [\[1, pp. 48 to 58\]](#ref-1).
