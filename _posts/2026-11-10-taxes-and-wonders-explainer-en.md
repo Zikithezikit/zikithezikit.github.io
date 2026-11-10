@@ -1,7 +1,7 @@
 ---
 title: "Israeli Taxing Wonders"
 author: yoav
-description: "Israeli Haredi households get about $1,300 a month more than they pay. Non-Haredi Jewish households pay about $1,900 more than they get. A plain-English guide to the Kohelet paper behind the headlines: the charts, the method, and what the numbers do not say."
+description: "Israeli Haredi households get about $1,300 a month more than they pay. Non-Haredi Jewish households pay about $1,900 more than they get. A plain-English guide to the Kohelet paper behind the headlines: the charts and the method."
 date: 2026-11-10 09:00:00 +0200
 lang: en
 categories: [economics, public-policy]
@@ -230,20 +230,7 @@ In all of these, deciles 1 to 4 still get more than they pay, and 5 to 10 still 
 
 Why is it so stable? Labor income, spending and capital income are tightly linked across deciles. A household that earns a lot also spends a lot and owns a lot. So moving a tax from one base to another changes little [\[2\]](#ref-2).
 
-## 13. What the paper does not say
-
-- Net transfer is a gap between counted taxes and counted services. It is not a donation or a debt. The paper is positive, so any normative conclusion comes from the reader.
-- Decile figures are averages. Two households in the same decile can be at very different stages of life.
-- About $82bn of spending is not counted, and the answer depends on the choices made for it.
-- The paper counts what a service costs the state, not what it is worth to the household [\[1, note 2\]](#ref-1).
-- The data is 2018. The paper gives reasons, but there is no check against later years.
-- The paper assumes households do not change behavior. It warns that simulations need care [\[1, p. 46\]](#ref-1).
-
-
-> Not checked: the top-decile values in charts 7 and 29 are not readable in the paper, and the spike in public housing at decile 5 (chart 25) may be noise. The appendix is the December 2025 print version and the main text is the 2024 accepted version, so small differences may exist.
-{: .prompt-warning }
-
-## 14. References
+## 13. References
 
 
 <span id="ref-1"></span>\[1\] Karlinsky, A., Sadeh, T., Yogev, E., & Sarel, M. (2024). _On taxes and wonders: The distribution of government revenues and expenditures among households in Israel_ [Accepted for publication in _The Economic Quarterly_, 24 June 2024; Hebrew title: <bdi>על המיסים ועל הנפלאות</bdi>]. Kohelet Policy Forum. [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf)
