@@ -252,9 +252,13 @@ Why is it so stable? Labor income, spending and capital income are tightly linke
 
 ## 14. References
 
-1. <span id="ref-1"></span>Karlinsky, A., Sadeh, T., Yogev, E., & Sarel, M. (2024). _On taxes and wonders: The distribution of government revenues and expenditures among households in Israel_ [Accepted for publication in _The Economic Quarterly_, 24 June 2024; Hebrew title: על המיסים ועל הנפלאות]. Kohelet Policy Forum. [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf)
-2. <span id="ref-2"></span>Technical appendix. (2025). _Appendix: On taxes and wonders_ [Print version of _The Economic Quarterly_, December 2025]. Bank of Israel. [https://boi.org.il/media/ysmh4ykd/appendix.pdf](https://boi.org.il/media/ysmh4ykd/appendix.pdf)
-3. <span id="ref-3"></span>Central Bureau of Statistics. (2023). _Household Expenditure Survey_. [https://www.cbs.gov.il/he/Surveys/Pages/סקר-הוצאות-משקי-בית.aspx](https://www.cbs.gov.il/he/Surveys/Pages/%D7%A1%D7%A7%D7%A8-%D7%94%D7%95%D7%A6%D7%90%D7%95%D7%AA-%D7%9E%D7%A9%D7%A7%D7%99-%D7%91%D7%99%D7%AA.aspx)
-4. <span id="ref-4"></span>Geibel, G., & Sarel, M. (2020). _Economic costs of mandatory military service in Israel_ [In Hebrew]. Kohelet Policy Forum. I did not read it and found no standalone link. It is listed in the paper's reference list: [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55)
+
+<span id="ref-1"></span>\[1\] Karlinsky, A., Sadeh, T., Yogev, E., & Sarel, M. (2024). _On taxes and wonders: The distribution of government revenues and expenditures among households in Israel_ [Accepted for publication in _The Economic Quarterly_, 24 June 2024; Hebrew title: <bdi>על המיסים ועל הנפלאות</bdi>]. Kohelet Policy Forum. [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf)
+
+<span id="ref-2"></span>\[2\] Technical appendix. (2025). _Appendix: On taxes and wonders_ [Print version of _The Economic Quarterly_, December 2025]. Bank of Israel. [https://boi.org.il/media/ysmh4ykd/appendix.pdf](https://boi.org.il/media/ysmh4ykd/appendix.pdf)
+
+<span id="ref-3"></span>\[3\] Central Bureau of Statistics. (2023). _Household Expenditure Survey_. [cbs.gov.il/he/Surveys](https://www.cbs.gov.il/he/Surveys/Pages/%D7%A1%D7%A7%D7%A8-%D7%94%D7%95%D7%A6%D7%90%D7%95%D7%AA-%D7%9E%D7%A9%D7%A7%D7%99-%D7%91%D7%99%D7%AA.aspx)
+
+<span id="ref-4"></span>\[4\] Geibel, G., & Sarel, M. (2020). _Economic costs of mandatory military service in Israel_ [In Hebrew]. Kohelet Policy Forum. I did not read it and found no standalone link. It is listed in the paper's reference list: [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55)
 
 The paper's other sources are in its own reference list [\[1, pp. 48 to 58\]](#ref-1).
