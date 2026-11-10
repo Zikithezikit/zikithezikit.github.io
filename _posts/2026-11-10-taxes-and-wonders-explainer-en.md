@@ -27,11 +27,11 @@ It measures two things for Israeli households in 2018:
 - How much tax each household really pays.
 - How much it gets back, in cash benefits and in public services like schools and health care.
 
-The paper is about 47 pages, with 34 charts and one big table. I read it chart by chart, plus the 85-page technical appendix [\[2\]](#ref-2). Here is the short version.
+The paper is about 47 pages, with 34 charts and one big table. The technical appendix [\[2\]](#ref-2) adds 85 more.
 
-All numbers come from the paper. When I calculated something myself, I say so. Charts marked "my chart" are my redraws of the paper's values, not the originals.
+All numbers come from the paper unless marked "my calculation". The charts are redrawn from the paper's values.
 
-> Money in this post: the paper uses shekels (NIS). I convert to US dollars at 3.18 NIS per $, the current rate. The data is from 2018, so this mixes 2018 shekels with today's exchange rate and ignores inflation and purchasing power. Treat dollars as a rough feel for size. All figures are rounded.
+> The paper uses shekels (NIS). Here they are converted to US dollars at the current 3.18 NIS per $. The data is from 2018, so this mixes 2018 shekels with today's rate and ignores inflation and purchasing power. Treat dollars as a rough sense of size. All figures are rounded.
 {: .prompt-info }
 
 ## 02. The question
@@ -45,7 +45,7 @@ Second, most of what the state gives is not cash. It is a school, a clinic, a bu
 So the paper assigns each household a tax burden and a value of services received, then subtracts.
 
 ![Diagram: taxes flow from a household to the state, services and cash benefits flow from the state to the household, and the net transfer is services received minus taxes borne](net-transfer-concept.svg){: w="900" h="430" .shadow }
-_My chart of the paper's idea._
+_The paper's idea in one picture._
 
 The paper's own example [\[1, p. 3\]](#ref-1): the Cohen family gets $790 a month from the state in cash. Another family gets no cash, but its kids go to a public school that costs the state the same $790 a month in teacher pay. For the treasury these are the same. For a payslip they look very different. The paper counts both.
 
@@ -58,7 +58,7 @@ The paper's summary [\[1, p. 2\]](#ref-1), per household per month:
 - Arab household: gets about $310 more. About 60% get more.
 
 ![Bar chart of the average net transfer per household per month: non-Haredi Jews about −$1,900, Haredi Jews about +$1,300, Arab citizens about +$310](headline.svg){: w="900" h="430" .shadow }
-_My chart, in the style of chart 3 of the paper, from the summary [\[1, p. 2\]](#ref-1). The paper's figures are rounded: about 6,000, 4,000 and 1,000 shekels._
+_Source: summary of the paper [\[1, p. 2\]](#ref-1), styled after chart 3. The paper rounds to about 6,000, 4,000 and 1,000 shekels._
 
 > The paper is positive, not normative. It describes what is, and does not say if it is fair or right [\[1, p. 4\]](#ref-1).
 {: .prompt-info }
@@ -67,7 +67,7 @@ _My chart, in the style of chart 3 of the paper, from the summary [\[1, p. 2\]](
 
 - Net transfer => services and benefits received, minus taxes borne. Positive means a household gets more than it pays. Negative means it pays more.
 - Decile => ten equal groups of households, ranked by income. Decile 1 is the lowest, decile 10 the highest.
-- Standard person => the paper adjusts for household size. A second person in the house does not double the cost of living, since you share rent and electricity. It uses the square root of household size. A household of 4 counts as 2 standard people. A household of 9 counts as 3 (my calculation).
+- Standard person => the paper adjusts for household size. A second person in the house does not double the cost of living, since you share rent and electricity. It uses the square root of household size. A household of 4 counts as 2 standard people. A household of 9 counts as 3.
 - Tax burden (incidence) => who actually carries a tax in the end, even if someone else sends it to the state.
 - Haredi => ultra-Orthodox Jews. The "Arab" group includes Arab, Bedouin and Druze citizens. Circassians are counted with non-Haredi Jews [\[2\]](#ref-2).
 - CBS => Israel's Central Bureau of Statistics.
@@ -79,16 +79,16 @@ The data is the CBS Household Expenditure Survey [\[3\]](#ref-3). Households kee
 Why not newer years? The response rate fell from about 75% to about 64% in 2019 and 44% in 2020 and 2021. CBS also changed its method in 2019, which breaks the series. And Covid distorted 2020 and 2021.
 
 ![Bar chart of the survey response rate: about 75% in 2016 to 2018, 64% in 2019, 44% in 2020 and 2021](response-rate.svg){: w="900" h="360" .shadow }
-_My chart, from the paper [\[1, p. 6\]](#ref-1)._
+_Source: the paper [\[1, p. 6\]](#ref-1)._
 
 The survey alone is not enough. People under-report what they spend, so the survey finds less VAT than the state collected. The fix is simple. The authors take the official total, divide it by the survey total, and multiply every household by that factor.
 
 ![Diagram: survey VAT of $23.3bn and official VAT of $31.4bn give a scaling factor of about 1.35, so a household that reports $310 is counted at about $420](scaling-flow.svg){: w="900" h="330" .shadow }
-_My chart. The two totals are from Table 1 of the paper. The $310 household is made up._
+_The two totals are from Table 1 of the paper. The $310 household is made up._
 
 For VAT the factor is about 1.35 (my calculation: 99.87 divided by 73.97, in shekel billions). A household that reports $310 of VAT gets counted at about $420.
 
-> This assumes everybody under-reports by the same share. If richer households under-report more, the same factor does not fix it. I found no test of this in the paper or the appendix [\[2\]](#ref-2).
+> This assumes everybody under-reports by the same share. If richer households under-report more, the same factor does not fix it. Neither the paper nor the appendix [\[2\]](#ref-2) tests this.
 {: .prompt-warning }
 
 ## 06. Who bears each tax
@@ -96,12 +96,12 @@ For VAT the factor is about 1.35 (my calculation: 99.87 divided by 73.97, in she
 The paper has to decide who carries each tax. These are its choices:
 
 ![Diagram mapping each tax to who carries it: income tax to the worker, VAT and fuel excise to the consumer, social insurance to the employee, corporate tax in thirds, property tax on homes to the household](tax-bearer-map.svg){: w="900" h="420" .shadow }
-_My chart of the paper's assumptions._
+_The paper's assumptions._
 
 The paper calls the split of social insurance between employee and employer a fiction, so the employee bears both parts.
 
 ![Diagram: corporate tax is split one third to consumers, one third to workers and one third to owners of capital, then assigned to each household by its share of spending, wages and capital income](corporate-tax-thirds.svg){: w="900" h="400" .shadow }
-_My chart of the paper's assumption._
+_The paper's assumption._
 
 Why thirds for corporate tax? The literature gives wide ranges, and the authors split the difference. The paper admits this is an approximation. For example, exporters pay less, and part of the tax falls on foreigners [\[1, note 9\]](#ref-1).
 
@@ -111,12 +111,8 @@ Cash benefits and services are counted by who uses them. Schools by the ages of 
 
 Taxes counted in the main analysis: $127.5bn. Services counted: $84.2bn. The paper's tax total covers about 96% of what the state collects. Its spending total covers about 50% of what the state spends. Earlier studies, the authors say, covered about 27% of taxes and 14% of spending [\[1, p. 46\]](#ref-1).
 
-Here are the values for each income decile (charts 6, 17 and 2 of the paper):
-
 ![Bar chart by income decile: taxes rising from about $1,190 to about $11,470 a month, services falling slowly from about $3,320 to about $2,450, and net transfer going from +$2,130 to −$9,020](net-by-decile.svg){: w="900" h="490" .shadow }
-_My chart, from charts 2, 6 and 17 of the paper. USD per household per month, rounded._
-
-We can read three things:
+_Source: charts 2, 6 and 17 of the paper. USD per household per month, rounded._
 
 - Taxes climb steeply, from about $1,190 in decile 1 to about $11,470 in decile 10.
 - Services are almost flat. Decile 1 gets about $3,320 and decile 10 about $2,450.
@@ -132,9 +128,9 @@ The top decile's net of −$9,020 a month is the biggest bar.
 The paper splits households into three groups: non-Haredi Jews, Haredi Jews and Arab citizens (chart 3).
 
 ![Two bar panels. Per household per month: non-Haredi Jews −$1,920, Haredi Jews +$1,290, Arab citizens +$330. Total per year: −$47.4bn, +$2.6bn, +$1.5bn](net-by-sector.svg){: w="900" h="380" .shadow }
-_My chart, from chart 3 of the paper. Without defense and infrastructure, and without the cost of military service._
+_Source: chart 3 of the paper. Without defense and infrastructure, and without the cost of military service._
 
-Look at both panels. The Haredi group gets +$1,290 per household, but only +$2.6bn in total. The reason is size. The yearly total depends on how many households are in the group. Working back (my calculation), that is about 168,000 Haredi households, about 378,000 Arab households and about 2.06 million non-Haredi Jewish households.
+The Haredi group gets +$1,290 per household, but only +$2.6bn in total. The reason is size. The yearly total depends on how many households are in the group. Working back (my calculation), that is about 168,000 Haredi households, about 378,000 Arab households and about 2.06 million non-Haredi Jewish households.
 
 Where do the percentages from the summary come from? The paper also splits each group into its own ten deciles (chart 4). Net transfers turn negative from decile 4 for non-Haredi Jews, decile 7 for Arab citizens and decile 9 for Haredi Jews. So about 30%, 60% and 80% of these groups respectively are net receivers.
 
@@ -146,10 +142,10 @@ Where do the percentages from the summary come from? The paper also splits each 
 
 ## 09. Taxes: who pays what
 
-Taxes are not equal in how they scale with income. This chart shows how many times more the top decile pays than the bottom decile, for each tax.
+This chart shows how many times more the top decile pays than the bottom decile, for each tax.
 
 ![Horizontal bars: income tax ×733 (bar cut), National Insurance and health tax ×16.6, corporate tax and related ×7.4, business property tax ×7.0, residential property tax ×4.3, fees ×4.0, excise ×3.6, VAT ×3.2, customs ×2.3](tax-ratio.svg){: w="900" h="430" .shadow }
-_My chart. Each bar is the decile 10 value divided by the decile 1 value, from charts 8 to 16 of the paper._
+_Each bar is the decile 10 value divided by the decile 1 value. Source: charts 8 to 16 of the paper._
 
 Income tax and social insurance grow fast with income. VAT, excise and customs grow slowly. The reason is that the first group depends on income, and the second on spending. Spending moves less than income does.
 
@@ -161,7 +157,7 @@ Two examples (my calculation):
 The income tax ratio is huge because the bottom decile pays only about $7 a month. Most of them are under the tax threshold.
 
 ![Funds flow diagram in USD billions: revenue of about $128bn in counted taxes plus about $39bn of other revenue and borrowing flows into the state, which spends about $84bn on counted services and about $82bn on items not counted](composition.svg){: w="900" h="580" .shadow }
-_My chart, from Table 1 of the paper [\[1, p. 38\]](#ref-1). The "other revenue, borrowing" bar is my calculation: total spending minus counted taxes._
+_Source: Table 1 of the paper [\[1, p. 38\]](#ref-1). The "other revenue, borrowing" bar is my calculation: total spending minus counted taxes._
 
 Read it left to right. VAT ($31.4bn) and income tax ($30.0bn) are the two biggest taxes. National Insurance and health tax is third ($22.2bn). Counted taxes add up to about $128bn. The state spends about $166bn in total, so about $39bn comes from other revenue and borrowing. That figure is my subtraction, not the paper's.
 
@@ -169,10 +165,10 @@ On the right, the blue bars are the services the paper assigns to households. Th
 
 ## 10. Spending: who gets what
 
-Now the other side. This chart does the same trick for spending: the top decile's value divided by the bottom decile's.
+The same ratio for spending: the top decile's value divided by the bottom decile's.
 
 ![Horizontal bars: culture, sport and leisure ×3.49, health ×1.07, cash benefits ×0.99, higher education ×0.76, public transport ×0.48, welfare ×0.44, schools ×0.42, religion ×0.24, public housing ×0.03](spend-ratio.svg){: w="900" h="430" .shadow }
-_My chart, from charts 19 to 27 of the paper. The dashed line is equal spending (×1)._
+_Source: charts 19 to 27 of the paper. The dashed line is equal spending (×1)._
 
 Most spending leans to the lower deciles. Three items do not:
 
@@ -193,18 +189,18 @@ What is left out, and why. The first two enter only a second, wider analysis. Th
 Why does a low-income household get so much in services? Part of the answer is that it is bigger and has more children.
 
 ![Two stacked bars: decile 1 has 3.65 people, of which 46.7% children, 45.5% ages 18 to 64, 7.9% age 65 and over. Decile 10 has 2.89 people, 19.3% children, 64.3% adults, 16.4% age 65 and over](household-age.svg){: w="900" h="370" .shadow }
-_My chart, from chart 28 of the paper. The length of each part is its share times the total (my calculation)._
+_Source: chart 28 of the paper. The length of each part is its share times the total._
 
 A decile 1 household has about 1.7 children on average. A decile 10 household has about 0.56. That explains why school spending is higher at the bottom. Health and old-age benefits are higher at the top, because there are more older people there.
 
 The paper also looks at couples by number of children (chart 30):
 
 ![Bar chart of net transfers to couples by number of children: 0 children −$1,520, 1 −$2,550, 2 −$2,520, 3 −$2,520, 4 −$300, 5 +$1,690, 6 or more +$3,930 per month](household-structure.svg){: w="900" h="410" .shadow }
-_My chart, from chart 30 of the paper. Single parents (0, 1, 2, 3 or more children): −$410, −$320, +$320, +$2,560 a month._
+_Source: chart 30 of the paper. Single parents (0, 1, 2, 3 or more children): −$410, −$320, +$320, +$2,560 a month._
 
 Couples with up to 3 children pay net. With 4 they are about break-even. With 5 or more they receive net. Taxes rise until the third child and fall from the fourth. The paper notes the fall and does not explain it.
 
-These charts are breakdowns, not explanations. They do not control for age, income or group.
+These charts do not control for age, income or group.
 
 ## 12. Stress tests
 
@@ -219,9 +215,9 @@ Income in one year is a noisy sign of how well off a family is. Young and old ho
 Gini runs from 0 (full equality) to 1 (one household has everything). The paper computes it for different definitions of income.
 
 ![Bar chart of Gini: cash income after tax 0.351, total income after tax 0.326, central analysis 0.258, and with defense and infrastructure added 0.207 by person, 0.242 by spending, 0.284 by income](gini.svg){: w="900" h="380" .shadow }
-_My chart, from the Gini chart on page 45 of the paper._
+_Source: the Gini chart on page 45 of the paper._
 
-Adding the missing taxes and services lowers measured inequality, from 0.326 to 0.258. Adding defense and infrastructure moves it between 0.207 and 0.284, depending on how they are split. That range shows how much the unsettled choices matter.
+Adding the missing taxes and services lowers measured inequality, from 0.326 to 0.258. Adding defense and infrastructure moves it between 0.207 and 0.284, depending on how they are split.
 
 ### Sensitivity (appendix)
 
@@ -233,7 +229,7 @@ The appendix [\[2\]](#ref-2) changes the assumptions one at a time, and then tog
 - Split income tax half and half between worker and employer. Less progressive, but still progressive.
 - Put all corporate tax on owners of capital. Almost no change.
 
-The appendix describes its results in words, so I quote no numbers beyond the ones it gives. In all of these, deciles 1 to 4 still get more than they pay, and 5 to 10 still pay more.
+In all of these, deciles 1 to 4 still get more than they pay, and 5 to 10 still pay more.
 
 Why is it so stable? Labor income, spending and capital income are tightly linked across deciles. A household that earns a lot also spends a lot and owns a lot. So moving a tax from one base to another changes little [\[2\]](#ref-2).
 
@@ -247,7 +243,7 @@ Why is it so stable? Labor income, spending and capital income are tightly linke
 - The paper assumes households do not change behavior. It warns that simulations need care [\[1, p. 46\]](#ref-1).
 
 
-> What I did not check: the top-decile values in chart 7 and chart 29 have no numbers I could read. I do not know if the spike in public housing at decile 5 (chart 25) is real. The appendix is the December 2025 print version and my main text is the 2024 accepted version, so small differences may exist.
+> Not checked: the top-decile values in charts 7 and 29 are not readable in the paper, and the spike in public housing at decile 5 (chart 25) may be noise. The appendix is the December 2025 print version and the main text is the 2024 accepted version, so small differences may exist.
 {: .prompt-warning }
 
 ## 14. References
@@ -259,6 +255,6 @@ Why is it so stable? Labor income, spending and capital income are tightly linke
 
 <span id="ref-3"></span>\[3\] Central Bureau of Statistics. (2023). _Household Expenditure Survey_. [cbs.gov.il/he/Surveys](https://www.cbs.gov.il/he/Surveys/Pages/%D7%A1%D7%A7%D7%A8-%D7%94%D7%95%D7%A6%D7%90%D7%95%D7%AA-%D7%9E%D7%A9%D7%A7%D7%99-%D7%91%D7%99%D7%AA.aspx)
 
-<span id="ref-4"></span>\[4\] Geibel, G., & Sarel, M. (2020). _Economic costs of mandatory military service in Israel_ [In Hebrew]. Kohelet Policy Forum. I did not read it and found no standalone link. It is listed in the paper's reference list: [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55)
+<span id="ref-4"></span>\[4\] Geibel, G., & Sarel, M. (2020). _Economic costs of mandatory military service in Israel_ [In Hebrew]. Kohelet Policy Forum. Cited in the paper; no standalone link found. Listed in the paper's reference list: [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55)
 
 The paper's other sources are in its own reference list [\[1, pp. 48 to 58\]](#ref-1).
