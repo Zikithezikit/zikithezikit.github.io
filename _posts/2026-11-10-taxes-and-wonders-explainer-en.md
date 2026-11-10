@@ -27,7 +27,7 @@ The paper is about 47 pages, with 34 charts and one big table. I read it chart b
 
 All numbers come from the paper. When I calculated something myself, I say so. Charts marked "my chart" are my redraws of the paper's values, not the originals.
 
-> Money in this post: the paper uses shekels (NIS). I convert to US dollars at 3.6 NIS per $, about the 2018 average. This is the market rate, not purchasing power, so treat dollars as a rough feel for size. All figures are 2018 and rounded.
+> Money in this post: the paper uses shekels (NIS). I convert to US dollars at 3.18 NIS per $, the current rate. The data is from 2018, so this mixes 2018 shekels with today's exchange rate and ignores inflation and purchasing power. Treat dollars as a rough feel for size. All figures are rounded.
 {: .prompt-info }
 
 ## 02. The question
@@ -40,15 +40,15 @@ Second, most of what the state gives is not cash. It is a school, a clinic, a bu
 
 So the paper assigns each household a tax burden and a value of services received, then subtracts.
 
-The paper's own example (p. 3): the Cohen family gets $700 a month from the state in cash. Another family gets no cash, but its kids go to a public school that costs the state the same $700 a month in teacher pay. For the treasury these are the same. For a payslip they look very different. The paper counts both.
+The paper's own example (p. 3): the Cohen family gets $790 a month from the state in cash. Another family gets no cash, but its kids go to a public school that costs the state the same $790 a month in teacher pay. For the treasury these are the same. For a payslip they look very different. The paper counts both.
 
 ## 03. The headline result
 
 The paper's summary (p. 2), per household per month:
 
-- Non-Haredi Jewish household: pays about $1,700 more than it gets back. About 70% of these households pay more than they get.
-- Haredi (ultra-Orthodox) household: gets about $1,100 more than it pays. About 80% get more.
-- Arab household: gets about $280 more. About 60% get more.
+- Non-Haredi Jewish household: pays about $1,900 more than it gets back. About 70% of these households pay more than they get.
+- Haredi (ultra-Orthodox) household: gets about $1,300 more than it pays. About 80% get more.
+- Arab household: gets about $310 more. About 60% get more.
 
 The paper is positive, not normative. It describes what is, and does not say if it is fair or right (p. 4).
 
@@ -69,10 +69,10 @@ Why not newer years? The response rate fell from about 75% to about 64% in 2019 
 
 The survey alone is not enough. People under-report what they spend, so the survey finds less VAT than the state collected. The fix is simple. The authors take the official total, divide it by the survey total, and multiply every household by that factor.
 
-![Diagram: survey VAT of $20.5bn and official VAT of $27.7bn give a scaling factor of about 1.35, so a household that reports $280 is counted at about $375](/assets/images/taxes-explainer-en/scaling-flow.png)
-_My diagram. The two totals are from Table 1 of the paper. The $280 household is made up._
+![Diagram: survey VAT of $23.3bn and official VAT of $31.4bn give a scaling factor of about 1.35, so a household that reports $310 is counted at about $420](/assets/images/taxes-explainer-en/scaling-flow.png)
+_My diagram. The two totals are from Table 1 of the paper. The $310 household is made up._
 
-For VAT the factor is about 1.35 (my calculation: 99.87 divided by 73.97, in shekel billions). A household that reports $280 of VAT gets counted at about $375.
+For VAT the factor is about 1.35 (my calculation: 99.87 divided by 73.97, in shekel billions). A household that reports $310 of VAT gets counted at about $420.
 
 This assumes everybody under-reports by the same share. If richer households under-report more, the same factor does not fix it. I found no test of this in the paper or the appendix.
 
@@ -96,36 +96,36 @@ Cash benefits and services are counted by who uses them. Schools by the ages of 
 
 ## 07. The main chart: taxes, services, net
 
-Taxes counted in the main analysis: $113bn. Services counted: $74bn. The paper's tax total covers about 96% of what the state collects. Its spending total covers about 50% of what the state spends. Earlier studies, the authors say, covered about 27% of taxes and 14% of spending (p. 46).
+Taxes counted in the main analysis: $127.5bn. Services counted: $84.2bn. The paper's tax total covers about 96% of what the state collects. Its spending total covers about 50% of what the state spends. Earlier studies, the authors say, covered about 27% of taxes and 14% of spending (p. 46).
 
 Here are the values for each income decile (charts 6, 17 and 2 of the paper):
 
-![Bar chart by income decile: taxes rising from about $1,050 to about $10,130 a month, services falling slowly from about $2,930 to about $2,160, and net transfer going from +$1,880 to −$7,970](/assets/images/taxes-explainer-en/net-by-decile.svg)
+![Bar chart by income decile: taxes rising from about $1,190 to about $11,470 a month, services falling slowly from about $3,320 to about $2,450, and net transfer going from +$2,130 to −$9,020](/assets/images/taxes-explainer-en/net-by-decile.svg)
 _My chart, from charts 2, 6 and 17 of the paper. USD per household per month, rounded._
 
 We can read three things:
 
-- Taxes climb steeply, from about $1,050 in decile 1 to about $10,130 in decile 10.
-- Services are almost flat. Decile 1 gets about $2,930 and decile 10 about $2,160.
+- Taxes climb steeply, from about $1,190 in decile 1 to about $11,470 in decile 10.
+- Services are almost flat. Decile 1 gets about $3,320 and decile 10 about $2,450.
 - The net transfer is the gap between the two. It turns negative at decile 5.
 
-The top decile's net of −$7,970 a month is the biggest bar. But it does not mean the top decile "funds" the bottom one. Taxes also pay for things the paper does not count, like defense and interest. That is why taxes ($113bn) are bigger than the services counted ($74bn). The gap is about $38bn a year (the paper says about 138 billion shekels, p. 8).
+The top decile's net of −$9,020 a month is the biggest bar. But it does not mean the top decile "funds" the bottom one. Taxes also pay for things the paper does not count, like defense and interest. That is why taxes ($127.5bn) are bigger than the services counted ($84.2bn). The gap is about $43bn a year (the paper says about 138 billion shekels, p. 8).
 
 ## 08. The same chart, by group
 
 The paper splits households into three groups: non-Haredi Jews, Haredi Jews and Arab citizens (chart 3).
 
-![Two bar panels. Per household per month: non-Haredi Jews −$1,700, Haredi Jews +$1,140, Arab citizens +$290. Total per year: −$41.9bn, +$2.3bn, +$1.3bn](/assets/images/taxes-explainer-en/net-by-sector.svg)
+![Two bar panels. Per household per month: non-Haredi Jews −$1,920, Haredi Jews +$1,290, Arab citizens +$330. Total per year: −$47.4bn, +$2.6bn, +$1.5bn](/assets/images/taxes-explainer-en/net-by-sector.svg)
 _My chart, from chart 3 of the paper. Without defense and infrastructure, and without the cost of military service._
 
-Look at both panels. The Haredi group gets +$1,140 per household, but only +$2.3bn in total. The reason is size. The yearly total depends on how many households are in the group. Working back (my calculation), that is about 168,000 Haredi households, about 378,000 Arab households and about 2.06 million non-Haredi Jewish households.
+Look at both panels. The Haredi group gets +$1,290 per household, but only +$2.6bn in total. The reason is size. The yearly total depends on how many households are in the group. Working back (my calculation), that is about 168,000 Haredi households, about 378,000 Arab households and about 2.06 million non-Haredi Jewish households.
 
 Where do the percentages from the summary come from? The paper also splits each group into its own ten deciles (chart 4). Net transfers turn negative from decile 4 for non-Haredi Jews, decile 7 for Arab citizens and decile 9 for Haredi Jews. So about 30%, 60% and 80% of these groups respectively are net receivers.
 
 Two warnings:
 
 - A group's decile is inside that group. Decile 10 of the Arab group is not the national top decile.
-- Military service is not in the numbers. Conscription is a hidden tax, because conscripts earn less than their economic cost. A separate study puts it at about 3.7% of GDP, about $14bn in 2018. The survey has no data on service, so the paper cannot assign it. The authors say the burden falls mostly on non-Haredi Jews, so their negative figure would be larger (p. 36).
+- Military service is not in the numbers. Conscription is a hidden tax, because conscripts earn less than their economic cost. A separate study puts it at about 3.7% of GDP, about $15bn in 2018. The survey has no data on service, so the paper cannot assign it. The authors say the burden falls mostly on non-Haredi Jews, so their negative figure would be larger (p. 36).
 
 ## 09. Taxes: who pays what
 
@@ -138,15 +138,15 @@ Income tax and social insurance grow fast with income. VAT, excise and customs g
 
 Two examples (my calculation):
 
-- VAT is 45% of the bottom decile's tax bill ($470 of $1,050).
-- Income tax is 42% of the top decile's tax bill ($4,280 of $10,130).
+- VAT is 45% of the bottom decile's tax bill ($530 of $1,190).
+- Income tax is 42% of the top decile's tax bill ($4,840 of $11,470).
 
-The income tax ratio is huge because the bottom decile pays only about $6 a month. Most of them are under the tax threshold.
+The income tax ratio is huge because the bottom decile pays only about $7 a month. Most of them are under the tax threshold.
 
-![Funds flow diagram in USD billions: revenue of about $113bn in counted taxes plus about $34bn of other revenue and borrowing flows into the state, which spends about $74bn on counted services and about $72bn on items not counted](/assets/images/taxes-explainer-en/composition.svg)
+![Funds flow diagram in USD billions: revenue of about $128bn in counted taxes plus about $39bn of other revenue and borrowing flows into the state, which spends about $84bn on counted services and about $82bn on items not counted](/assets/images/taxes-explainer-en/composition.svg)
 _My chart, from Table 1 of the paper (p. 38). The "other revenue, borrowing" bar is my calculation: total spending minus counted taxes._
 
-Read it left to right. VAT ($27.7bn) and income tax ($26.5bn) are the two biggest taxes. National Insurance and health tax is third ($19.6bn). Counted taxes add up to about $113bn. The state spends about $147bn in total, so about $34bn comes from other revenue and borrowing. That figure is my subtraction, not the paper's.
+Read it left to right. VAT ($31.4bn) and income tax ($30.0bn) are the two biggest taxes. National Insurance and health tax is third ($22.2bn). Counted taxes add up to about $128bn. The state spends about $166bn in total, so about $39bn comes from other revenue and borrowing. That figure is my subtraction, not the paper's.
 
 On the right, the blue bars are the services the paper assigns to households. The gray bars are what it leaves out of the main analysis.
 
@@ -163,13 +163,13 @@ Most spending leans to the lower deciles. Three items do not:
 - Cash benefits are about equal, because the old-age pension reaches the upper deciles too.
 - Culture, sport and leisure is the only item that clearly rises with income.
 
-Schools are a strong example of the other direction. Decile 1 gets about $840 a month in education spending per household. Decile 10 gets about $350. The paper says there are more children in the lower deciles (next section).
+Schools are a strong example of the other direction. Decile 1 gets about $950 a month in education spending per household. Decile 10 gets about $400. The paper says there are more children in the lower deciles (next section).
 
 What is left out, and why. The first two enter only a second, wider analysis. The third is not counted anywhere.
 
-- Defense and internal security, about $27bn together. They are public goods. One person using them does not stop another. There is no agreed way to split them. The authors say the result of any split follows directly from the assumptions (p. 35).
-- Infrastructure, about $13bn. It serves future generations too, and the price of water or power already includes building it.
-- Interest on debt, about $9bn, and budget pensions. The debt was created in the past, so it is unclear who should carry today's payment.
+- Defense and internal security, about $30bn together. They are public goods. One person using them does not stop another. There is no agreed way to split them. The authors say the result of any split follows directly from the assumptions (p. 35).
+- Infrastructure, about $14bn. It serves future generations too, and the price of water or power already includes building it.
+- Interest on debt, about $10bn, and budget pensions. The debt was created in the past, so it is unclear who should carry today's payment.
 
 ## 11. Households: kids and age
 
@@ -182,8 +182,8 @@ A decile 1 household has about 1.7 children on average. A decile 10 household ha
 
 The paper also looks at couples by number of children (chart 30):
 
-![Bar chart of net transfers to couples by number of children: 0 children −$1,340, 1 −$2,250, 2 −$2,220, 3 −$2,220, 4 −$270, 5 +$1,490, 6 or more +$3,470 per month](/assets/images/taxes-explainer-en/household-structure.svg)
-_My chart, from chart 30 of the paper. Single parents (0, 1, 2, 3 or more children): −$370, −$290, +$280, +$2,260 a month._
+![Bar chart of net transfers to couples by number of children: 0 children −$1,520, 1 −$2,550, 2 −$2,520, 3 −$2,520, 4 −$300, 5 +$1,690, 6 or more +$3,930 per month](/assets/images/taxes-explainer-en/household-structure.svg)
+_My chart, from chart 30 of the paper. Single parents (0, 1, 2, 3 or more children): −$410, −$320, +$320, +$2,560 a month._
 
 Couples with up to 3 children pay net. With 4 they are about break-even. With 5 or more they receive net. Taxes rise until the third child and fall from the fourth. The paper notes the fall and does not explain it.
 
@@ -195,7 +195,7 @@ The authors ask if the picture holds when the assumptions change.
 
 ### Expenditure deciles
 
-Income in one year is a noisy sign of how well off a family is. Young and old households can have low income now and high spending. So the paper ranks households by spending too (chart 33). The shape is the same. The top decile's net is −$6,150 instead of −$7,970 a month.
+Income in one year is a noisy sign of how well off a family is. Young and old households can have low income now and high spending. So the paper ranks households by spending too (chart 33). The shape is the same. The top decile's net is −$6,960 instead of −$9,020 a month.
 
 ### Gini index
 
@@ -210,7 +210,7 @@ Adding the missing taxes and services lowers measured inequality, from 0.326 to 
 
 The appendix changes the assumptions one at a time, and then together:
 
-- Add the missing spending, about $47bn, in three ways. Net-negative deciles shrink from 5 to 10 down to 8 to 10.
+- Add the missing spending, about $53bn, in three ways. Net-negative deciles shrink from 5 to 10 down to 8 to 10.
 - Scale spending up so it matches taxes. Then only the top five deciles of non-Haredi Jews pay net.
 - Split VAT three ways instead of all on the consumer. Deciles 7 to 10 pay more, 1 to 6 pay less.
 - Split income tax half and half between worker and employer. Less progressive, but still progressive.
@@ -224,7 +224,7 @@ Why is it so stable? Labor income, spending and capital income are tightly linke
 
 - Net transfer is a gap between counted taxes and counted services. It is not a donation or a debt. The paper is positive, so any normative conclusion comes from the reader.
 - Decile figures are averages. Two households in the same decile can be at very different stages of life.
-- About $72bn of spending is not counted, and the answer depends on the choices made for it.
+- About $82bn of spending is not counted, and the answer depends on the choices made for it.
 - The paper counts what a service costs the state, not what it is worth to the household (note 2).
 - The data is 2018. The paper gives reasons, but there is no check against later years.
 - The paper assumes households do not change behavior. It warns that simulations need care (p. 46).
