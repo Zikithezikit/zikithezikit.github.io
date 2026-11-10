@@ -54,8 +54,8 @@ The paper's summary [\[1, p. 2\]](#ref-1), per household per month:
 - Haredi (ultra-Orthodox) household: gets about $1,300 more than it pays. About 80% get more.
 - Arab household: gets about $310 more. About 60% get more.
 
-![Bar chart of the average net transfer per household per month: non-Haredi Jews about −$1,900, Haredi Jews about +$1,300, Arab citizens about +$310](headline.svg){: w="900" h="430" .shadow }
-_Source: summary of the paper [\[1, p. 2\]](#ref-1), styled after chart 3. The paper rounds to about 6,000, 4,000 and 1,000 shekels._
+![Stacked bars of the share of households that pay more than they get or get more than they pay: non-Haredi Jews 70% and 30%, Haredi Jews 20% and 80%, Arab citizens 40% and 60%](headline-shares.svg){: w="900" h="320" .shadow }
+_Source: summary of the paper [\[1, p. 2\]](#ref-1). The paper rounds to about 70%, 80% and 60%. The averages are in the chart at the top of the post._
 
 > The paper is positive, not normative. It describes what is, and does not say if it is fair or right [\[1, p. 4\]](#ref-1).
 {: .prompt-info }
