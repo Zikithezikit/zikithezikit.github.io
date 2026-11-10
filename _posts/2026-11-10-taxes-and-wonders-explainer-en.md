@@ -12,7 +12,7 @@ mermaid: false
 media_subpath: /assets/images/taxes-explainer-en/
 image:
    path: cover.png
-   alt: "Bar chart of taxes paid, services received and net transfer per household, by income decile, in USD"
+   alt: "Bar chart of the average net transfer per household per month: non-Haredi Jews about −$1,900, Haredi Jews about +$1,300, Arab citizens about +$310"
 ---
 
 > Short on time? Jump to [the headline chart](#03-the-headline-result). It shows the whole result in one picture.
