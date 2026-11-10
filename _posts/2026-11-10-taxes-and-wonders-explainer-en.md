@@ -69,8 +69,8 @@ Why not newer years? The response rate fell from about 75% to about 64% in 2019 
 
 The survey alone is not enough. People under-report what they spend, so the survey finds less VAT than the state collected. The fix is simple. The authors take the official total, divide it by the survey total, and multiply every household by that factor.
 
-![Diagram: survey VAT of $20.5bn, official VAT of $27.7bn, a scaling factor of about 1.35, and a household reporting $280 that is counted as about $375](/assets/images/taxes-explainer-en/scaling-flow.svg)
-_My chart. The two totals are from Table 1 of the paper. The $280 household is made up._
+![Diagram: survey VAT of $20.5bn and official VAT of $27.7bn give a scaling factor of about 1.35, so a household that reports $280 is counted at about $375](/assets/images/taxes-explainer-en/scaling-flow.png)
+_My diagram. The two totals are from Table 1 of the paper. The $280 household is made up._
 
 For VAT the factor is about 1.35 (my calculation: 99.87 divided by 73.97, in shekel billions). A household that reports $280 of VAT gets counted at about $375.
 
@@ -86,6 +86,9 @@ The paper has to decide who carries each tax. These are its choices:
 - Corporate tax => one third on consumers (higher prices), one third on workers (lower pay), one third on owners of capital (lower profits).
 - Diesel tax and the business share of vehicle tax => like corporate tax.
 - Property tax on homes => the household. Property tax on businesses => like corporate tax.
+
+![Diagram: corporate tax is split one third to consumers, one third to workers and one third to owners of capital, then assigned to each household by its share of spending, wages and capital income](/assets/images/taxes-explainer-en/corporate-tax-thirds.png)
+_My diagram of the paper's assumption._
 
 Why thirds for corporate tax? The literature gives wide ranges, and the authors split the difference. The paper admits this is an approximation. For example, exporters pay less, and part of the tax falls on foreigners (note 9).
 
@@ -140,10 +143,12 @@ Two examples (my calculation):
 
 The income tax ratio is huge because the bottom decile pays only about $6 a month. Most of them are under the tax threshold.
 
-![Three stacked columns in USD billions: taxes counted $113bn, spending counted $74bn, spending not counted $72bn](/assets/images/taxes-explainer-en/composition.svg)
-_My chart, from Table 1 of the paper (p. 38)._
+![Funds flow diagram in USD billions: revenue of about $113bn in counted taxes plus about $34bn of other revenue and borrowing flows into the state, which spends about $74bn on counted services and about $72bn on items not counted](/assets/images/taxes-explainer-en/composition.svg)
+_My chart, from Table 1 of the paper (p. 38). The "other revenue, borrowing" bar is my calculation: total spending minus counted taxes._
 
-The big picture: VAT ($27.7bn) and income tax ($26.5bn) are the two biggest taxes. National Insurance and health tax is third ($19.6bn).
+Read it left to right. VAT ($27.7bn) and income tax ($26.5bn) are the two biggest taxes. National Insurance and health tax is third ($19.6bn). Counted taxes add up to about $113bn. The state spends about $147bn in total, so about $34bn comes from other revenue and borrowing. That figure is my subtraction, not the paper's.
+
+On the right, the blue bars are the services the paper assigns to households. The gray bars are what it leaves out of the main analysis.
 
 ## 10. Spending: who gets what
 
