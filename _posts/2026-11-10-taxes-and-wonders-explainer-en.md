@@ -15,9 +15,6 @@ image:
    alt: "Bar chart of the average net transfer per household per month: non-Haredi Jews about −$1,900, Haredi Jews about +$1,300, Arab citizens about +$310"
 ---
 
-> Short on time? Jump to [the headline chart](#03-the-headline-result). It shows the whole result in one picture.
-{: .prompt-tip }
-
 ## 01. What the paper is
 
 "On Taxes and Wonders" (Hebrew title: "על המיסים ועל הנפלאות") is a paper by Ariel Karlinsky, Tom Sadeh, Eran Yogev and Michael Sarel [\[1\]](#ref-1). The research was done while all four worked at the Kohelet Policy Forum, a think tank in Jerusalem. The version I read was accepted on 24 June 2024 by the journal _HaRevaon LeKalkala_ (The Economic Quarterly).
