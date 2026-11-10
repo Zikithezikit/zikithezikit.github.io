@@ -14,8 +14,6 @@ image:
    alt: "Bar chart of taxes paid, services received and net transfer per household, by income decile, in USD"
 ---
 
-_This is the English version of [the Hebrew guide](/posts/taxes-and-wonders-explainer/)._
-
 ## 01. What the paper is
 
 "On Taxes and Wonders" (Hebrew title: "על המיסים ועל הנפלאות") is a paper by Ariel Karlinsky, Tom Sadeh, Eran Yogev and Michael Sarel. The research was done while all four worked at the Kohelet Policy Forum, a think tank in Jerusalem. The version I read was accepted on 24 June 2024 by the journal _HaRevaon LeKalkala_ (The Economic Quarterly).
