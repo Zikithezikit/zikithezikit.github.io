@@ -1,5 +1,5 @@
 ---
-title: "Who pays and who gets? A plain-English guide to a study of Israel's taxes and transfers"
+title: "Israeli Taxing Wonders"
 author: yoav
 description: "A short guide to the Kohelet Policy Forum paper that measures how much tax each Israeli household pays and how many services and benefits it gets back. Charts, method, results in USD, and what the numbers do not say."
 date: 2026-11-10 09:00:00 +0200
