@@ -54,8 +54,8 @@ The paper's summary [\[1, p. 2\]](#ref-1), per household per month:
 - Haredi (ultra-Orthodox) household: gets about $1,300 more than it pays. About 80% get more.
 - Arab household: gets about $310 more. About 60% get more.
 
-![Stacked bars of the share of households that pay more than they get or get more than they pay: non-Haredi Jews 70% and 30%, Haredi Jews 20% and 80%, Arab citizens 40% and 60%](headline.svg){: w="900" h="340" .shadow }
-_My chart, from the summary of the paper [\[1, p. 2\]](#ref-1). Averages and shares are rounded in the paper._
+![Bar chart of the average net transfer per household per month: non-Haredi Jews about −$1,900, Haredi Jews about +$1,300, Arab citizens about +$310](headline.svg){: w="900" h="430" .shadow }
+_My chart, in the style of chart 3 of the paper, from the summary [\[1, p. 2\]](#ref-1). The paper's figures are rounded: about 6,000, 4,000 and 1,000 shekels._
 
 > The paper is positive, not normative. It describes what is, and does not say if it is fair or right [\[1, p. 4\]](#ref-1).
 {: .prompt-info }
@@ -252,6 +252,6 @@ Why is it so stable? Labor income, spending and capital income are tightly linke
 1. <span id="ref-1"></span>Karlinsky, A., Sadeh, T., Yogev, E., & Sarel, M. (2024). _On taxes and wonders: The distribution of government revenues and expenditures among households in Israel_ [Accepted for publication in _The Economic Quarterly_, 24 June 2024; Hebrew title: על המיסים ועל הנפלאות]. Kohelet Policy Forum. [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf)
 2. <span id="ref-2"></span>Technical appendix. (2025). _Appendix: On taxes and wonders_ [Print version of _The Economic Quarterly_, December 2025]. Bank of Israel. [https://boi.org.il/media/ysmh4ykd/appendix.pdf](https://boi.org.il/media/ysmh4ykd/appendix.pdf)
 3. <span id="ref-3"></span>Central Bureau of Statistics. (2023). _Household Expenditure Survey_. [https://www.cbs.gov.il/he/Surveys/Pages/סקר-הוצאות-משקי-בית.aspx](https://www.cbs.gov.il/he/Surveys/Pages/%D7%A1%D7%A7%D7%A8-%D7%94%D7%95%D7%A6%D7%90%D7%95%D7%AA-%D7%9E%D7%A9%D7%A7%D7%99-%D7%91%D7%99%D7%AA.aspx)
-4. <span id="ref-4"></span>Geibel, G., & Sarel, M. (2020). _Economic costs of mandatory military service in Israel_ [In Hebrew]. Kohelet Policy Forum. Cited in the paper. I did not read it and found no link.
+4. <span id="ref-4"></span>Geibel, G., & Sarel, M. (2020). _Economic costs of mandatory military service in Israel_ [In Hebrew]. Kohelet Policy Forum. I did not read it and found no standalone link. It is listed in the paper's reference list: [https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55](https://z.calcalist.co.il/assets/pickerul/6b90f139-7ff2-4976-af70-01940ab73a94.pdf#page=55)
 
 The paper's other sources are in its own reference list [\[1, pp. 48 to 58\]](#ref-1).
