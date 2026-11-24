@@ -33,7 +33,7 @@ Where this shows up:
 
 I wrote [pyribbon](https://github.com/zikithezikit/pyribbon) [\[4\]](#ref-4), a Python library with a C11 core, to build this kind of filter. It implements the Ribbon filter of Dillinger and Walzer [\[1\]](#ref-1), written from their papers and not ported from existing code. This post walks through how it works and does the arithmetic by hand wherever that is possible.
 
-> Numbers marked "measured" are my own measurements with pyribbon 0.1.2, and so is the benchmark chart in section 11.
+> Numbers marked "measured" are my own measurements with pyribbon 0.1.2.
 {: .prompt-info }
 
 ## 02. How much does "maybe" cost?
@@ -442,26 +442,7 @@ A log-structured store keeps data in many immutable files and has to ask "is thi
 
 The condition is the same everywhere: the set has to be known up front and it must not change. If you need to insert keys later, a Bloom filter or a cuckoo filter is the right tool.
 
-## 11. Where pyribbon loses
-
-At 10 million keys with 8-bit fingerprints, my benchmark has pyribbon at 9.19 bits per key and the Fuse8 filter [\[8\]](#ref-8) at 9.02, so Fuse8 is 2% smaller. Up to about a hundred thousand keys pyribbon is the smallest of the filters tested.
-
-![Left, bits per key against the number of keys for pyribbon, Fuse8, Xor8 and a Bloom filter. Right, lookup time in nanoseconds from Python for pyribbon and Fuse8](performance.png){: w="1686" h="742" .shadow }
-_Measured with the pyribbon benchmark suite, one run._
-
-The reason is the sizing curve from section 06. With width 64 the overhead grows with the logarithm of the set size, and at some point a Fuse filter, whose overhead stays flat, catches up. The lookup panel needs a caution too. The Fuse8 package (pyfusefilter) hashes every key in Python, which accounts for much of its lookup time, and its bare C core builds faster than my elimination does, so the build comparison depends on what you count.
-
-The other limits:
-
-- A filter is static. There is no `add` and no `remove`.
-- Small sets are padded to 128 rows, so a few dozen keys cost 128 bytes plus the header at `fp_bits=8`. A plain `set` is better there.
-- A build needs about 26 bytes of temporary memory per key, roughly 2.6 GB at 100 million keys.
-- The sizing table was measured up to $$2^{24}$$ slots. Above that it is extrapolated.
-- Windows on ARM has never been built, and no big-endian or 32-bit wheels are published.
-
-The next items on the roadmap are width 128 or sharding, to flatten the overhead curve at large sizes, then the homogeneous and BuRR variants from the later paper [\[2\]](#ref-2).
-
-## 12. Try it
+## 11. Try it
 
 ```bash
 pip install pyribbon
