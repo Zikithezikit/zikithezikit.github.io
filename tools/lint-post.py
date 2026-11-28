@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 STOCK_WORDS = [
     "delve", "leverage", "leveraging", "seamless", "seamlessly", "robust", "tapestry",
     "landscape", "realm", "pivotal", "crucial", "paramount", "game-changer", "game changer",
-    "revolutionize", "revolutionizing", "revolutionary", "cutting-edge", "unlock", "unleash",
+    "revolutionize", "revolutionizing", "revolutionary", "cutting-edge", "unleash",
     "harness", "empower", "elevate", "showcase", "showcasing", "intricate", "meticulous",
     "testament", "embark", "navigate the", "ever-evolving", "in today's", "underscore",
     "vibrant", "bustling", "boast", "furthermore", "moreover", "additionally",
@@ -82,6 +82,10 @@ def prose_lines(body, offset):
         # drop inline code and inline math before prose checks
         clean = re.sub(r"`[^`]*`", "", line)
         clean = re.sub(r"\$\$.*?\$\$", "", clean)
+        # single-$ math does not render on this site (see assets/js/data/mathjax.js)
+        for m in re.finditer(r"(?<![\\$])\$([^$\n]+?)\$", clean):
+            if re.search(r"[\\^_{}]", m.group(1)):
+                yield i, None, f"single-$ math '${m.group(1)}$' will not render: use $${m.group(1)}$$"
         clean = re.sub(r"\]\([^)]*\)", "]", clean)  # urls
         yield i, line, clean
 
@@ -159,6 +163,9 @@ def check(path: Path) -> Report:
     # line-based checks
     h2 = []
     for i, raw, clean in prose_lines(body, offset):
+        if raw is None:
+            r.err(i, clean)
+            continue
         low = clean.lower()
         for m in IMG.finditer(raw):
             alt, src, attrs = m.group(1), m.group(2), m.group(3) or ""
@@ -174,7 +181,8 @@ def check(path: Path) -> Report:
         if raw.lstrip().startswith(("<", "|", "{:")) and not raw.lstrip().startswith("|"):
             continue
         dash = EM_DASH if fm.get("lang") == "he" else DASH
-        if dash.search(clean):
+        # a dash alone in a table cell means "none", which is fine
+        if dash.search(re.sub(r"\|\s*[—–-]\s*(?=\|)", "|", clean)):
             r.warn(i, "em/en dash as punctuation: use a period, comma, colon or parentheses")
         for w in STOCK_WORDS:
             if re.search(rf"\b{re.escape(w)}\b", low):
