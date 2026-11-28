@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "blog",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["tools/run.sh", "--drafts"],
+      "port": 4000
+    }
+  ]
+}

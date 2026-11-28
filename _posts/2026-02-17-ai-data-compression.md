@@ -1,420 +1,308 @@
 ---
-title: "Using AI for Data Compression: A Theoretical Perspective"
+title: "Compression and Prediction: The Maths of Learned Codecs"
 author: yoav
-description: Explore the theoretical foundations of AI-powered data compression - from rate-distortion theory to the deep connection between understanding and compression.
+description: "A learned image codec saves 59.8% of the bits JPEG uses at equal PSNR on the Kodak images. The maths behind it: entropy, the rate-distortion function, a loss of rate plus λ times distortion, and a model that predicts probabilities."
 date: 2026-02-17 12:00:00 +0200
+lang: en
 categories: [AI, Technology, Data Science]
-tags: [AI, machine learning, data compression, neural compression, information theory, entropy]
+tags: [data-compression, information-theory, entropy, rate-distortion, learned-compression, machine-learning]
 pin: false
 math: true
-mermaid: true
+mermaid: false
 image:
     path: /assets/images/ai-data-compression.jpg
     alt: AI-powered data compression neural network visualization
-summary: Discover the theoretical foundations behind AI transforming data compression - the elegant connection between understanding data and compressing it.
 ---
 
-## Introduction
+## 01. The question
 
-Every time you stream a video, load a webpage, or send a message, data compression makes it possible. Without compression, a single minute of high-definition video would require gigabytes of storage, which is impractical for any network or device.
+A photo is millions of numbers. Sending them as they are costs bits, and most of those bits carry nothing new. Compression sends fewer.
 
-Think of compression like taking detailed notes versus summarizing. The full video is like writing down every single frame exactly as it appears. A summary is like writing "this scene shows a car driving through a city at sunset" - much shorter, but you lose some details. Compression algorithms do this automatically, finding the shortest way to represent the original data while keeping what matters most.
+There are two kinds. Lossless compression gives back exactly the input. Lossy compression gives back something close and drops the rest. Both need a probability for each thing they might have to send. A neural network is a good way to produce those probabilities.
 
-For decades, we relied on carefully engineered algorithms like JPEG for images, MP3 for audio, and H.264 for video. These exploit statistical patterns: neighboring pixels share similar colors, certain audio frequencies are more important to human perception than others. JPEG, for example, notices that nearby pixels in most photos are almost the same color, so it only stores the color once and marks nearby pixels to copy it. This is like summarizing "the sky is blue" instead of writing "the sky is blue, the sky is blue, the sky is blue..." for every pixel.
+This post covers three things: how many bits a source needs, what a small loss of quality buys, and how a learned image codec is built and trained on top of that. It ends with language models, which use the same idea on text.
 
-But there is a fundamental limitation. These algorithms treat data as raw symbols without understanding what they mean. They see pixels, not pictures. They do not know that a photo contains a cat, a face, or a sunset. They only know that pixel 100 is similar to pixel 101.
+> Numbers marked "made up" were chosen for the example. Every other computed number was printed by a short Python script, `toy.py`, kept in the site repository. Numbers with a citation come from the cited paper.
+{: .prompt-info }
 
-Machine learning offers something different. Neural networks learn the underlying structure of data, including its patterns, constraints, and semantics. This learned understanding enables compression beyond what manual algorithms achieve. It is the difference between a human summarizing a movie (who understands the plot, characters, and emotions) versus a computer just noticing that certain pixel patterns repeat.
+## 02. How few bits does lossless coding need?
 
-The central thesis is this. Compression and understanding are the same phenomenon. Just as a language model that predicts well has understood language, a model that understands data can compress it more efficiently.
-
----
-
-## Information Theory Foundations
-
-### Lossless vs. Lossy Compression
-
-At its core, compression represents information using fewer bits. Think of it like packing a suitcase. You can either pack everything perfectly (lossless) or decide what you really need and leave some things behind (lossy). We distinguish two types.
-
-> **Lossless compression**: The original data can be perfectly reconstructed. Used for text, executables, and any data where every bit matters. This is like making a perfect copy of a document - no information is lost.
-
-> **Lossy compression**: Some information is deliberately discarded to achieve smaller sizes. Used for images, audio, and video where human perception fills in the gaps. This is like summarizing a book into a short review - you lose some details but keep the main points.
-
-### The Rate-Distortion Function
-
-Claude Shannon's landmark 1948 paper, "A Mathematical Theory of Communication,"[^shannon] established the fundamental limits: what is the minimum number of bits needed to represent data at a given quality level? 
-
-Think of this like a speed limit on a highway. Shannon discovered the mathematical speed limit for compression - you cannot go faster no matter how good your car (algorithm) is. His rate-distortion function tells you the minimum speed (bits) needed to reach a certain destination quality.
-
-The **rate-distortion function** R(D) provides the answer. It tells us the minimum average bits per sample required to represent a source X with expected distortion no greater than D:
-
-$$R(D) = \min_{p(\hat{x}\mid x): \mathbb{E}[d(X, \hat{X})] \leq D} I(X; \hat{X})$$
-
-$$= \min_{p(\hat{x}\mid x): \mathbb{E}[d(X, \hat{X})] \leq D} \sum_{x,\hat{x}} p(x) p(\hat{x}\mid x) \log_2 \frac{p(\hat{x}\mid x)}{p(\hat{x})}$$
-
-Breaking this down:
-
-- $\min_{p(\hat{x}\mid x)}$ means "find the best encoding strategy"
-- $\mathbb{E}[d(X, \hat{X})] \leq D$ means "while keeping distortion below D"
-- $I(X; \hat{X})$ is the mutual information (bits needed)
-
-Where:
-- $I(X; \hat{X})$ is **mutual information**, which is the amount of information shared between the original $X$ and reconstructed $\hat{X}$. Think of it as how much knowledge about the original is preserved.
-- $d(X, \hat{X})$ is the **distortion function**, which is a measure of how different the reconstructed data is from the original. For images, this is often mean-squared error (MSE), which averages the squared differences between each pixel value. Lower MSE means less distortion and higher quality.
-- The minimization finds the best encoding strategy $p(\hat{x}\mid x)$ achieving the desired distortion level
-
-This function represents the theoretical speed limit. No algorithm can beat this bound for a given distortion level. It is like knowing the absolute minimum amount of ink needed to write a summary - you might get close, but you cannot use less ink than this theoretical minimum.
-
-### The Gaussian Source
-
-For important special cases, we have elegant closed-form solutions. Consider a memoryless Gaussian source, where each data point is drawn from a normal distribution with variance $\sigma^2$. A Gaussian (also called "normal") distribution is the classic bell curve - most values are near the average, with fewer and fewer values as you get further away.
-
-Think of heights of adult humans. Most people are around average height (say 5'7"), very few are very short (4') or very tall (6'9"). The "variance" tells us how spread out the heights are. A low variance means everyone is almost the same height. A high variance means there is a big range of heights.
-
-The formula:
-
-$$R(D) = \begin{cases} \frac{1}{2} \log_2\left(\frac{\sigma^2}{D}\right) & D < \sigma^2 \\ 0 & D \geq \sigma^2 \end{cases}$$
-
-This says: if you allow some distortion D that is smaller than the variance, you need half of log2(variance/D) bits. If you allow distortion larger than the variance, you need zero bits - just output zeros.
-
-For example, if our source has variance $\sigma^2 = 4$ and we allow distortion $D = 1$, the minimum rate is:
-
-$$\frac{1}{2} \log_2\left(\frac{4}{1}\right) = \frac{1}{2} \cdot 2 = 1 \text{ bit per sample}$$
-
-This means we can represent each data point with 1 bit on average while keeping the reconstruction error below 1. If we try to compress more aggressively with $D = 4$ (equal to the variance), we get $R(4) = 0$, meaning we can simply output zeros since the signal is too noisy to matter.
-
-When distortion is low (high quality), we need approximately $\log_2(\sigma^2/D)$ bits per sample. When distortion exceeds variance, we can simply output zeros, because the signal is too noisy to matter.
-
-The **reverse water-filling** algorithm generalizes this to multiple dimensions. Imagine pouring water (bits) into containers (dimensions) with different capacities (variances). We fill until the water level $\theta$ reaches equilibrium, allocating more bits to dimensions with higher signal variance.
-
-### Entropy and the Lossless Limit
-
-At zero distortion (lossless compression), the bound becomes **entropy** H(X). Entropy is a measure of randomness or surprise. Think of it like this: a coin that always lands heads has zero entropy (not random at all). A fair coin has maximum entropy for two outcomes.
-
-$$H(X) = -\mathbb{E}[\log_2 p(X)]$$
-
-The negative sign is there because log of a probability less than 1 gives a negative number, and we want entropy to be positive.
-
-Entropy measures the fundamental uncertainty in the data. A source with low entropy (predictable) compresses well. Random data with high entropy is incompressible. It is like the difference between a book with repeated patterns (easy to summarize) versus random noise (impossible to compress).
-
-For example, consider a data source that emits four symbols with probabilities: A (50%), B (25%), C (12.5%), D (12.5%). The entropy is:
-
-$$H(X) = -(0.5 \log_2 0.5 + 0.25 \log_2 0.25 + 0.125 \log_2 0.125 + 0.125 \log_2 0.125)$$
-
-$$= -(0.5 \cdot (-1) + 0.25 \cdot (-2) + 0.125 \cdot (-3) + 0.125 \cdot (-3))$$
-
-$$= 1.75 \text{ bits per symbol}$$
-
-Breaking this down:
-
-- $0.5 \cdot \log_2 0.5 = 0.5 \cdot (-1) = -0.5$
-- $0.25 \cdot \log_2 0.25 = 0.25 \cdot (-2) = -0.5$
-- $0.125 \cdot \log_2 0.125 = 0.125 \cdot (-3) = -0.375$
-- Summing: $-(0.5 + 0.5 + 0.375 + 0.375) = -1.75$
-
-So: $H(X) = 1.75$ bits per symbol.
-
-This means we need at least 1.75 bits per symbol to represent this source losslessly. A uniform distribution over four symbols would have entropy 2 bits (since each has probability 0.25), showing that predictability reduces the bits needed.
-
-For those familiar with large language models, perplexity is 2 to the power of H(X), which is a measure of how surprised the model is by the data. Lower perplexity implies better prediction, which implies lower entropy, which implies better compressibility.
-
-**Arithmetic coding** is the workhorse of lossless compression. It achieves compression within one bit of entropy by assigning shorter binary codes to more probable symbols.
-
-For instance, with our four-symbol source above, we might assign: A (3 bits), B (4 bits), C (5 bits), D (5 bits). This differs from fixed-length codes (which would always use 2 bits) by using fewer bits for common symbols and more for rare ones.
-
-Given a perfect probability model, it assigns "the" (common) a 3-bit code and "quixotic" (rare) a 15-bit code. The better your probability model, the better your compression.
-
----
-
-## The Transform Coding Framework
-
-### From Fixed to Learned Transforms
-
-**Transform coding** is the process of converting data into a different representation that is easier to compress. It is like translating a book from English to a shorter language - the meaning stays the same but it takes less space to write. Traditional approaches use fixed mathematical transforms.
-
-- JPEG uses the Discrete Cosine Transform (DCT), which converts spatial pixel data into frequency coefficients. This is like taking a photo and asking "how much red is there, how much blue, how much green" instead of "what color is each individual pixel."
-- JPEG2000 uses wavelets, which is a multi-resolution decomposition. This is like looking at an image from different distances - up close you see details, far away you see the overall shape.
-
-These transforms are hand-designed based on mathematical properties (DCT concentrates energy in few coefficients) and human perception (we are less sensitive to high-frequency detail). They work well but have a ceiling - they cannot learn anything new about your specific data.
-
-**Learned transform coding** generalizes this framework. The encoder and decoder become neural networks, with all components jointly optimized end-to-end. Rather than using DCT, we learn a transform specifically tailored to the data distribution. This is like having a translator who has read millions of books in both languages and learned all the best ways to compress meaning - they do a better job than a generic rule-based translator.
-
-### The Pipeline
-
-The compression pipeline consists of four stages. Think of it like sending a package through the mail:
-
-1. **Analysis transform** $y = g_a(x; \phi)$: The encoder network maps input to a **latent representation**, which is a compact, continuous vector that captures the essential information in the data. Think of this as the neural network's understanding of the input. This is like taking everything in a box, figuring out what really matters, and writing it down on a single sheet of paper.
-
-2. **Quantization** $\hat{y} = Q(y)$: **Quantization** discretizes the continuous latent space by rounding real-valued numbers to a finite set. This is the main source of lossiness, similar to reducing image colors from 16 million (24-bit) to 256 (8-bit). This is like rounding your notes to the nearest whole number - you lose some precision but it still conveys the main idea.
-
-3. **Entropy coding**: Uses a learned probability model to compress the quantized latents into bits. This is lossless, like zipping already-compressed data. This is like using a good shorthand - once you have your notes, you can write them in an even more compact form.
-
-4. **Synthesis transform** $\hat{x} = g_s(\hat{y}; \theta)$: The decoder network reconstructs the original from quantized latents. This is like taking your shorthand notes and expanding them back into full sentences.
-
-For example, suppose we have a tiny 2x2 grayscale image patch with pixel values [120, 125, 80, 85]. After the analysis transform (a simple averaging for illustration), we might get latents $y = [102.5, -4.5]$. The quantization step rounds these to integers: $\hat{y} = [103, -5]$. The entropy coder then represents [103, -5] as bits using a probability model. At decode time, the synthesis transform maps [103, -5] back to the reconstructed image.
-
-The encoding flow:
+A source emits symbols with known probabilities. Shannon defined its entropy [\[1\]](#ref-1):
 
 $$
-\underbrace{x}_{\text{Input}} 
-\;\xrightarrow{\;g_a(\cdot)\;}\;
-\underbrace{y}_{\text{Latent}}
-\;\xrightarrow{\;Q(\cdot)\;}\;
-\underbrace{\hat{y}}_{\text{Quantized}}
-\;\xrightarrow{\;\text{Entropy coding}\;}\;
-\underbrace{\text{bits}}_{\text{Compressed}}
+H(X) = -\sum_x p(x)\log_2 p(x)
 $$
 
-And decoding:
+A symbol with probability $$p$$ costs $$-\log_2 p$$ bits: probability $$\tfrac{1}{2}$$ costs 1 bit, probability $$\tfrac{1}{8}$$ costs 3 bits. Entropy is the average of these costs. No lossless code can use fewer bits per symbol on average [\[2, p. 3\]](#ref-2).
+
+### By hand
+
+Shannon's own example [\[1, p. 18\]](#ref-1) is a source with four letters, drawn independently:
+
+| symbol | $$p$$ | $$-\log_2 p$$ | $$p \cdot (-\log_2 p)$$ |
+|---|---:|---:|---:|
+| A | 0.5 | 1 | 0.500 |
+| B | 0.25 | 2 | 0.500 |
+| C | 0.125 | 3 | 0.375 |
+| D | 0.125 | 3 | 0.375 |
+
+The last column adds up to $$H = 1.75$$ bits per symbol. Four equally likely symbols would have $$H = 2$$.
+
+Give each symbol a bit string as long as its cost. That gives the code in the table below, and no string is the start of another, so the receiver needs no separators. Huffman's algorithm [\[3\]](#ref-3) builds the same lengths for this source.
+
+| symbol | code | length |
+|---|---|---:|
+| A | 0 | 1 |
+| B | 10 | 2 |
+| C | 110 | 3 |
+| D | 111 | 3 |
+
+The average length is $$0.5 \cdot 1 + 0.25 \cdot 2 + 0.125 \cdot 3 + 0.125 \cdot 3 = 1.75$$ bits, equal to the entropy. The message AABACABD becomes 00100110010111, which is 14 bits. A fixed 2-bit code needs 16.
+
+This is exact only because every probability is a power of $$\tfrac{1}{2}$$. Code lengths are whole numbers, and $$-\log_2 p$$ is a whole number only then. Arithmetic coding removes the limit. It codes a whole sequence at once and adds about one bit to the sequence, not one bit per symbol [\[2, p. 3\]](#ref-2).
+
+### A wrong model costs bits
+
+The coder needs probabilities. If it uses $$q$$ while the data follows $$p$$, the average length is the cross-entropy [\[2, p. 4\]](#ref-2):
 
 $$
-\underbrace{\text{bits}}_{\text{Compressed}}
-\;\xrightarrow{\;\text{Entropy decoding}\;}\;
-\underbrace{\hat{y}}_{\text{Quantized}}
-\;\xrightarrow{\;g_s(\cdot)\;}\;
-\underbrace{\hat{x}}_{\text{Reconstructed}}
+H(p, q) = -\sum_x p(x)\log_2 q(x)
 $$
 
-### Rate-Distortion Optimization
+For the source above, with three made-up models $$q$$ for the symbols A to D:
 
-Training minimizes a **Lagrangian**, which is a way to balance two competing objectives using a single scalar parameter:
+| model $$q$$ | $$q$$ for A, B, C, D | bits per symbol | excess over $$H$$ |
+|---|---|---:|---:|
+| the true $$p$$ | 0.5, 0.25, 0.125, 0.125 | 1.750 | 0.000 |
+| a mild guess | 0.4, 0.3, 0.2, 0.1 | 1.801 | 0.051 |
+| uniform | 0.25, 0.25, 0.25, 0.25 | 2.000 | 0.250 |
+| reversed | 0.125, 0.125, 0.25, 0.5 | 2.625 | 0.875 |
 
-$$\mathcal{L}(\phi, \theta) = \mathbb{E}_{x \sim p_{\text{data}}}\left[ -\log_2 p_\psi(\hat{y}) + \lambda \cdot d(x, \hat{x}) \right]$$
+The data did not change. Only the model did. Everything below is about getting better probabilities.
 
-$$= \frac{1}{N} \sum_{i=1}^{N} \left[ -\log_2 p_\psi(\hat{y}_i) + \lambda \cdot (x_i - \hat{x}_i)^2 \right]$$
+## 03. What does a little loss buy?
 
-Breaking this down:
+For lossy coding you pick a distortion measure $$d(x, \hat{x})$$ between the original $$x$$ and the reconstruction $$\hat{x}$$. The usual choice for images is squared error.
 
-- $\mathbb{E}_{x \sim p_{\text{data}}}$ means "the expected value over training data"
-- $-\log_2 p_\psi(\hat{y})$ is the **rate** (bits needed)
-- $d(x, \hat{x})$ is the **distortion** (reconstruction error)
-- $\lambda$ is the balance between them
+Shannon defined the rate of a source for a given fidelity as the smallest mutual information between source and reconstruction, over all systems that meet the fidelity [\[1, pp. 49 to 50\]](#ref-1). In current notation:
 
-Where:
-- The first term $-\log_2 p_\psi(\hat{y})$ is the **rate**, which is the expected number of bits needed to represent the quantized latents according to our probability model $p_\psi$. This is the entropy of the quantized representation.
-- The second term $d(x, \hat{x})$ is the **distortion**, which is the expected reconstruction error (for example, MSE between original and reconstructed).
-- $\lambda$ is the **Lagrange multiplier**, which is a scalar that controls the tradeoff. Think of it as a compression dial. High lambda means prioritize quality (less distortion). Low lambda means prioritize compression (fewer bits).
+$$
+R(D) = \min_{p(\hat{x} \mid x)\,:\ \mathbb{E}[d(X, \hat{X})] \le D} I(X; \hat{X})
+$$
 
-For example, training with $\lambda = 0.1$ might produce a model that uses 0.2 bits per pixel with 2% MSE distortion, while $\lambda = 10$ might use 0.8 bits per pixel with only 0.5% MSE distortion. The lower $\lambda$ version compresses more but loses more detail. By varying $\lambda$ across different training runs, we trace the entire **rate-distortion curve**, which is the neural codec's approximation to Shannon's theoretical $R(D)$ function.
+$$I(X; \hat{X})$$ is the mutual information in bits: how much the reconstruction tells you about the original. Below $$R(D)$$ bits per sample, distortion $$D$$ cannot be reached [\[1, p. 50\]](#ref-1).
 
----
+### The Gaussian case
 
-## The Variational Connection
+For a Gaussian source with variance $$\sigma^2$$ and squared error, the minimum has a closed form [\[4\]](#ref-4):
 
-### Variational Autoencoders as Compressors
+$$
+R(D) =
+\begin{cases}
+\tfrac{1}{2}\log_2\dfrac{\sigma^2}{D} & 0 \le D \le \sigma^2 \\
+0 & D > \sigma^2
+\end{cases}
+$$
 
-The compression objective is mathematically identical to training a **Variational Autoencoder (VAE)**[^balle2017]. This connection transformed compression from engineering to optimization.
+Take $$\sigma^2 = 4$$ and $$D = 1$$. Then $$R = \tfrac{1}{2}\log_2 4 = 1$$ bit per sample. To see where it comes from, write the source as $$X = \hat{X} + N$$ with $$\hat{X} \sim \mathcal{N}(0, \sigma^2 - D)$$ and $$N \sim \mathcal{N}(0, D)$$, independent. The squared error is $$\mathbb{E}[N^2] = D$$. Two jointly Gaussian variables with squared correlation $$\rho^2$$ share $$-\tfrac{1}{2}\log_2(1 - \rho^2)$$ bits, and here $$\rho^2 = (\sigma^2 - D)/\sigma^2 = 0.75$$. That gives 1.000 bits. I also drew 200,000 samples of this pair: the variance of $$X$$ came out at 4.00 and the mean squared error at 1.00.
 
-Think of a VAE like a sketch artist. When someone shows you a photo, you do not memorize every pixel - you create a mental sketch that captures the essential features (the person's face, the background, the lighting). Later, you can recreate a version of the photo from your sketch. The sketch is smaller than the photo (compressed), but contains enough information to recognize what was in the original.
+| $$D$$ | 4 | 2 | 1 | 0.5 | 0.25 |
+|---|---:|---:|---:|---:|---:|
+| $$R(D)$$ in bits | 0.00 | 0.50 | 1.00 | 1.50 | 2.00 |
 
-A VAE consists of three components:
+Each halving of $$D$$ costs half a bit. Put differently, each extra bit divides $$D$$ by 4: $$D = 1.0$$ at 1 bit and $$D = 0.25$$ at 2 bits. At $$D = \sigma^2$$ the rate is 0, because outputting the mean gives that distortion for free.
 
-- A **prior** $p(z)$ is the assumed distribution over latent variables before seeing any data, typically a standard Gaussian $\mathcal{N}(0,1)$. This is the blank slate assumption about what the latent space should look like. It is like deciding that all sketches should use the same type of paper and pencils - standardization makes them easier to work with.
-- A **likelihood** $p(x\mid z)$ is the probability of observing data $x$ given latent $z$. This is the decoder's job. It tells us how likely we are to reconstruct the original from a given latent representation. Given a sketch (latent), how good is the resulting photo?
-- An **encoder** $q(z\mid x)$ is the approximate posterior, which is the network that maps input to latent space. It is called an approximate posterior because computing the exact posterior is intractable. It is the process of creating the sketch from the photo.
+### Several components
 
-The **evidence lower bound (ELBO)**, which is the objective that VAEs maximize:
+Now take independent Gaussian components with variances $$\sigma_i^2$$ and one total distortion budget. The cheapest split gives component $$i$$ the distortion $$\min(\theta, \sigma_i^2)$$, with the level $$\theta$$ chosen so the distortions add up to the budget. A component with variance below $$\theta$$ gets no bits at all. This is called reverse water-filling [\[5\]](#ref-5).
 
-$$\text{ELBO} = \mathbb{E}_{q(z\mid x)}[\log p(x\mid z)] - D_{\text{KL}}(q(z\mid x) \Vert p(z))$$
+An example with made-up variances 4, 1 and 0.25 and a budget of 1.25. The level is $$\theta = 0.5$$, so the distortions are 0.5, 0.5 and 0.25:
 
-$$= \mathbb{E}_{q(z\mid x)}[\log p(x\mid z)] - \mathbb{E}_{q(z\mid x)}\left[\log \frac{q(z\mid x)}{p(z)}\right]$$
+$$
+R = \tfrac{1}{2}\log_2\frac{4}{0.5} + \tfrac{1}{2}\log_2\frac{1}{0.5} + 0 = 1.5 + 0.5 = 2.00 \text{ bits}
+$$
 
-Breaking this down:
+Giving every component the same relative distortion instead costs 3.11 bits. A grid search over all splits that add up to 1.25 found a minimum of 2.00 bits at exactly (0.5, 0.5, 0.25).
 
-- $\mathbb{E}_{q(z\mid x)}$ means "expected value over the encoder's distribution"
-- $\log p(x\mid z)$ is reconstruction quality (higher = better)
-- $D_{\text{KL}}$ is the KL divergence (penalty for straying from the prior)
+This is why a good transform helps. If it moves almost all the variance into a few components, the others cost almost nothing.
 
-Where:
-- The first term $\mathbb{E}_{q(z\mid x)}[\log p(x\mid z)]$ is reconstruction quality, which is the expected log-likelihood of reconstructing the input from its latent representation. Higher means better reconstruction and less distortion.
-- The second term $D_{\text{KL}}(q(z \mid x) \Vert p(z))$ is the **KL divergence**, which is a measure of how different the encoder's distribution is from the prior. This acts as a regularizer, pushing the latent space toward the simple prior distribution. Lower KL means more compact latent space and less rate in compression terms. This is like telling the artist "keep your sketches simple and consistent - do not get too creative or detailed."
+## 04. Transform, quantize, code
 
-For a simple 1D Gaussian case, if our encoder outputs $q(z) = \mathcal{N}(\mu=0.2, \sigma^2=0.5)$ and the prior is $p(z) = \mathcal{N}(0, 1)$, the KL divergence tells us how much information we lose by using this learned distribution instead of the standard Gaussian. This penalizes the encoder from producing latents that stray too far from what the entropy coder expects.
+A transform code has four steps. JPEG uses a discrete cosine transform on blocks of pixels and JPEG 2000 a wavelet transform [\[6, p. 2\]](#ref-6). A learned codec replaces the two transforms with neural networks and trains both together [\[6, p. 2\]](#ref-6).
 
-> **The connection**: Minimizing ELBO equals minimizing rate-distortion loss. The same mathematics describes both.
+1. Analysis transform: the encoder network maps the image to a latent vector, $$y = g_a(x; \phi)$$.
+2. Quantization: $$\hat{y} = \text{round}(y)$$. This is where information is lost.
+3. Entropy coding: a probability model $$p(\hat{y})$$ turns $$\hat{y}$$ into bits at a cost of $$-\log_2 p(\hat{y})$$ each, as in section 02. This step is lossless.
+4. Synthesis transform: the decoder network maps back, $$\hat{x} = g_s(\hat{y}; \theta)$$.
 
-### Learned Latent Representations
+The rate $$R$$ is the average $$-\log_2 p(\hat{y})$$ over images. The distortion $$D$$ is the average $$d(x, \hat{x})$$.
 
-The encoder discovers a latent space with desirable properties:
+### A 2x2 patch by hand
 
-- **Redundant information is discarded** - this is compression.
-- **Essential information is preserved** in compact form.
-- **Distribution matches the prior** - enabling efficient entropy coding.
+To see the steps without a network, use a fixed transform. The patch is made up: four grey values, 121, 125, 80 and 85. The transform is the 2x2 Hadamard matrix, scaled so that it keeps sums of squares:
 
-This is analogous to how neural networks learn efficient representations for downstream tasks.
+$$
+y = \frac{1}{2}
+\begin{bmatrix} 1&1&1&1 \\ 1&-1&1&-1 \\ 1&1&-1&-1 \\ 1&-1&-1&1 \end{bmatrix}
+\begin{bmatrix} 121 \\ 125 \\ 80 \\ 85 \end{bmatrix}
+=
+\begin{bmatrix} 205.5 \\ -4.5 \\ 40.5 \\ 0.5 \end{bmatrix}
+$$
 
----
+The sum of squares is 43,891 for the pixels and 43,891 for the coefficients. The first coefficient holds 96.2% of it, which is the situation section 03 asked for.
 
-## Entropy Modeling
+Quantize with a step of 8: the indices are 26, −1, 5 and 0, which stand for 208, −8, 40 and 0. The inverse transform gives the pixels 120, 128, 80 and 88. The errors are −1, 3, 0 and 3, a total squared error of 19. The same 19 comes out in the coefficient domain, because the transform keeps sums of squares.
 
-### The Importance of Probability Models
+Four small integers are left for the entropy coder. How many bits they cost depends on the probability model. Section 06 is about that model.
 
-**Entropy coding** (like arithmetic coding) can achieve compression near the entropy limit, but only with an accurate probability model. The more accurately we predict each symbol's probability, the fewer bits we need.
+## 05. How do you train through rounding?
 
-Think of it like predicting the weather. If you say "it will rain tomorrow" every single day, you will be right sometimes (rainy days) but wrong most of time (sunny days). Your prediction is not very useful. But if you study weather patterns and notice that July is always sunny in California, you can predict "it will be sunny" with high confidence - and that confident, accurate prediction is worth more.
+Rate and distortion pull against each other. The codec minimizes one number that combines them [\[6, p. 4\]](#ref-6):
 
-The same applies to compression. If you predict "the" has 10% probability and it appears 10% of the time, you need about 3.3 bits. If your model is better and predicts "the" has 15% probability (closer to reality), you only need about 2.7 bits. Better predictions = fewer bits = better compression.
+$$
+\mathcal{L} = \mathbb{E}\big[-\log_2 p(\hat{y})\big] + \lambda\,\mathbb{E}\big[d(x, \hat{x})\big]
+$$
 
-In large language models, this is the vocabulary probability distribution from the softmax output. When GPT predicts the next word, it outputs a probability for every word in its vocabulary. The more accurate these probabilities, the better the compression when you encode the actual word that appears.
+$$\lambda$$ is the weight on distortion. A large $$\lambda$$ gives low distortion and a high rate. A small one gives the reverse. Each $$\lambda$$ gives its own trained model, and the set of models traces a rate-distortion curve. Ballé et al. trained 8 values of $$\lambda$$ [\[7, p. 7\]](#ref-7).
 
-### The Scale Hyperprior
+On the patch from section 04, take zero-mean Gaussian models with made-up scales 200, 5, 30 and 3 for the four coefficients. The rate is $$-\log_2$$ of the probability the model gives to the quantizer bin that holds each value. For five step sizes:
 
-Ball et al. (2018)[^balle2018] introduced the **scale hyperprior**, which is a second network predicting the variance (scale) of each latent element:
+| step | rate $$R$$ in bits | distortion $$D$$ (squared error) |
+|---:|---:|---:|
+| 2 | 20.3 | 1 |
+| 4 | 16.4 | 3 |
+| 8 | 13.8 | 19 |
+| 16 | 10.0 | 83 |
+| 32 | 6.7 | 275 |
 
-$$\hat{y}_i \sim \mathcal{N}(\mu_i, \sigma_i^2)$$
+With $$\lambda = 1$$ the lowest $$\mathcal{L}$$ is at step 4 ($$\mathcal{L} = 19.4$$). With $$\lambda = 0.1$$ it is at step 8 (15.7). With $$\lambda = 0.01$$ it is at step 32 (9.4). A smaller weight on distortion accepts a coarser step.
 
-where $\sigma_i = h(y)_i$ is predicted by the hypernetwork (the hyper refers to it being a network about the main network). Regions with complex textures (high variance) receive more bits. Flat regions receive fewer.
+### Rounding has no gradient
 
-Think of this like a photographer adjusting exposure. In bright, flat areas (like a clear sky), not much information is needed - you can just say "it's all blue." In areas with lots of detail (like a busy street), you need more words to describe everything. The scale hyperprior automatically allocates more bits to complex areas and fewer bits to simple areas.
+The derivative of rounding is zero almost everywhere, so gradient descent learns nothing through it [\[6, p. 4\]](#ref-6). During training, rounding is replaced by additive noise [\[6, p. 4\]](#ref-6):
 
-This is analogous to attention. Different parts of the input require different bits budgets based on their complexity.
+$$
+\tilde{y} = y + u, \qquad u \sim U(-0.5, 0.5)
+$$
 
-### Autoregressive Context
+The noise has the width of one quantizer bin, and it approximates the quantization error in its mean and variance [\[6, p. 5\]](#ref-6). I checked the variance on 200,000 made-up values drawn from $$\mathcal{N}(0, 5^2)$$. The mean squared error of rounding was 0.0833. That of the noise was 0.0833. The exact value for both is $$1/12 = 0.0833$$. At test time the codec rounds for real.
 
-Minnen et al. (2018)[^minnen2018] added **autoregressive modeling**, which predicts each latent conditioned on previously decoded ones:
+### Relation to a VAE
 
-$$p(\hat{y}_i \mid \hat{y}_{<i})$$
+With a Gaussian likelihood of variance $$1/(2\lambda)$$ and the unit-width uniform noise as the encoder's distribution, this loss becomes a variational autoencoder objective [\[6, pp. 5 to 6\]](#ref-6). Minimizing the KL divergence between that encoder distribution and the true posterior is the same as minimizing the rate-distortion loss. The uniform noise has constant entropy, so that term drops out. What remains is the squared error, weighted by $$\lambda$$, and the cross-entropy, which is the rate [\[7, p. 4\]](#ref-7).
 
-This means: "what is the probability of this piece, given all the pieces we have already decoded?"
+## 06. Where do the probabilities come from?
 
-This is precisely how autoregressive language models operate. They predict each token based on previous tokens. After decoding "the", predicting "cat" becomes easier. It is like reading a sentence word by word - once you have read "the cat sat on the", you have a good idea what might come next (like "mat" or "floor").
+Section 02 showed that the bits depend on $$p(\hat{y})$$. The first model used a fully factorized prior: the latent elements are modelled as independent, with distributions that stay fixed after training [\[6, p. 5\]](#ref-6). That ignores a visible pattern. Non-zero latents cluster around edges and textured regions [\[7, p. 4\]](#ref-7).
 
-> **Key insight**: Context reduces uncertainty, which reduces entropy, which reduces bits. Every dependency modeled is bits saved. The more context you have, the better you can predict what comes next, and the fewer bits you need to encode it.
+### The scale hyperprior
 
-Combining hyperpriors with autoregressive context achieves 59.8% bit savings over JPEG, 35% over JPEG2000, and 8.4% over BPG.
+Ballé et al. add a second, small network [\[7, p. 5\]](#ref-7). It computes $$z = h_a(y)$$ from the latents. $$z$$ is quantized and sent as side information. The decoder turns $$\hat{z}$$ into a scale for every latent, $$\sigma = h_s(\hat{z})$$, and each latent is modelled as a zero-mean Gaussian with its own standard deviation:
 
----
+$$
+p(\hat{y}_i \mid \hat{z}) = \mathcal{N}(0, \sigma_i^2) \ast U(-\tfrac{1}{2}, \tfrac{1}{2})\ \text{evaluated at } \hat{y}_i
+$$
 
-## The Quantization Bridge
+The $$\ast U$$ part convolves the Gaussian with the unit-width uniform, which makes the density match the noise used in training [\[7, p. 5\]](#ref-7). The loss gets one more term, the bits for $$\hat{z}$$, so the network learns how much side information is worth sending [\[7, p. 5\]](#ref-7).
 
-### Discrete Symbols from Continuous Networks
+Why a scale is worth sending. With made-up scales and unit-width bins, the cost of one quantized value is:
 
-Compression requires discrete symbols, but neural networks compute with continuous real numbers. **Quantization** bridges this gap. It is like rounding your GPS coordinates from "37.7749 degrees north, 122.4194 degrees west" to "38 degrees north, 122 degrees west" - you lose some precision but still get close enough to find your destination.
+| scale $$\sigma$$ | bits for the index 5 | bits for the index 0 |
+|---:|---:|---:|
+| 1 | 18.18 | 1.38 |
+| 2 | 6.76 | 2.34 |
+| 5 | 4.37 | 3.65 |
+| 10 | 4.83 | 4.65 |
 
-$$y_{\text{quantized}} = \text{round}(y)$$
+Now two made-up patches of 8 values. A flat patch has all indices 0. An edge patch has the indices 5, −4, 6, 5, −5, 4, 6 and −5. With a scale of 0.5 the flat patch costs 4.4 bits and the edge patch 514.9. With a scale of 5 the flat patch costs 29.2 bits and the edge patch 35.1. A scale that fits each region is worth a lot. One that is too small is ruinous.
 
-This is conceptually similar to quantization in LLMs (INT8, INT4 weights), which reduces precision while preserving what matters for the task. When ChatGPT runs on your phone, it does not use full 32-bit numbers for everything - it rounds to 8-bit or 4-bit numbers to fit in memory.
+### Context from decoded latents
 
-**Uniform scalar quantization** divides the range into K equally-spaced bins, representing each by log 2 of K bits. For example, 256 levels (8 bits) can represent values from 0 to 255. This is like using a measuring cup with 256 markings - each measurement gets rounded to the nearest marking.
+Minnen et al. add a second source of information. Each latent is predicted from the latents already decoded, $$p(\hat{y}_i \mid \hat{y}_{<i})$$, using a 5x5 masked convolution, together with the hyperprior [\[8, p. 4\]](#ref-8). The network predicts a mean and a scale for each latent. The authors note that autoregressive models carry a significant computational cost [\[8, p. 1\]](#ref-8).
 
-For example, given latent values [0.7, 1.2, 3.9, 4.5], uniform quantization to integers yields [1, 1, 4, 5]. The difference (0.3, 0.2, -0.1, -0.5) is the information lost. A smarter codec might learn to use non-uniform bins that allocate more precision where values cluster densely. This is like having a thermometer with more markings around room temperature (where we care most) and fewer markings at extreme temperatures.
+### What it gave
 
-However, uniform quantization is suboptimal when values are not uniformly distributed. Neural codecs learn better discretizations during training.
+Minnen et al. report the average rate saving of each codec against JPEG (4:2:0) at equal PSNR, on the 24 Kodak images, over a PSNR range of 27.1 to 39.9 dB [\[8, p. 15\]](#ref-8):
 
-### Training vs. Inference
+| codec | fewer bits than JPEG |
+|---|---:|
+| WebP | 32.06% |
+| JPEG 2000 (OpenJPEG) | 38.02% |
+| scale hyperprior [\[7\]](#ref-7) | 52.52% |
+| BPG (4:4:4) | 56.19% |
+| hyperprior with autoregressive context | 59.84% |
 
-During training, quantization is nondifferentiable (the gradient is zero almost everywhere). This is a problem because neural networks learn by calculating gradients (they need to know which direction to improve). To maintain gradients, we approximate quantization with **additive uniform noise**:
+_Source: Figure 11 of the paper [\[8, p. 15\]](#ref-8). Against BPG (4:4:4) the combined model saves 8.41% [\[8, p. 15\]](#ref-8)._
 
-$$y_{\text{noisy}} = y + u, \quad u \sim U(-0.5, 0.5)$$
+The hyperprior alone, trained for squared error, came close to BPG and was better at higher bit rates [\[7, p. 7\]](#ref-7).
 
-This adds random noise between -0.5 and 0.5 to the values during training. It makes quantization act like a smooth function so gradients can flow through. Think of it like practicing with a slightly fuzzy target - it helps you learn even though the real target is sharp.
+## 07. Is a language model a compressor?
 
-At inference time (when we actually use the model), actual quantization is applied. This is like taking the real test after practicing with fuzzy targets.
+Section 02 applies to any model that gives probabilities. Feed a model's probability for each next symbol to an arithmetic coder and the code length is about $$-\log_2$$ of the probability of the whole sequence. The expected length is the cross-entropy, and it is the same quantity language models are trained to minimize [\[2, p. 4\]](#ref-2).
 
----
+A made-up example. After "the cat sat on the", a model gives "mat" 0.4, "floor" 0.2, "bed" 0.1, and 0.01 to each of 30 other words. The costs are 1.32, 2.32, 3.32 and 6.64 bits. Over three tokens, a model that gave the actual tokens 0.4, 0.9 and 0.7 would pay 1.99 bits in total. One that gave 0.05, 0.1 and 0.1 would pay 10.97.
 
-## The Understanding-Compression Duality
+Delétang et al. used this to test large models as compressors [\[2, p. 6\]](#ref-2). Chinchilla 70B was trained on text, and here it compresses 1 GB each of text (enwik9), ImageNet patches and LibriSpeech audio. Rates are compressed size divided by raw size, so lower is better:
 
-### Predictive Models as Compressors
+| compressor | enwik9 | ImageNet patches | LibriSpeech |
+|---|---:|---:|---:|
+| Chinchilla 70B, raw | 8.3% | 48.0% | 21.0% |
+| Chinchilla 70B, adjusted for model size | 14,008.3% | 14,048.0% | 14,021.0% |
+| LZMA2 | 23.0% | 57.9% | 29.9% |
+| gzip | 32.3% | 70.7% | 36.4% |
+| PNG | 42.9% | 58.5% | 32.2% |
+| FLAC | 89.5% | 61.9% | 30.9% |
 
-Consider any model predicting data. Given past symbols, what comes next? The better it predicts, the lower the surprise (measured by $\log p(x)$), meaning fewer bits to encode.
+_Source: Table 1 of the paper [\[2, p. 6\]](#ref-2). Chinchilla works on chunks of 2,048 bytes. The other rows are the whole file at once. The paper's abstract gives 43.4% for ImageNet and 16.4% for LibriSpeech, lower than its own table. I use the table._
 
-Think of it like guessing the next word in a sentence. If someone says "the sky is ___", you can easily guess "blue" because it is the most common answer. But if someone says "the quantum entang__", you might not know the next letter - it could be many things.
+The raw row does not count the model. The adjusted row does, at 2 bytes per parameter [\[2, p. 5\]](#ref-2). That is 70 billion × 2 bytes = 140 GB against 1 GB of data, which adds 14,000 percentage points. The authors say a model this size reaches non-trivial adjusted rates only on datasets of terabytes or more [\[2, p. 6\]](#ref-2). Within the raw column, a better model does give fewer bits: enwik9 goes from 11.3% for Chinchilla 1B to 10.2% for 7B to 8.3% for 70B [\[2, p. 6\]](#ref-2).
 
-For example, consider the sequence "the cat sat on the ___". A language model might assign 40% probability to "mat", 20% to "floor", 10% to "bed", and 30% distributed across other words. Encoding "mat" requires $-\log_2(0.4) \approx 1.3$ bits, while "floor" takes $-\log_2(0.2) \approx 2.3$ bits. The better our model predicts what comes next, the fewer bits we need to transmit.
+Li et al. report a similar scheme, LMCompress. Their abstract says it doubles the lossless compression ratios of JPEG-XL on images, FLAC on audio and H.264 on video, and quadruples the ratio of bz2 on text [\[9\]](#ref-9). I have read only the abstract. It gives no running times.
 
-The connection is: surprise equals $-\log_2 p(x)$, which equals bits. Lower surprise means fewer bits. It is like the difference between a predictable friend (easy to summarize) versus a surprising friend (hard to predict).
+## 08. Try it
 
-This holds for any sequence: text, images, audio, video. The model does not care what it is predicting. Only prediction accuracy matters.
+No libraries are needed. This recomputes the entropy of section 02, the Gaussian rate of section 03 and the noise check of section 05:
 
-### Large Language Models as Universal Compressors
+```python
+import math, random
 
-Li et al. (2025)[^li2025] demonstrated this empirically. An LLM trained on diverse data compresses any sequence, including images, audio, video, and text, better than specialized codecs.
+p = [0.5, 0.25, 0.125, 0.125]
+print(-sum(x * math.log2(x) for x in p))           # entropy: 1.75 bits per symbol
 
-Think about what an LLM knows after training on the entire internet. It has seen billions of images, watched countless videos, read millions of books, and listened to lots of audio. It has learned patterns about how the world works - that faces have two eyes, that sentences flow grammatically, that music has rhythm.
+sigma2, D = 4, 1
+print(0.5 * math.log2(sigma2 / D))                  # Gaussian R(D): 1.0 bit per sample
 
-**LMCompress achieves:**
-- **2x better compression** than JPEG-XL for images
-- **2x better compression** than FLAC for audio  
-- **2x better compression** than H.264 for video
-- **One-third** the compression rates of zpaq for text
+random.seed(7)
+y = [random.gauss(0, 5) for _ in range(100_000)]
+print(sum((round(v) - v) ** 2 for v in y) / len(y))                # rounding error, close to 1/12
+print(sum(random.uniform(-0.5, 0.5) ** 2 for _ in y) / len(y))     # uniform noise, close to 1/12
+```
 
-The key insight is that an LLM has already learned a model of the world. It understands images because it has seen images in training data. It understands audio because it has learned temporal patterns. Internal representations capture structure, and structure enables compression. It is like having read millions of books - you can summarize any new book much better than someone who has never read anything.
+The output I got:
 
-> **"Understanding is compression"** is not a metaphor. It is a mathematical identity. Low surprise implies low entropy, which implies compressibility.
+```text
+1.75
+1.0
+0.08317860315967486
+0.0836296854947403
+```
 
-### The Bits-Back Hypothesis
+## Sources
 
-This suggests something profound. All learning is compression. By finding patterns in data, we build compressed models that can reconstruct. This is precisely what intelligence does. It builds compact models of environments.
+<span id="ref-1"></span>\[1\] Shannon, C. E. (1948). _A mathematical theory of communication_. Bell System Technical Journal, 27, 379 to 423 and 623 to 656. Page numbers refer to the reprint with corrections. [https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf](https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf)
 
-The **bits-back hypothesis** formalizes this idea. An agent can transmit data by first generating it from its model, then telling the receiver only the parts where its model was wrong. Suppose the agent and receiver both have a language model. The agent generates the first half of a message, sees which tokens the model predicted correctly, and only transmits corrections for the rest. The receiver, using the same model, reconstructs the full message. This "bits back" from shared understanding is the compression gain.
+<span id="ref-2"></span>\[2\] Delétang, G., Ruoss, A., Duquenne, P.-A., Catt, E., Genewein, T., Mattern, C., Grau-Moya, J., Wenliang, L. K., Aitchison, M., Orseau, L., Hutter, M., & Veness, J. (2024). _Language modeling is compression_. ICLR 2024. arXiv:2309.10668. [https://arxiv.org/abs/2309.10668](https://arxiv.org/abs/2309.10668)
 
----
+<span id="ref-3"></span>\[3\] Huffman, D. A. (1952). _A method for the construction of minimum-redundancy codes_. Proceedings of the IRE, 40(9), 1098 to 1101. [https://ieeexplore.ieee.org/document/4051119](https://ieeexplore.ieee.org/document/4051119)
 
-## Theoretical Limits and Open Questions
+<span id="ref-4"></span>\[4\] Wikipedia. _Rate-distortion theory_, section on the Gaussian source. It cites Cover, T. M., & Thomas, J. A., _Elements of Information Theory_, 2nd ed., Wiley, chapter 10. Read 28 November 2026. [https://en.wikipedia.org/wiki/Rate%E2%80%93distortion_theory](https://en.wikipedia.org/wiki/Rate%E2%80%93distortion_theory)
 
-### Distance from Theoretical Limits
+<span id="ref-5"></span>\[5\] EE274: Data Compression course notes, Stanford University. _Transform coding theory_ (section 2.3 of the lossy compression chapter). Read 28 November 2026. [https://stanforddatacompressionclass.github.io/notes/lossy/transform_coding_theory.html](https://stanforddatacompressionclass.github.io/notes/lossy/transform_coding_theory.html)
 
-Classical rate-distortion theory provides lower bounds, but computing true R(D) for complex distributions (like natural images) is intractable. We do not know how close neural codecs are to these limits.
+<span id="ref-6"></span>\[6\] Ballé, J., Laparra, V., & Simoncelli, E. P. (2017). _End-to-end optimized image compression_. ICLR 2017. arXiv:1611.01704. [https://arxiv.org/abs/1611.01704](https://arxiv.org/abs/1611.01704)
 
-It is like knowing the fastest possible time for a marathon (the theoretical limit) but not knowing how close current world records are to that limit. We know we cannot beat the theoretical minimum bits, but we are not sure if we are 1% away or 50% away.
+<span id="ref-7"></span>\[7\] Ballé, J., Minnen, D., Singh, S., Hwang, S. J., & Johnston, N. (2018). _Variational image compression with a scale hyperprior_. ICLR 2018. arXiv:1802.01436. [https://arxiv.org/abs/1802.01436](https://arxiv.org/abs/1802.01436)
 
-Recent work[^theoretical2026] decomposes the gap into three components:
+<span id="ref-8"></span>\[8\] Minnen, D., Ballé, J., & Toderici, G. (2018). _Joint autoregressive and hierarchical priors for learned image compression_. NeurIPS 2018. arXiv:1809.02736. [https://arxiv.org/abs/1809.02736](https://arxiv.org/abs/1809.02736)
 
-1. **Variance estimation** - accuracy of entropy model predictions for latent variances. Like how well a weather forecast predicts uncertainty.
-2. **Quantization strategy** - optimal allocation of discrete levels. Like choosing the best number of colors for a painting.
-3. **Context modeling** - dependencies captured by autoregressive structure. Like how much previous context helps predict what comes next.
-
-### The Amortization Gap
-
-Neural encoders use a single forward pass to map input to latents. However, the optimal encoding for a specific sample may differ from the network is output.
-
-Think of this like a factory vs. a custom craftsman. A neural network is like a factory - it makes thousands of items quickly using the same process. But for one special item, a custom craftsman could do a better job by spending extra time perfecting it. The amortization gap is the difference between the factory's quick product and what the craftsman could achieve.
-
-The difference between what the network gives and what is theoretically optimal is the **amortization gap**. It is named because the network amortizes computation over many samples, but this efficiency comes at the cost of per-sample optimality. Solving this requires per-sample optimization at inference time, which is computationally expensive but theoretically significant.
-
-### Goal-Oriented Compression
-
-For any compressible distribution, there is a rate-distortion curve. But the curve depends on the **distortion metric**. MSE may not capture what matters for human perception.
-
-This is like grading an essay. An algorithm might use simple metrics like word count or sentence length (like MSE for images), but these do not capture what humans actually care about - the quality of writing and ideas. 
-
-**Goal-oriented compression** optimizes for downstream tasks (classification accuracy, detection rate) rather than reconstruction quality. Instead of minimizing MSE, we minimize task loss, which is the error rate of a classifier run on compressed data. If you are compressing images for a self-driving car, you do not care if the image looks good to humans - you care if the car can still see pedestrians and stop signs.
-
----
-
-## Conclusion
-
-AI-based compression represents a fundamental reconception, from symbol manipulation to model-based inference.
-
-The mathematical framework is elegant. Rate-distortion theory, variational inference, and entropy coding combine into end-to-end optimizable systems. The theoretical insights are profound. Understanding and compression are the same phenomenon viewed through different lenses.
-
-What makes this compelling is not merely the empirical results, though 2x improvements over classical methods are significant. It is the unification. The same mathematics explaining neural networks explains compression. The same principles making machines intelligent make them efficient. When a model learns to understand images, it is simultaneously learning to compress them. When a language model learns to predict the next word, it is learning to compress text. These are not separate achievements - they are the same achievement.
-
-We lack complete theoretical understanding. The bounds are fuzzy, the gaps are real, the challenges remain. But the trajectory is clear. As our models of data improve, so will our ability to compress. The future of compression is not better engineering - it is better understanding.
-
----
-
-## References
-
-[^shannon]: Shannon, C.E. "A Mathematical Theory of Communication." *Bell System Technical Journal*, 1948.
-
-[^balle2017]: Ballé, J., Laparra, V., & Simoncelli, E.P. "End-to-end Optimized Image Compression." *ICLR 2017*.
-
-[^balle2018]: Ballé, J., Minnen, D., Singh, S., Hwang, S.J., & Johnston, N. "Variational image compression with a scale hyperprior." *ICLR 2018*.
-
-[^minnen2018]: Minnen, D., Ballé, J., & Toderici, G. "Joint Autoregressive and Hierarchical Priors for Learned Image Compression." *NeurIPS 2018*.
-
-[^li2025]: Li, Z., Huang, C., Wang, X., et al. "Lossless data compression by large models." *Nature Machine Intelligence*, 2025.
-
-[^theoretical2026]: "A Theoretical Framework for Rate-Distortion Limits in Learned Image Compression." *arXiv:2601.09254*, 2026.
-
----
-
-**See Also:**
-
-- Chen et al. "Information Compression in the AI Era: Recent Advances and Future Challenges" - arXiv:2406.10036
-- "Neural Climate Data Compression" - DeepMind, 2024
-- Habibian et al. "Video Compression With Rate-Distortion Autoencoders" - ICCV 2019
-
----
+<span id="ref-9"></span>\[9\] Li, Z., Huang, C., Wang, X., Hu, H., Wyeth, C., Bu, D., Yu, Q., Gao, W., Liu, X., & Li, M. (2025). _Lossless data compression by large models_. Nature Machine Intelligence. arXiv:2407.07723. [https://arxiv.org/abs/2407.07723](https://arxiv.org/abs/2407.07723)

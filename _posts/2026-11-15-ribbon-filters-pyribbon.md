@@ -1,6 +1,7 @@
 ---
 title: "Ribbon Filters: The Maths Inside pyribbon"
 author: yoav
+description: "A Ribbon filter answers \"definitely not\" or \"maybe\" using about 9 bits per key at one wrong \"maybe\" in 256, 22% less than a Bloom filter. How pyribbon builds one, with the maths done by hand."
 date: 2026-11-15 08:00:00 +0200
 lang: en
 categories: [algorithms, data-structures]
@@ -31,7 +32,7 @@ Where this shows up:
 - A service holds a large blocklist, such as leaked password hashes or banned IDs, and wants to ship it to many machines without shipping every entry.
 - A crawler asks "have I seen this URL?" billions of times.
 
-I wrote [pyribbon](https://github.com/zikithezikit/pyribbon) [\[4\]](#ref-4), a Python library with a C11 core, to build this kind of filter. It implements the Ribbon filter of Dillinger and Walzer [\[1\]](#ref-1), written from their papers and not ported from existing code. This post walks through how it works and does the arithmetic by hand wherever that is possible.
+I wrote [pyribbon](https://github.com/zikithezikit/pyribbon) [\[4\]](#ref-4), a Python library with a C11 core, to build this kind of filter. It implements the Ribbon filter of Dillinger and Walzer [\[1\]](#ref-1), written from their papers [\[1\]](#ref-1) [\[2\]](#ref-2) and not ported from existing code. This post walks through how it works and does the arithmetic by hand wherever that is possible.
 
 > Numbers marked "measured" are my own measurements with pyribbon 0.1.2.
 {: .prompt-info }

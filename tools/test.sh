@@ -56,6 +56,9 @@ main() {
 
   read_baseurl
 
+  # lint posts changed on this branch (errors fail, warnings are printed)
+  python3 tools/lint-post.py --changed
+
   # build
   JEKYLL_ENV=production bundle exec jekyll b \
     -d "$SITE_DIR$_baseurl" -c "$_config"

@@ -29,3 +29,10 @@ assets/js/dist
 
 # Opencode
 .opencode/
+
+# Post source material (PDFs, raw notes): kept locally, never published
+.sources/
+.kohelet-src/
+
+# Python
+__pycache__/

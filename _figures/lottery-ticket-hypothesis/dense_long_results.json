@@ -1,0 +1,42 @@
+[
+ {
+  "seed": 0,
+  "iters": 6000,
+  "early_stop_iter": 1700,
+  "early_stop_test_acc": 0.9791,
+  "final_test_acc": 0.9784,
+  "final_train_acc": 0.9991
+ },
+ {
+  "seed": 1,
+  "iters": 6000,
+  "early_stop_iter": 1550,
+  "early_stop_test_acc": 0.9807,
+  "final_test_acc": 0.9796,
+  "final_train_acc": 0.9981
+ },
+ {
+  "seed": 2,
+  "iters": 6000,
+  "early_stop_iter": 1500,
+  "early_stop_test_acc": 0.9795,
+  "final_test_acc": 0.983,
+  "final_train_acc": 1.0
+ },
+ {
+  "seed": 3,
+  "iters": 6000,
+  "early_stop_iter": 1350,
+  "early_stop_test_acc": 0.9805,
+  "final_test_acc": 0.9844,
+  "final_train_acc": 1.0
+ },
+ {
+  "seed": 4,
+  "iters": 6000,
+  "early_stop_iter": 1200,
+  "early_stop_test_acc": 0.9788,
+  "final_test_acc": 0.9835,
+  "final_train_acc": 1.0
+ }
+]

@@ -1,169 +1,171 @@
 ---
-title: "Beating the Airwaves: How Modern Systems Defeat RF Interference"
+title: "Spread Spectrum: The Maths of Beating Interference"
 author: yoav
-description: From fighter jets to smart cars, discover the cutting-edge techniques companies use to protect wireless systems from RF interference and jamming.
+description: "Direct-sequence spread spectrum gains the ratio of chip rate to data rate against interference: 43.11 dB for a 50 bit/s signal sent at 1,023,000 chips a second. The maths by hand, and what it means for a jammer's power."
 date: 2026-02-09 12:00:00 +0200
+lang: en
 categories: [RF, Security, Embedded Systems]
-tags: [rf, interference, jamming, frequency-hopping, spread-spectrum, countermeasures, industry]
+tags: [rf, jamming, spread-spectrum, direct-sequence, frequency-hopping, processing-gain]
 pin: false
-math: false
-mermaid: true
+math: true
+mermaid: false
 image:
   path: /assets/images/rf-jet-interference.jpg
   alt: Modern military aircraft with advanced RF systems
-summary: How companies across industries protect wireless systems from RF interference using frequency agility, AI, and resilient hardware design.
 ---
 
-# Introduction
+## 01. What does interference do to a receiver?
 
-Every wireless connection faces an invisible battlefield. Radio frequency (RF) interference whether deliberate jamming by adversaries or accidental noise from nearby devices can disrupt critical communications. 
+A receiver finds a signal by comparing its power with everything else in the band. Interference is any other power in the band. It can be accidental or deliberate. Deliberate interference is called jamming. What matters is the ratio of signal power to interference power. When it falls below what the receiver needs, bits are lost.
 
-Your smartphone drops calls in crowded stadiums. GPS navigation fails in military operations. Smart car safety systems malfunction in traffic. These aren't just inconveniences; they represent fundamental vulnerabilities in our wireless world.
+Radar texts name three kinds of noise jamming [\[1\]](#ref-1):
 
-Companies across consumer, automotive, and defense sectors invest billions in counter-measures. They must balance robust protection against tight constraints: size, weight, power, and cost (SWaP-C). This post explores how modern systems outsmart interference through clever engineering and emerging technologies.
+- Spot jamming puts all of the jammer's power on one frequency.
+- Sweep jamming moves its full power from one frequency to another. It covers several frequencies, but not all at once.
+- Barrage jamming switches so fast that it looks like a constant source across the whole band.
 
-# Understanding RF Interference
+A fourth kind, repeater jamming, retransmits a manipulated copy of the received signal [\[1\]](#ref-1). This post is about the first three. The defences below make the same total power count for less.
 
-## The Jammer's Toolkit
+## 02. How does spreading help?
 
-Interference comes in several flavors, each exploiting different weaknesses in wireless systems:
+Direct-sequence spread spectrum (DSSS) multiplies each data bit by a fast code. Each symbol of the code is a chip. Chips are shorter than bits, so the signal takes more bandwidth. The spreading factor is the ratio of the chip rate to the data rate [\[2\]](#ref-2).
 
-| Interference Type | How It Works | Primary Targets |
-|-------------------|--------------|-----------------|
-| **Noise Jamming** | Overwhelms signals with broadband noise | Tactical radios, GPS receivers |
-| **Spot Jamming** | Focuses power on one frequency | Fixed-frequency communication links |
-| **Sweep Jamming** | Rapidly scans across frequencies | Frequency-hopping systems |
-| **Deceptive Jamming** | Replays legitimate signals with false data | Authentication systems, radar |
+The receiver multiplies by the same code again. That restores the data. Interference never had the code, so it is not restored and stays spread out [\[2\]](#ref-2). For white noise, the signal-to-noise ratio after despreading is higher by the spreading factor [\[2\]](#ref-2).
 
-## Why Simple Defenses Fail
+Spread spectrum has two original goals: to resist jamming, and to hide the signal from a listener [\[3\]](#ref-3). The same source says direct sequence resists continuous narrowband jamming well, and frequency hopping resists pulse jamming better [\[3\]](#ref-3).
 
-Most basic receivers use **threshold detection** they declare a signal present when its strength exceeds a set level. This approach works in clean environments but crumbles under attack:
+## 03. A link small enough to do by hand
 
-- A noise jammer raises the noise floor, hiding legitimate signals
-- A deceptive jammer mimics real signals above the threshold
-- Replay attacks capture and rebroadcast valid traffic
+Take 8 chips per bit. The code is made up for the example:
 
-The core problem: many systems lack robust ways to verify signal authenticity beyond basic power measurements.
+| chip | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| code $$c_i$$ | +1 | +1 | −1 | +1 | −1 | +1 | +1 | −1 |
 
-# Real-World Impact
+Its chips add up to 2. Data bits are $$b = +1$$ or $$b = -1$$. The transmitter sends $$b\,c_i$$ on chip $$i$$.
 
-## Military Systems
+The interferer is also made up. It adds a constant $$A = 3$$ to every chip. A constant is the simplest narrowband interferer, because all its power sits at one frequency, zero. The signal has amplitude 1, so the interferer has 9 times the signal's power, which is 9.54 dB.
 
-Modern fighter jets face sophisticated electronic warfare. Without protection, jamming can:
-- Blind radar systems during critical phases
-- Disrupt communications with command and control
-- Compromise navigation and targeting systems
+The receiver multiplies each received chip by $$c_i$$, adds them and divides by $$N = 8$$. Since $$c_i^2 = 1$$:
 
-## Consumer Applications
+$$
+y = \frac{1}{N}\sum_{i=1}^{N}\left(b\,c_i + A\right)c_i = b + \frac{A}{N}\sum_{i=1}^{N} c_i
+$$
 
-Even everyday systems suffer:
-- **Smart vehicles**: Adaptive cruise control radar can be fooled by nearby cars' radar signals
-- **Industrial IoT**: Wireless sensor networks may drop critical data during interference
-- **Smartphones**: GPS fails in urban canyons with multipath interference
+The first term is the data. The second is what the interferer leaves behind. Here it is $$3 \cdot 2 / 8 = 0.75$$.
 
-The consequences range from reduced performance to complete system failure.
+| bit sent | chips received | $$y$$ | decision |
+|:-:|---|:-:|:-:|
+| +1 | 4, 4, 2, 4, 2, 4, 4, 2 | +1.75 | +1, right |
+| −1 | 2, 2, 4, 2, 4, 2, 2, 4 | −0.25 | −1, right |
 
-# The Counter-Measure Arsenal
+_Computed with `toy.py`. The code and the interferer are made up for the example._
 
-## Frequency Agility
+Without spreading, one sample per bit carries the same interferer. A bit of −1 arrives as $$-1 + 3 = 2$$ and is read as +1. That is wrong.
 
-### Frequency-Hopping Spread Spectrum (FHSS)
-The classic defense: jump between dozens or hundreds of frequencies per second. Modern FHSS systems hop across 100+ channels in milliseconds, following pseudo-random patterns known only to authorized receivers.
+With spreading, the interferer power left after despreading is $$0.75^2 = 0.5625$$ for this code. Other codes leave other amounts. Averaged over all 256 possible 8-chip codes, the leftover is $$A^2/N = 1.125$$. Against a signal power of 1, that is a gain of exactly 8, which is 9.03 dB. This code is better than average.
 
-**How it works**: Both transmitter and receiver share a secret key determining the hop sequence. Without this key, jammers must blanket the entire frequency range requiring massive power.
+The link has a limit. At $$A = 5$$ (13.98 dB) the leftover is $$5 \cdot 2 / 8 = 1.25$$. A bit of −1 arrives as $$-1 + 1.25 = +0.25$$ and is read as +1. Eight chips are not enough for that interferer.
 
-### Direct-Sequence Spread Spectrum (DSSS)
-Instead of hopping frequencies, DSSS spreads signals across wide bandwidths using mathematical codes. The signal appears as low-level noise unless you know the specific spreading code.
+## 04. How big is the gain at full size?
 
-## Smart Filtering
+The gain is the spreading factor. With chip rate $$R_c$$ and data rate $$R_b$$:
 
-### Adaptive Notch Filtering
-These digital filters identify interference signatures and create "notches" to remove specific frequencies while preserving desired signals. Think of them as intelligent noise-cancellation headphones for radio waves.
+$$
+G = \frac{R_c}{R_b}, \qquad G_{\text{dB}} = 10\log_{10} G
+$$
 
-### AI-Powered Anomaly Detection
-Machine learning models trained on normal signal patterns can detect subtle deviations indicating interference. Neural networks run on embedded GPUs or FPGAs, maintaining SWaP efficiency while providing adaptive protection.
+Processing gain is usually quoted in decibels. A signal of 1 kHz spread to 100 kHz has a ratio of 100000 / 1000 = 100, which is 20 dB [\[4\]](#ref-4). The toy link above has $$G = 8$$, which is 9.03 dB.
 
-## Hardware-Level Protection
+GPS gives a real case. Its civilian C/A code is a sequence of 1,023 chips that repeats every millisecond, at 1.023 Mchip/s [\[5\]](#ref-5) [\[6\]](#ref-6). The navigation message is sent at 50 bit/s and is combined with the code by XOR [\[5\]](#ref-5) [\[6\]](#ref-6). One bit lasts 1 / 50 s = 20 ms, which is 20 repetitions of the code.
 
-### Physical-Layer Authentication
-Embed cryptographic tags directly into RF waveforms. Receivers verify these tags before processing data, rejecting spoofed signals even if they perfectly mimic legitimate ones.
+| quantity | value | where it comes from |
+|---|---:|---|
+| chips per code period | 1,023 | source [\[5\]](#ref-5) |
+| code period | 1 ms | source [\[5\]](#ref-5) |
+| chip rate $$R_c$$ | 1,023,000 chip/s | 1,023 chips per ms |
+| data rate $$R_b$$ | 50 bit/s | source [\[5\]](#ref-5) |
+| chips per bit $$G$$ | 20,460 | $$R_c / R_b$$ |
+| gain $$G_{\text{dB}}$$ | 43.11 dB | $$10\log_{10} 20460$$ |
 
-### Hardware Isolation & Redundancy
-- Separate RF front-ends from digital processing paths
-- Multiple antennas with different polarizations
-- Cross-validation between sensor types (radar, optical, infrared)
+> Decibels turn ratios into sums. 10 dB is a factor of 10, 20 dB is 100, 30 dB is 1,000. Add the decibels, multiply the ratios.
+{: .prompt-info }
 
-## Software-Defined Resilience
+The gain costs bandwidth. A spread signal takes about $$G$$ times the bandwidth of the data it carries [\[4\]](#ref-4).
 
-Software-Defined Radios (SDRs) allow rapid reconfiguration of RF parameters. Systems can adapt their defense strategies in real-time based on detected threats.
+## 05. What does the gain mean for a jammer?
 
-# Case Study: Automotive Radar Wars
+Say the receiver needs an output signal-to-interference ratio of at least $$q$$. The gain multiplies the input ratio, so the largest interference-to-signal ratio the link tolerates at its input is
 
-Imagine driving in bumper-to-bumper traffic. Your car's adaptive cruise control relies on millimeter-wave radar to maintain safe distances. But five nearby cars use similar radar systems creating a symphony of interference.
+$$
+\left(\frac{J}{S}\right)_{\max} = \frac{G}{q}, \qquad 10\log_{10}\left(\frac{J}{S}\right)_{\max} = G_{\text{dB}} - q_{\text{dB}}
+$$
 
-**The problem**: Multiple radar signals overlap, causing false detections or missed vehicles.
+This is my derivation from the statement in section 02 that despreading raises the ratio by the spreading factor. It assumes the jammer does not know the code and its power acts like noise, and it ignores receiver losses.
 
-**The solution**: Modern automotive radar combines:
-- FHSS-like channel switching across 77-81 GHz band
-- Adaptive filtering to suppress interference from other vehicles
-- AI algorithms that distinguish between genuine targets and interference
+Take $$q = 10$$ dB, which is 10 times. That value is made up for the example.
 
-Result: Reliable performance even in dense traffic environments.
+- Without spreading, $$G = 1$$. The margin is $$0 - 10 = -10$$ dB. The interference must stay at 0.1 times the signal power.
+- With the GPS-like gain, the margin is $$43.11 - 10 = 33.11$$ dB. The interference can reach 2,046 times the signal power before the link fails.
 
-# Future Frontiers
+The ratio between the two is 20,460, the gain itself. The jammer needs 20,460 times the power for the same effect. That holds only while the code is secret.
 
-| Emerging Technology | Promise | Challenges |
-|---------------------|---------|------------|
-| **Quantum-Resistant Crypto** | Protect against future quantum computers | Integration with legacy hardware |
-| **Cognitive Radio Networks** | Intelligent spectrum sharing | Coordination between competing systems |
-| **Neuromorphic Computing** | Ultra-low-power interference detection | Algorithm development and training |
-| **Integrated RF-Cyber Security** | Unified protection across protocol layers | Complex policy management |
+## 06. What if the jammer follows the signal in frequency?
 
-# Implementation Principles
+Frequency-hopping spread spectrum (FHSS) changes the carrier frequency by a pattern. A code known to both transmitter and receiver sets the pattern [\[7\]](#ref-7). Jamming is hard when the pattern is unknown, and a hopping system resists deliberate jamming unless the adversary knows the pattern [\[7\]](#ref-7).
 
-Effective interference protection follows these design principles:
+The idea is old. Hedy Kiesler Markey (Hedy Lamarr) and George Antheil filed "Secret communication system" on 10 June 1941. It was granted on 11 August 1942 as US patent 2,292,387 [\[8\]](#ref-8). It says its player-piano-style record would permit 88 different carrier frequencies [\[8\]](#ref-8).
 
-1. **Layered Defense**: No single technique suffices. Combine frequency agility, authentication, and adaptive filtering.
+Use 88 channels as an example, taken from that patent and not from a modern system. A jammer that does not know the pattern and covers $$k$$ channels at once hits a fraction $$k/N$$ of the hops:
 
-2. **SWaP-Aware Design**: Counter-measures must respect size, weight, and power constraints. Optimize algorithms for embedded processors.
+- $$k = 1$$: $$1/88 = 1.14\%$$ of hops.
+- $$k = 11$$: $$11/88 = 12.5\%$$ of hops.
 
-3. **Real-Time Adaptation**: Static defenses become obsolete. Systems must learn and evolve as new threats emerge.
+If the jammer's total power is $$P$$ and it covers $$k$$ channels evenly, each gets $$P/k$$. At $$k = 11$$ that is $$-10.41$$ dB per channel. Covering more channels puts less power on each one. This is my arithmetic, not a measurement.
 
-4. **Cross-Domain Validation**: Verify data from multiple sensors before taking action. Radar, optical, and infrared data should confirm each other.
+Hopping can also move away from busy channels. Bluetooth's adaptive frequency hopping avoids crowded frequencies in the hop sequence. Wikipedia dates it to version 1.2 of the standard, in 2003 [\[7\]](#ref-7).
 
-# Conclusion
+## 07. What removes one strong narrowband signal?
 
-RF interference represents an ongoing arms race between attackers and defenders. Success requires combining proven techniques (frequency hopping, adaptive filtering) with cutting-edge approaches (AI detection, quantum-resistant cryptography).
+A notch filter is a band-stop filter with a narrow stopband. It is used to remove a specific interfering frequency [\[9\]](#ref-9). A fixed notch only helps while the interferer stays on that frequency.
 
-The most resilient systems treat interference protection not as an add-on but as a fundamental design requirement. They anticipate threats, adapt in real-time, and maintain functionality even under sophisticated attacks.
+A spread signal is wide, so a thin notch costs little of it. Take a 1 MHz signal and a 10 kHz notch. Both are made up for the example. The notch removes $$10/1000 = 1\%$$ of the bandwidth. If the power is spread evenly, that is about 1% of the signal power. An unspread narrowband signal on the interferer's frequency would lose all of it.
 
-As our world becomes increasingly wireless, these protections shift from military luxuries to everyday necessities. The technologies protecting fighter jets today may soon guard your morning commute.
+## 08. Try it
 
-<!-- Spectrum illustration placeholder: Signal spectrum showing desired signal with interference patterns -->
-<!-- ![Signal spectrum showing desired signal with interference patterns](/assets/images/spectrum-placeholder.jpg) -->
+The plain-Python version of sections 04 and 05:
 
-```mermaid
-flowchart TD
-    A[RF Signal Received] --> B{Interference Detected?}
-    B -->|No| C[Process Normally]
-    B -->|Yes| D{Type Identified}
-    D -->|Narrowband| E[Apply Adaptive Notch Filter]
-    D -->|Broadband| F[Switch Frequency Channels]
-    D -->|Deceptive| G[Verify Crypto Tag]
-    E --> H[Signal Cleaned]
-    F --> H
-    G --> H
-    H --> I[Continue Processing]
-    C --> I
+```python
+import math
+
+chip_rate, data_rate = 1_023_000, 50   # chip/s and bit/s of the GPS C/A signal
+G = chip_rate / data_rate              # processing gain as a ratio
+q_db = 10                              # required output ratio, made up
+print(G, round(10 * math.log10(G), 2), round(10 * math.log10(G) - q_db, 2))
 ```
 
-# Further Reading
+It prints the gain as a ratio, the gain in dB and the margin in dB:
 
-- [Radar Jamming and Deception – Wikipedia](https://en.wikipedia.org/wiki/Radar_jamming_and_deception)
-- [Gusain et al., "Automated and Blind Detection of Low Probability of Intercept RF Anomaly Signals," ACM MobiCom 2024](https://dspace.mit.edu/handle/1721.1/158078)
-- [Delgado-Aguilera et al., "AI-Driven Real-Time Interference Detection in Manned-Unmanned Aircraft Communications," Aerospace Science and Technology, Jan 2026](https://www.sciencedirect.com/science/article/pii/S127096382500793X)
-- [Judah & Kuzdeba, "Demonstrating confidence in RF machine learning systems," SPIE Defense + Commercial Sensing, Jun 2024](https://www.spiedigitallibrary.org/conference-proceedings-of-spie/13054/130540J/Demonstrating-confidence-in-RF-machine-learning-systems/10.1117/12.3014104.short)
+```
+20460.0 43.11 33.11
+```
 
----
+## Sources
 
+<span id="ref-1"></span>\[1\] Wikipedia contributors. _Radar jamming and deception_. Wikipedia. [https://en.wikipedia.org/wiki/Radar_jamming_and_deception](https://en.wikipedia.org/wiki/Radar_jamming_and_deception). Accessed 2026-11-28.
 
+<span id="ref-2"></span>\[2\] Wikipedia contributors. _Direct-sequence spread spectrum_. Wikipedia. [https://en.wikipedia.org/wiki/Direct-sequence_spread_spectrum](https://en.wikipedia.org/wiki/Direct-sequence_spread_spectrum). Accessed 2026-11-28.
+
+<span id="ref-3"></span>\[3\] Wikipedia contributors. _Spread spectrum_. Wikipedia. Cites Torrieri, D. (2018), _Principles of Spread-Spectrum Communication Systems_, 4th ed., for the two goals. [https://en.wikipedia.org/wiki/Spread_spectrum](https://en.wikipedia.org/wiki/Spread_spectrum). Accessed 2026-11-28.
+
+<span id="ref-4"></span>\[4\] Wikipedia contributors. _Processing gain_. Wikipedia. [https://en.wikipedia.org/wiki/Processing_gain](https://en.wikipedia.org/wiki/Processing_gain). Accessed 2026-11-28.
+
+<span id="ref-5"></span>\[5\] Wikipedia contributors. _GPS signals_. Wikipedia. [https://en.wikipedia.org/wiki/GPS_signals](https://en.wikipedia.org/wiki/GPS_signals). Accessed 2026-11-28.
+
+<span id="ref-6"></span>\[6\] MathWorks. _GPS signals_. Satellite Communications Toolbox documentation. [https://www.mathworks.com/help/satcom/gs/gps-signals.html](https://www.mathworks.com/help/satcom/gs/gps-signals.html). Accessed 2026-11-28.
+
+<span id="ref-7"></span>\[7\] Wikipedia contributors. _Frequency-hopping spread spectrum_. Wikipedia. [https://en.wikipedia.org/wiki/Frequency-hopping_spread_spectrum](https://en.wikipedia.org/wiki/Frequency-hopping_spread_spectrum). Accessed 2026-11-28.
+
+<span id="ref-8"></span>\[8\] Markey, H. K., & Antheil, G. (1942). _Secret communication system_. US Patent 2,292,387, filed 10 June 1941, granted 11 August 1942. [https://patents.google.com/patent/US2292387A/en](https://patents.google.com/patent/US2292387A/en)
+
+<span id="ref-9"></span>\[9\] Wikipedia contributors. _Band-stop filter_. Wikipedia. [https://en.wikipedia.org/wiki/Band-stop_filter](https://en.wikipedia.org/wiki/Band-stop_filter). Accessed 2026-11-28.

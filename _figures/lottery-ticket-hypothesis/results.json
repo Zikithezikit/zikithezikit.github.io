@@ -1,0 +1,2570 @@
+{
+ "meta": {
+  "model": "LeNet-300-100 (784-300-100-10 ReLU MLP)",
+  "data": "MNIST, 55k train / 5k val / 10k test",
+  "optimizer": "Adam lr 0.0012",
+  "batch": 256,
+  "iters": 1500,
+  "prune_rate_per_round": [
+   0.2,
+   0.2,
+   0.1
+  ],
+  "seeds": 5,
+  "rounds": 16,
+  "wall_seconds": 1166,
+  "cpu_threads_per_run": 1
+ },
+ "rows": [
+  {
+   "seed": 0,
+   "round": 0,
+   "condition": "ticket",
+   "remaining": 1.0,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9782,
+   "final_test_acc": 0.9778,
+   "final_train_acc": 0.9946
+  },
+  {
+   "seed": 0,
+   "round": 0,
+   "condition": "reinit",
+   "remaining": 1.0,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9782,
+   "final_test_acc": 0.9778,
+   "final_train_acc": 0.9946
+  },
+  {
+   "seed": 0,
+   "round": 0,
+   "condition": "random",
+   "remaining": 1.0,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9782,
+   "final_test_acc": 0.9778,
+   "final_train_acc": 0.9946
+  },
+  {
+   "seed": 0,
+   "round": 1,
+   "condition": "ticket",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.979,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9966
+  },
+  {
+   "seed": 0,
+   "round": 1,
+   "condition": "reinit",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9784,
+   "final_test_acc": 0.9778,
+   "final_train_acc": 0.9938
+  },
+  {
+   "seed": 0,
+   "round": 1,
+   "condition": "random",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9798,
+   "final_test_acc": 0.9798,
+   "final_train_acc": 0.9955
+  },
+  {
+   "seed": 0,
+   "round": 2,
+   "condition": "ticket",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9811,
+   "final_test_acc": 0.9778,
+   "final_train_acc": 0.9973
+  },
+  {
+   "seed": 0,
+   "round": 2,
+   "condition": "reinit",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9749,
+   "final_test_acc": 0.9763,
+   "final_train_acc": 0.9931
+  },
+  {
+   "seed": 0,
+   "round": 2,
+   "condition": "random",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9773,
+   "final_test_acc": 0.9776,
+   "final_train_acc": 0.9927
+  },
+  {
+   "seed": 0,
+   "round": 3,
+   "condition": "ticket",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 900,
+   "early_stop_test_acc": 0.9805,
+   "final_test_acc": 0.9817,
+   "final_train_acc": 0.9986
+  },
+  {
+   "seed": 0,
+   "round": 3,
+   "condition": "reinit",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9779,
+   "final_test_acc": 0.9776,
+   "final_train_acc": 0.9883
+  },
+  {
+   "seed": 0,
+   "round": 3,
+   "condition": "random",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9771,
+   "final_test_acc": 0.9755,
+   "final_train_acc": 0.9882
+  },
+  {
+   "seed": 0,
+   "round": 4,
+   "condition": "ticket",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1100,
+   "early_stop_test_acc": 0.9803,
+   "final_test_acc": 0.9804,
+   "final_train_acc": 0.999
+  },
+  {
+   "seed": 0,
+   "round": 4,
+   "condition": "reinit",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9767,
+   "final_test_acc": 0.9758,
+   "final_train_acc": 0.9898
+  },
+  {
+   "seed": 0,
+   "round": 4,
+   "condition": "random",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9734,
+   "final_test_acc": 0.9736,
+   "final_train_acc": 0.987
+  },
+  {
+   "seed": 0,
+   "round": 5,
+   "condition": "ticket",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1100,
+   "early_stop_test_acc": 0.9806,
+   "final_test_acc": 0.981,
+   "final_train_acc": 0.9988
+  },
+  {
+   "seed": 0,
+   "round": 5,
+   "condition": "reinit",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9754,
+   "final_test_acc": 0.9742,
+   "final_train_acc": 0.9858
+  },
+  {
+   "seed": 0,
+   "round": 5,
+   "condition": "random",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.973,
+   "final_test_acc": 0.9733,
+   "final_train_acc": 0.9832
+  },
+  {
+   "seed": 0,
+   "round": 6,
+   "condition": "ticket",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9821,
+   "final_test_acc": 0.9826,
+   "final_train_acc": 0.999
+  },
+  {
+   "seed": 0,
+   "round": 6,
+   "condition": "reinit",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9724,
+   "final_test_acc": 0.9725,
+   "final_train_acc": 0.9824
+  },
+  {
+   "seed": 0,
+   "round": 6,
+   "condition": "random",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9694,
+   "final_test_acc": 0.97,
+   "final_train_acc": 0.9794
+  },
+  {
+   "seed": 0,
+   "round": 7,
+   "condition": "ticket",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9818,
+   "final_test_acc": 0.9817,
+   "final_train_acc": 0.9989
+  },
+  {
+   "seed": 0,
+   "round": 7,
+   "condition": "reinit",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9729,
+   "final_test_acc": 0.9729,
+   "final_train_acc": 0.98
+  },
+  {
+   "seed": 0,
+   "round": 7,
+   "condition": "random",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9679,
+   "final_test_acc": 0.9679,
+   "final_train_acc": 0.9777
+  },
+  {
+   "seed": 0,
+   "round": 8,
+   "condition": "ticket",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9816,
+   "final_test_acc": 0.9797,
+   "final_train_acc": 0.9977
+  },
+  {
+   "seed": 0,
+   "round": 8,
+   "condition": "reinit",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9712,
+   "final_test_acc": 0.9712,
+   "final_train_acc": 0.9777
+  },
+  {
+   "seed": 0,
+   "round": 8,
+   "condition": "random",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9662,
+   "final_test_acc": 0.9662,
+   "final_train_acc": 0.9723
+  },
+  {
+   "seed": 0,
+   "round": 9,
+   "condition": "ticket",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1050,
+   "early_stop_test_acc": 0.9806,
+   "final_test_acc": 0.9813,
+   "final_train_acc": 0.9982
+  },
+  {
+   "seed": 0,
+   "round": 9,
+   "condition": "reinit",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9672,
+   "final_test_acc": 0.9665,
+   "final_train_acc": 0.9715
+  },
+  {
+   "seed": 0,
+   "round": 9,
+   "condition": "random",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.96,
+   "final_test_acc": 0.9592,
+   "final_train_acc": 0.9668
+  },
+  {
+   "seed": 0,
+   "round": 10,
+   "condition": "ticket",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9797,
+   "final_test_acc": 0.9797,
+   "final_train_acc": 0.9965
+  },
+  {
+   "seed": 0,
+   "round": 10,
+   "condition": "reinit",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9678,
+   "final_test_acc": 0.9678,
+   "final_train_acc": 0.9716
+  },
+  {
+   "seed": 0,
+   "round": 10,
+   "condition": "random",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9556,
+   "final_test_acc": 0.9556,
+   "final_train_acc": 0.9586
+  },
+  {
+   "seed": 0,
+   "round": 11,
+   "condition": "ticket",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9799,
+   "final_test_acc": 0.9801,
+   "final_train_acc": 0.9947
+  },
+  {
+   "seed": 0,
+   "round": 11,
+   "condition": "reinit",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9604,
+   "final_test_acc": 0.9604,
+   "final_train_acc": 0.9663
+  },
+  {
+   "seed": 0,
+   "round": 11,
+   "condition": "random",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9541,
+   "final_test_acc": 0.9541,
+   "final_train_acc": 0.9572
+  },
+  {
+   "seed": 0,
+   "round": 12,
+   "condition": "ticket",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9795,
+   "final_test_acc": 0.9796,
+   "final_train_acc": 0.9941
+  },
+  {
+   "seed": 0,
+   "round": 12,
+   "condition": "reinit",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9594,
+   "final_test_acc": 0.9594,
+   "final_train_acc": 0.966
+  },
+  {
+   "seed": 0,
+   "round": 12,
+   "condition": "random",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9482,
+   "final_test_acc": 0.9482,
+   "final_train_acc": 0.9488
+  },
+  {
+   "seed": 0,
+   "round": 13,
+   "condition": "ticket",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.979,
+   "final_test_acc": 0.9792,
+   "final_train_acc": 0.9917
+  },
+  {
+   "seed": 0,
+   "round": 13,
+   "condition": "reinit",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.965,
+   "final_test_acc": 0.9634,
+   "final_train_acc": 0.9682
+  },
+  {
+   "seed": 0,
+   "round": 13,
+   "condition": "random",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9403,
+   "final_test_acc": 0.9403,
+   "final_train_acc": 0.9417
+  },
+  {
+   "seed": 0,
+   "round": 14,
+   "condition": "ticket",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9781,
+   "final_test_acc": 0.9787,
+   "final_train_acc": 0.9897
+  },
+  {
+   "seed": 0,
+   "round": 14,
+   "condition": "reinit",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9508,
+   "final_test_acc": 0.9508,
+   "final_train_acc": 0.9545
+  },
+  {
+   "seed": 0,
+   "round": 14,
+   "condition": "random",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9365,
+   "final_test_acc": 0.9365,
+   "final_train_acc": 0.9416
+  },
+  {
+   "seed": 0,
+   "round": 15,
+   "condition": "ticket",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9771,
+   "final_test_acc": 0.9769,
+   "final_train_acc": 0.9859
+  },
+  {
+   "seed": 0,
+   "round": 15,
+   "condition": "reinit",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9545,
+   "final_test_acc": 0.9545,
+   "final_train_acc": 0.9561
+  },
+  {
+   "seed": 0,
+   "round": 15,
+   "condition": "random",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9329,
+   "final_test_acc": 0.9329,
+   "final_train_acc": 0.9306
+  },
+  {
+   "seed": 0,
+   "round": 16,
+   "condition": "ticket",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9758,
+   "final_test_acc": 0.9758,
+   "final_train_acc": 0.9832
+  },
+  {
+   "seed": 0,
+   "round": 16,
+   "condition": "reinit",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9499,
+   "final_test_acc": 0.9499,
+   "final_train_acc": 0.9533
+  },
+  {
+   "seed": 0,
+   "round": 16,
+   "condition": "random",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9267,
+   "final_test_acc": 0.9267,
+   "final_train_acc": 0.9274
+  },
+  {
+   "seed": 1,
+   "round": 0,
+   "condition": "ticket",
+   "remaining": 1.0,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9788,
+   "final_test_acc": 0.9805,
+   "final_train_acc": 0.9934
+  },
+  {
+   "seed": 1,
+   "round": 0,
+   "condition": "reinit",
+   "remaining": 1.0,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9788,
+   "final_test_acc": 0.9805,
+   "final_train_acc": 0.9934
+  },
+  {
+   "seed": 1,
+   "round": 0,
+   "condition": "random",
+   "remaining": 1.0,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9788,
+   "final_test_acc": 0.9805,
+   "final_train_acc": 0.9934
+  },
+  {
+   "seed": 1,
+   "round": 1,
+   "condition": "ticket",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 850,
+   "early_stop_test_acc": 0.9787,
+   "final_test_acc": 0.976,
+   "final_train_acc": 0.9949
+  },
+  {
+   "seed": 1,
+   "round": 1,
+   "condition": "reinit",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9808,
+   "final_test_acc": 0.9765,
+   "final_train_acc": 0.9925
+  },
+  {
+   "seed": 1,
+   "round": 1,
+   "condition": "random",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9802,
+   "final_test_acc": 0.9784,
+   "final_train_acc": 0.996
+  },
+  {
+   "seed": 1,
+   "round": 2,
+   "condition": "ticket",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1000,
+   "early_stop_test_acc": 0.9813,
+   "final_test_acc": 0.98,
+   "final_train_acc": 0.9972
+  },
+  {
+   "seed": 1,
+   "round": 2,
+   "condition": "reinit",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9773,
+   "final_test_acc": 0.9795,
+   "final_train_acc": 0.9919
+  },
+  {
+   "seed": 1,
+   "round": 2,
+   "condition": "random",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9774,
+   "final_test_acc": 0.9797,
+   "final_train_acc": 0.9923
+  },
+  {
+   "seed": 1,
+   "round": 3,
+   "condition": "ticket",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 900,
+   "early_stop_test_acc": 0.9814,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9979
+  },
+  {
+   "seed": 1,
+   "round": 3,
+   "condition": "reinit",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9778,
+   "final_test_acc": 0.9748,
+   "final_train_acc": 0.9898
+  },
+  {
+   "seed": 1,
+   "round": 3,
+   "condition": "random",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9772,
+   "final_test_acc": 0.9755,
+   "final_train_acc": 0.9906
+  },
+  {
+   "seed": 1,
+   "round": 4,
+   "condition": "ticket",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1100,
+   "early_stop_test_acc": 0.982,
+   "final_test_acc": 0.9809,
+   "final_train_acc": 0.9986
+  },
+  {
+   "seed": 1,
+   "round": 4,
+   "condition": "reinit",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9756,
+   "final_test_acc": 0.9756,
+   "final_train_acc": 0.9885
+  },
+  {
+   "seed": 1,
+   "round": 4,
+   "condition": "random",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9753,
+   "final_test_acc": 0.9753,
+   "final_train_acc": 0.9883
+  },
+  {
+   "seed": 1,
+   "round": 5,
+   "condition": "ticket",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 800,
+   "early_stop_test_acc": 0.9823,
+   "final_test_acc": 0.9813,
+   "final_train_acc": 0.9993
+  },
+  {
+   "seed": 1,
+   "round": 5,
+   "condition": "reinit",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9755,
+   "final_test_acc": 0.9729,
+   "final_train_acc": 0.9855
+  },
+  {
+   "seed": 1,
+   "round": 5,
+   "condition": "random",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.972,
+   "final_test_acc": 0.972,
+   "final_train_acc": 0.9844
+  },
+  {
+   "seed": 1,
+   "round": 6,
+   "condition": "ticket",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 700,
+   "early_stop_test_acc": 0.9814,
+   "final_test_acc": 0.9822,
+   "final_train_acc": 0.9993
+  },
+  {
+   "seed": 1,
+   "round": 6,
+   "condition": "reinit",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.976,
+   "final_test_acc": 0.976,
+   "final_train_acc": 0.9837
+  },
+  {
+   "seed": 1,
+   "round": 6,
+   "condition": "random",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9715,
+   "final_test_acc": 0.9715,
+   "final_train_acc": 0.9816
+  },
+  {
+   "seed": 1,
+   "round": 7,
+   "condition": "ticket",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 850,
+   "early_stop_test_acc": 0.9823,
+   "final_test_acc": 0.9822,
+   "final_train_acc": 0.9987
+  },
+  {
+   "seed": 1,
+   "round": 7,
+   "condition": "reinit",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9746,
+   "final_test_acc": 0.9746,
+   "final_train_acc": 0.9836
+  },
+  {
+   "seed": 1,
+   "round": 7,
+   "condition": "random",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9657,
+   "final_test_acc": 0.9657,
+   "final_train_acc": 0.9778
+  },
+  {
+   "seed": 1,
+   "round": 8,
+   "condition": "ticket",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1000,
+   "early_stop_test_acc": 0.9819,
+   "final_test_acc": 0.9827,
+   "final_train_acc": 0.9988
+  },
+  {
+   "seed": 1,
+   "round": 8,
+   "condition": "reinit",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9703,
+   "final_test_acc": 0.969,
+   "final_train_acc": 0.9778
+  },
+  {
+   "seed": 1,
+   "round": 8,
+   "condition": "random",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9664,
+   "final_test_acc": 0.9664,
+   "final_train_acc": 0.9702
+  },
+  {
+   "seed": 1,
+   "round": 9,
+   "condition": "ticket",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9828,
+   "final_test_acc": 0.9827,
+   "final_train_acc": 0.9975
+  },
+  {
+   "seed": 1,
+   "round": 9,
+   "condition": "reinit",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9697,
+   "final_test_acc": 0.9705,
+   "final_train_acc": 0.9758
+  },
+  {
+   "seed": 1,
+   "round": 9,
+   "condition": "random",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9619,
+   "final_test_acc": 0.9623,
+   "final_train_acc": 0.9667
+  },
+  {
+   "seed": 1,
+   "round": 10,
+   "condition": "ticket",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9823,
+   "final_test_acc": 0.9828,
+   "final_train_acc": 0.9962
+  },
+  {
+   "seed": 1,
+   "round": 10,
+   "condition": "reinit",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.967,
+   "final_test_acc": 0.967,
+   "final_train_acc": 0.9707
+  },
+  {
+   "seed": 1,
+   "round": 10,
+   "condition": "random",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9568,
+   "final_test_acc": 0.9568,
+   "final_train_acc": 0.9611
+  },
+  {
+   "seed": 1,
+   "round": 11,
+   "condition": "ticket",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9809,
+   "final_test_acc": 0.9813,
+   "final_train_acc": 0.9946
+  },
+  {
+   "seed": 1,
+   "round": 11,
+   "condition": "reinit",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9665,
+   "final_test_acc": 0.9665,
+   "final_train_acc": 0.97
+  },
+  {
+   "seed": 1,
+   "round": 11,
+   "condition": "random",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9521,
+   "final_test_acc": 0.9521,
+   "final_train_acc": 0.9559
+  },
+  {
+   "seed": 1,
+   "round": 12,
+   "condition": "ticket",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9803,
+   "final_test_acc": 0.9803,
+   "final_train_acc": 0.9938
+  },
+  {
+   "seed": 1,
+   "round": 12,
+   "condition": "reinit",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9608,
+   "final_test_acc": 0.9608,
+   "final_train_acc": 0.9678
+  },
+  {
+   "seed": 1,
+   "round": 12,
+   "condition": "random",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9477,
+   "final_test_acc": 0.9477,
+   "final_train_acc": 0.9498
+  },
+  {
+   "seed": 1,
+   "round": 13,
+   "condition": "ticket",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.979,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9926
+  },
+  {
+   "seed": 1,
+   "round": 13,
+   "condition": "reinit",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9598,
+   "final_test_acc": 0.9598,
+   "final_train_acc": 0.9616
+  },
+  {
+   "seed": 1,
+   "round": 13,
+   "condition": "random",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9435,
+   "final_test_acc": 0.9435,
+   "final_train_acc": 0.9439
+  },
+  {
+   "seed": 1,
+   "round": 14,
+   "condition": "ticket",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9785,
+   "final_test_acc": 0.9783,
+   "final_train_acc": 0.9887
+  },
+  {
+   "seed": 1,
+   "round": 14,
+   "condition": "reinit",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9579,
+   "final_test_acc": 0.9574,
+   "final_train_acc": 0.9605
+  },
+  {
+   "seed": 1,
+   "round": 14,
+   "condition": "random",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9375,
+   "final_test_acc": 0.9375,
+   "final_train_acc": 0.9378
+  },
+  {
+   "seed": 1,
+   "round": 15,
+   "condition": "ticket",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9781,
+   "final_test_acc": 0.9769,
+   "final_train_acc": 0.9876
+  },
+  {
+   "seed": 1,
+   "round": 15,
+   "condition": "reinit",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.952,
+   "final_test_acc": 0.952,
+   "final_train_acc": 0.9524
+  },
+  {
+   "seed": 1,
+   "round": 15,
+   "condition": "random",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9382,
+   "final_test_acc": 0.9382,
+   "final_train_acc": 0.9354
+  },
+  {
+   "seed": 1,
+   "round": 16,
+   "condition": "ticket",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9758,
+   "final_test_acc": 0.9759,
+   "final_train_acc": 0.9855
+  },
+  {
+   "seed": 1,
+   "round": 16,
+   "condition": "reinit",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9498,
+   "final_test_acc": 0.9498,
+   "final_train_acc": 0.9511
+  },
+  {
+   "seed": 1,
+   "round": 16,
+   "condition": "random",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9251,
+   "final_test_acc": 0.9251,
+   "final_train_acc": 0.9244
+  },
+  {
+   "seed": 2,
+   "round": 0,
+   "condition": "ticket",
+   "remaining": 1.0,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9795,
+   "final_test_acc": 0.9795,
+   "final_train_acc": 0.9963
+  },
+  {
+   "seed": 2,
+   "round": 0,
+   "condition": "reinit",
+   "remaining": 1.0,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9795,
+   "final_test_acc": 0.9795,
+   "final_train_acc": 0.9963
+  },
+  {
+   "seed": 2,
+   "round": 0,
+   "condition": "random",
+   "remaining": 1.0,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9795,
+   "final_test_acc": 0.9795,
+   "final_train_acc": 0.9963
+  },
+  {
+   "seed": 2,
+   "round": 1,
+   "condition": "ticket",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9805,
+   "final_test_acc": 0.9779,
+   "final_train_acc": 0.9955
+  },
+  {
+   "seed": 2,
+   "round": 1,
+   "condition": "reinit",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9791,
+   "final_test_acc": 0.9777,
+   "final_train_acc": 0.9933
+  },
+  {
+   "seed": 2,
+   "round": 1,
+   "condition": "random",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9797,
+   "final_test_acc": 0.9754,
+   "final_train_acc": 0.99
+  },
+  {
+   "seed": 2,
+   "round": 2,
+   "condition": "ticket",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.981,
+   "final_test_acc": 0.9798,
+   "final_train_acc": 0.9983
+  },
+  {
+   "seed": 2,
+   "round": 2,
+   "condition": "reinit",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9779,
+   "final_test_acc": 0.9775,
+   "final_train_acc": 0.9931
+  },
+  {
+   "seed": 2,
+   "round": 2,
+   "condition": "random",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9775,
+   "final_test_acc": 0.9784,
+   "final_train_acc": 0.9937
+  },
+  {
+   "seed": 2,
+   "round": 3,
+   "condition": "ticket",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1000,
+   "early_stop_test_acc": 0.9808,
+   "final_test_acc": 0.9805,
+   "final_train_acc": 0.9993
+  },
+  {
+   "seed": 2,
+   "round": 3,
+   "condition": "reinit",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9784,
+   "final_test_acc": 0.9784,
+   "final_train_acc": 0.9925
+  },
+  {
+   "seed": 2,
+   "round": 3,
+   "condition": "random",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9773,
+   "final_test_acc": 0.9773,
+   "final_train_acc": 0.9913
+  },
+  {
+   "seed": 2,
+   "round": 4,
+   "condition": "ticket",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 850,
+   "early_stop_test_acc": 0.9806,
+   "final_test_acc": 0.9796,
+   "final_train_acc": 0.9984
+  },
+  {
+   "seed": 2,
+   "round": 4,
+   "condition": "reinit",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9787,
+   "final_test_acc": 0.977,
+   "final_train_acc": 0.9886
+  },
+  {
+   "seed": 2,
+   "round": 4,
+   "condition": "random",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9754,
+   "final_test_acc": 0.9759,
+   "final_train_acc": 0.989
+  },
+  {
+   "seed": 2,
+   "round": 5,
+   "condition": "ticket",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9811,
+   "final_test_acc": 0.9808,
+   "final_train_acc": 0.9994
+  },
+  {
+   "seed": 2,
+   "round": 5,
+   "condition": "reinit",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9762,
+   "final_test_acc": 0.9762,
+   "final_train_acc": 0.9875
+  },
+  {
+   "seed": 2,
+   "round": 5,
+   "condition": "random",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9736,
+   "final_test_acc": 0.9726,
+   "final_train_acc": 0.9847
+  },
+  {
+   "seed": 2,
+   "round": 6,
+   "condition": "ticket",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9815,
+   "final_test_acc": 0.9801,
+   "final_train_acc": 0.999
+  },
+  {
+   "seed": 2,
+   "round": 6,
+   "condition": "reinit",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9734,
+   "final_test_acc": 0.971,
+   "final_train_acc": 0.9821
+  },
+  {
+   "seed": 2,
+   "round": 6,
+   "condition": "random",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9714,
+   "final_test_acc": 0.9712,
+   "final_train_acc": 0.9815
+  },
+  {
+   "seed": 2,
+   "round": 7,
+   "condition": "ticket",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1050,
+   "early_stop_test_acc": 0.9813,
+   "final_test_acc": 0.9814,
+   "final_train_acc": 0.9989
+  },
+  {
+   "seed": 2,
+   "round": 7,
+   "condition": "reinit",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.972,
+   "final_test_acc": 0.9702,
+   "final_train_acc": 0.9771
+  },
+  {
+   "seed": 2,
+   "round": 7,
+   "condition": "random",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9664,
+   "final_test_acc": 0.9661,
+   "final_train_acc": 0.9743
+  },
+  {
+   "seed": 2,
+   "round": 8,
+   "condition": "ticket",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9804,
+   "final_test_acc": 0.9808,
+   "final_train_acc": 0.9986
+  },
+  {
+   "seed": 2,
+   "round": 8,
+   "condition": "reinit",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9687,
+   "final_test_acc": 0.9681,
+   "final_train_acc": 0.9725
+  },
+  {
+   "seed": 2,
+   "round": 8,
+   "condition": "random",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9625,
+   "final_test_acc": 0.9647,
+   "final_train_acc": 0.9713
+  },
+  {
+   "seed": 2,
+   "round": 9,
+   "condition": "ticket",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9798,
+   "final_test_acc": 0.9793,
+   "final_train_acc": 0.9982
+  },
+  {
+   "seed": 2,
+   "round": 9,
+   "condition": "reinit",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.966,
+   "final_test_acc": 0.9658,
+   "final_train_acc": 0.9703
+  },
+  {
+   "seed": 2,
+   "round": 9,
+   "condition": "random",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9604,
+   "final_test_acc": 0.9604,
+   "final_train_acc": 0.9651
+  },
+  {
+   "seed": 2,
+   "round": 10,
+   "condition": "ticket",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.981,
+   "final_test_acc": 0.9806,
+   "final_train_acc": 0.9965
+  },
+  {
+   "seed": 2,
+   "round": 10,
+   "condition": "reinit",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9673,
+   "final_test_acc": 0.9673,
+   "final_train_acc": 0.9703
+  },
+  {
+   "seed": 2,
+   "round": 10,
+   "condition": "random",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9547,
+   "final_test_acc": 0.9547,
+   "final_train_acc": 0.9605
+  },
+  {
+   "seed": 2,
+   "round": 11,
+   "condition": "ticket",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9786,
+   "final_test_acc": 0.9799,
+   "final_train_acc": 0.9951
+  },
+  {
+   "seed": 2,
+   "round": 11,
+   "condition": "reinit",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.962,
+   "final_test_acc": 0.962,
+   "final_train_acc": 0.9665
+  },
+  {
+   "seed": 2,
+   "round": 11,
+   "condition": "random",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9532,
+   "final_test_acc": 0.9532,
+   "final_train_acc": 0.9553
+  },
+  {
+   "seed": 2,
+   "round": 12,
+   "condition": "ticket",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9808,
+   "final_test_acc": 0.9807,
+   "final_train_acc": 0.9932
+  },
+  {
+   "seed": 2,
+   "round": 12,
+   "condition": "reinit",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9609,
+   "final_test_acc": 0.9621,
+   "final_train_acc": 0.9645
+  },
+  {
+   "seed": 2,
+   "round": 12,
+   "condition": "random",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.948,
+   "final_test_acc": 0.948,
+   "final_train_acc": 0.9514
+  },
+  {
+   "seed": 2,
+   "round": 13,
+   "condition": "ticket",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.979,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9909
+  },
+  {
+   "seed": 2,
+   "round": 13,
+   "condition": "reinit",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9554,
+   "final_test_acc": 0.9554,
+   "final_train_acc": 0.9577
+  },
+  {
+   "seed": 2,
+   "round": 13,
+   "condition": "random",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9408,
+   "final_test_acc": 0.9408,
+   "final_train_acc": 0.9411
+  },
+  {
+   "seed": 2,
+   "round": 14,
+   "condition": "ticket",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9789,
+   "final_test_acc": 0.9789,
+   "final_train_acc": 0.9874
+  },
+  {
+   "seed": 2,
+   "round": 14,
+   "condition": "reinit",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9602,
+   "final_test_acc": 0.9602,
+   "final_train_acc": 0.9585
+  },
+  {
+   "seed": 2,
+   "round": 14,
+   "condition": "random",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9359,
+   "final_test_acc": 0.9359,
+   "final_train_acc": 0.9401
+  },
+  {
+   "seed": 2,
+   "round": 15,
+   "condition": "ticket",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9771,
+   "final_test_acc": 0.9773,
+   "final_train_acc": 0.9867
+  },
+  {
+   "seed": 2,
+   "round": 15,
+   "condition": "reinit",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.95,
+   "final_test_acc": 0.95,
+   "final_train_acc": 0.9538
+  },
+  {
+   "seed": 2,
+   "round": 15,
+   "condition": "random",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9343,
+   "final_test_acc": 0.9343,
+   "final_train_acc": 0.9341
+  },
+  {
+   "seed": 2,
+   "round": 16,
+   "condition": "ticket",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9746,
+   "final_test_acc": 0.9746,
+   "final_train_acc": 0.9819
+  },
+  {
+   "seed": 2,
+   "round": 16,
+   "condition": "reinit",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9508,
+   "final_test_acc": 0.9508,
+   "final_train_acc": 0.9511
+  },
+  {
+   "seed": 2,
+   "round": 16,
+   "condition": "random",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9255,
+   "final_test_acc": 0.9255,
+   "final_train_acc": 0.9295
+  },
+  {
+   "seed": 3,
+   "round": 0,
+   "condition": "ticket",
+   "remaining": 1.0,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9805,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9952
+  },
+  {
+   "seed": 3,
+   "round": 0,
+   "condition": "reinit",
+   "remaining": 1.0,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9805,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9952
+  },
+  {
+   "seed": 3,
+   "round": 0,
+   "condition": "random",
+   "remaining": 1.0,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9805,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9952
+  },
+  {
+   "seed": 3,
+   "round": 1,
+   "condition": "ticket",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9798,
+   "final_test_acc": 0.9784,
+   "final_train_acc": 0.9972
+  },
+  {
+   "seed": 3,
+   "round": 1,
+   "condition": "reinit",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.979,
+   "final_test_acc": 0.9781,
+   "final_train_acc": 0.9946
+  },
+  {
+   "seed": 3,
+   "round": 1,
+   "condition": "random",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9781,
+   "final_test_acc": 0.978,
+   "final_train_acc": 0.9937
+  },
+  {
+   "seed": 3,
+   "round": 2,
+   "condition": "ticket",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9813,
+   "final_test_acc": 0.9796,
+   "final_train_acc": 0.997
+  },
+  {
+   "seed": 3,
+   "round": 2,
+   "condition": "reinit",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.977,
+   "final_test_acc": 0.9774,
+   "final_train_acc": 0.9926
+  },
+  {
+   "seed": 3,
+   "round": 2,
+   "condition": "random",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9789,
+   "final_test_acc": 0.9784,
+   "final_train_acc": 0.9913
+  },
+  {
+   "seed": 3,
+   "round": 3,
+   "condition": "ticket",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9812,
+   "final_test_acc": 0.9819,
+   "final_train_acc": 0.9982
+  },
+  {
+   "seed": 3,
+   "round": 3,
+   "condition": "reinit",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9784,
+   "final_test_acc": 0.9774,
+   "final_train_acc": 0.989
+  },
+  {
+   "seed": 3,
+   "round": 3,
+   "condition": "random",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9757,
+   "final_test_acc": 0.9756,
+   "final_train_acc": 0.9896
+  },
+  {
+   "seed": 3,
+   "round": 4,
+   "condition": "ticket",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1050,
+   "early_stop_test_acc": 0.9811,
+   "final_test_acc": 0.9816,
+   "final_train_acc": 0.9992
+  },
+  {
+   "seed": 3,
+   "round": 4,
+   "condition": "reinit",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9779,
+   "final_test_acc": 0.9779,
+   "final_train_acc": 0.9901
+  },
+  {
+   "seed": 3,
+   "round": 4,
+   "condition": "random",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9761,
+   "final_test_acc": 0.9747,
+   "final_train_acc": 0.9878
+  },
+  {
+   "seed": 3,
+   "round": 5,
+   "condition": "ticket",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1100,
+   "early_stop_test_acc": 0.9823,
+   "final_test_acc": 0.982,
+   "final_train_acc": 0.9992
+  },
+  {
+   "seed": 3,
+   "round": 5,
+   "condition": "reinit",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9749,
+   "final_test_acc": 0.9749,
+   "final_train_acc": 0.9881
+  },
+  {
+   "seed": 3,
+   "round": 5,
+   "condition": "random",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.974,
+   "final_test_acc": 0.974,
+   "final_train_acc": 0.9843
+  },
+  {
+   "seed": 3,
+   "round": 6,
+   "condition": "ticket",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 950,
+   "early_stop_test_acc": 0.9825,
+   "final_test_acc": 0.9834,
+   "final_train_acc": 0.9993
+  },
+  {
+   "seed": 3,
+   "round": 6,
+   "condition": "reinit",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9749,
+   "final_test_acc": 0.9749,
+   "final_train_acc": 0.9839
+  },
+  {
+   "seed": 3,
+   "round": 6,
+   "condition": "random",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9715,
+   "final_test_acc": 0.9715,
+   "final_train_acc": 0.9805
+  },
+  {
+   "seed": 3,
+   "round": 7,
+   "condition": "ticket",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1050,
+   "early_stop_test_acc": 0.9815,
+   "final_test_acc": 0.9815,
+   "final_train_acc": 0.9988
+  },
+  {
+   "seed": 3,
+   "round": 7,
+   "condition": "reinit",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9747,
+   "final_test_acc": 0.972,
+   "final_train_acc": 0.9794
+  },
+  {
+   "seed": 3,
+   "round": 7,
+   "condition": "random",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.967,
+   "final_test_acc": 0.9658,
+   "final_train_acc": 0.9739
+  },
+  {
+   "seed": 3,
+   "round": 8,
+   "condition": "ticket",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1050,
+   "early_stop_test_acc": 0.9821,
+   "final_test_acc": 0.9831,
+   "final_train_acc": 0.9991
+  },
+  {
+   "seed": 3,
+   "round": 8,
+   "condition": "reinit",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9717,
+   "final_test_acc": 0.9717,
+   "final_train_acc": 0.9773
+  },
+  {
+   "seed": 3,
+   "round": 8,
+   "condition": "random",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.962,
+   "final_test_acc": 0.962,
+   "final_train_acc": 0.9695
+  },
+  {
+   "seed": 3,
+   "round": 9,
+   "condition": "ticket",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1100,
+   "early_stop_test_acc": 0.9821,
+   "final_test_acc": 0.9812,
+   "final_train_acc": 0.998
+  },
+  {
+   "seed": 3,
+   "round": 9,
+   "condition": "reinit",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9674,
+   "final_test_acc": 0.9683,
+   "final_train_acc": 0.9738
+  },
+  {
+   "seed": 3,
+   "round": 9,
+   "condition": "random",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9627,
+   "final_test_acc": 0.9627,
+   "final_train_acc": 0.9676
+  },
+  {
+   "seed": 3,
+   "round": 10,
+   "condition": "ticket",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.982,
+   "final_test_acc": 0.9833,
+   "final_train_acc": 0.997
+  },
+  {
+   "seed": 3,
+   "round": 10,
+   "condition": "reinit",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9641,
+   "final_test_acc": 0.9654,
+   "final_train_acc": 0.9686
+  },
+  {
+   "seed": 3,
+   "round": 10,
+   "condition": "random",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9552,
+   "final_test_acc": 0.9552,
+   "final_train_acc": 0.9594
+  },
+  {
+   "seed": 3,
+   "round": 11,
+   "condition": "ticket",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9825,
+   "final_test_acc": 0.9825,
+   "final_train_acc": 0.996
+  },
+  {
+   "seed": 3,
+   "round": 11,
+   "condition": "reinit",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9642,
+   "final_test_acc": 0.9642,
+   "final_train_acc": 0.9671
+  },
+  {
+   "seed": 3,
+   "round": 11,
+   "condition": "random",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.952,
+   "final_test_acc": 0.952,
+   "final_train_acc": 0.9545
+  },
+  {
+   "seed": 3,
+   "round": 12,
+   "condition": "ticket",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9815,
+   "final_test_acc": 0.981,
+   "final_train_acc": 0.9932
+  },
+  {
+   "seed": 3,
+   "round": 12,
+   "condition": "reinit",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9625,
+   "final_test_acc": 0.9625,
+   "final_train_acc": 0.9655
+  },
+  {
+   "seed": 3,
+   "round": 12,
+   "condition": "random",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9475,
+   "final_test_acc": 0.9475,
+   "final_train_acc": 0.9521
+  },
+  {
+   "seed": 3,
+   "round": 13,
+   "condition": "ticket",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9809,
+   "final_test_acc": 0.9809,
+   "final_train_acc": 0.9918
+  },
+  {
+   "seed": 3,
+   "round": 13,
+   "condition": "reinit",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9623,
+   "final_test_acc": 0.9623,
+   "final_train_acc": 0.9635
+  },
+  {
+   "seed": 3,
+   "round": 13,
+   "condition": "random",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9411,
+   "final_test_acc": 0.9411,
+   "final_train_acc": 0.9426
+  },
+  {
+   "seed": 3,
+   "round": 14,
+   "condition": "ticket",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9783,
+   "final_test_acc": 0.9783,
+   "final_train_acc": 0.9884
+  },
+  {
+   "seed": 3,
+   "round": 14,
+   "condition": "reinit",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9551,
+   "final_test_acc": 0.9551,
+   "final_train_acc": 0.9561
+  },
+  {
+   "seed": 3,
+   "round": 14,
+   "condition": "random",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9378,
+   "final_test_acc": 0.9378,
+   "final_train_acc": 0.9387
+  },
+  {
+   "seed": 3,
+   "round": 15,
+   "condition": "ticket",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9783,
+   "final_test_acc": 0.9778,
+   "final_train_acc": 0.9849
+  },
+  {
+   "seed": 3,
+   "round": 15,
+   "condition": "reinit",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9522,
+   "final_test_acc": 0.9522,
+   "final_train_acc": 0.952
+  },
+  {
+   "seed": 3,
+   "round": 15,
+   "condition": "random",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.929,
+   "final_test_acc": 0.929,
+   "final_train_acc": 0.9277
+  },
+  {
+   "seed": 3,
+   "round": 16,
+   "condition": "ticket",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9773,
+   "final_test_acc": 0.9773,
+   "final_train_acc": 0.9843
+  },
+  {
+   "seed": 3,
+   "round": 16,
+   "condition": "reinit",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9541,
+   "final_test_acc": 0.9541,
+   "final_train_acc": 0.9552
+  },
+  {
+   "seed": 3,
+   "round": 16,
+   "condition": "random",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9256,
+   "final_test_acc": 0.9256,
+   "final_train_acc": 0.926
+  },
+  {
+   "seed": 4,
+   "round": 0,
+   "condition": "ticket",
+   "remaining": 1.0,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9788,
+   "final_test_acc": 0.9792,
+   "final_train_acc": 0.9935
+  },
+  {
+   "seed": 4,
+   "round": 0,
+   "condition": "reinit",
+   "remaining": 1.0,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9788,
+   "final_test_acc": 0.9792,
+   "final_train_acc": 0.9935
+  },
+  {
+   "seed": 4,
+   "round": 0,
+   "condition": "random",
+   "remaining": 1.0,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9788,
+   "final_test_acc": 0.9792,
+   "final_train_acc": 0.9935
+  },
+  {
+   "seed": 4,
+   "round": 1,
+   "condition": "ticket",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1100,
+   "early_stop_test_acc": 0.9786,
+   "final_test_acc": 0.9794,
+   "final_train_acc": 0.9949
+  },
+  {
+   "seed": 4,
+   "round": 1,
+   "condition": "reinit",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9801,
+   "final_test_acc": 0.9787,
+   "final_train_acc": 0.995
+  },
+  {
+   "seed": 4,
+   "round": 1,
+   "condition": "random",
+   "remaining": 0.8003756403923035,
+   "early_stop_iter": 1400,
+   "early_stop_test_acc": 0.9766,
+   "final_test_acc": 0.9752,
+   "final_train_acc": 0.992
+  },
+  {
+   "seed": 4,
+   "round": 2,
+   "condition": "ticket",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.982,
+   "final_test_acc": 0.9812,
+   "final_train_acc": 0.9969
+  },
+  {
+   "seed": 4,
+   "round": 2,
+   "condition": "reinit",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9775,
+   "final_test_acc": 0.9762,
+   "final_train_acc": 0.9921
+  },
+  {
+   "seed": 4,
+   "round": 2,
+   "condition": "random",
+   "remaining": 0.6406385898590088,
+   "early_stop_iter": 1350,
+   "early_stop_test_acc": 0.9779,
+   "final_test_acc": 0.9768,
+   "final_train_acc": 0.9918
+  },
+  {
+   "seed": 4,
+   "round": 3,
+   "condition": "ticket",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9814,
+   "final_test_acc": 0.9814,
+   "final_train_acc": 0.9988
+  },
+  {
+   "seed": 4,
+   "round": 3,
+   "condition": "reinit",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9778,
+   "final_test_acc": 0.977,
+   "final_train_acc": 0.9906
+  },
+  {
+   "seed": 4,
+   "round": 3,
+   "condition": "random",
+   "remaining": 0.5128136873245239,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9762,
+   "final_test_acc": 0.9786,
+   "final_train_acc": 0.9888
+  },
+  {
+   "seed": 4,
+   "round": 4,
+   "condition": "ticket",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9805,
+   "final_test_acc": 0.9811,
+   "final_train_acc": 0.9986
+  },
+  {
+   "seed": 4,
+   "round": 4,
+   "condition": "reinit",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9766,
+   "final_test_acc": 0.976,
+   "final_train_acc": 0.9878
+  },
+  {
+   "seed": 4,
+   "round": 4,
+   "condition": "random",
+   "remaining": 0.410525918006897,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9759,
+   "final_test_acc": 0.9759,
+   "final_train_acc": 0.9892
+  },
+  {
+   "seed": 4,
+   "round": 5,
+   "condition": "ticket",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 900,
+   "early_stop_test_acc": 0.9814,
+   "final_test_acc": 0.9837,
+   "final_train_acc": 0.9995
+  },
+  {
+   "seed": 4,
+   "round": 5,
+   "condition": "reinit",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9763,
+   "final_test_acc": 0.9763,
+   "final_train_acc": 0.9879
+  },
+  {
+   "seed": 4,
+   "round": 5,
+   "condition": "random",
+   "remaining": 0.3286626636981964,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9727,
+   "final_test_acc": 0.9727,
+   "final_train_acc": 0.9846
+  },
+  {
+   "seed": 4,
+   "round": 6,
+   "condition": "ticket",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 700,
+   "early_stop_test_acc": 0.9817,
+   "final_test_acc": 0.9824,
+   "final_train_acc": 0.999
+  },
+  {
+   "seed": 4,
+   "round": 6,
+   "condition": "reinit",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9735,
+   "final_test_acc": 0.9735,
+   "final_train_acc": 0.984
+  },
+  {
+   "seed": 4,
+   "round": 6,
+   "condition": "random",
+   "remaining": 0.26315176486968994,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9709,
+   "final_test_acc": 0.9709,
+   "final_train_acc": 0.9798
+  },
+  {
+   "seed": 4,
+   "round": 7,
+   "condition": "ticket",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9815,
+   "final_test_acc": 0.9812,
+   "final_train_acc": 0.9994
+  },
+  {
+   "seed": 4,
+   "round": 7,
+   "condition": "reinit",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9701,
+   "final_test_acc": 0.9701,
+   "final_train_acc": 0.9786
+  },
+  {
+   "seed": 4,
+   "round": 7,
+   "condition": "random",
+   "remaining": 0.21072126924991608,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9672,
+   "final_test_acc": 0.9672,
+   "final_train_acc": 0.9763
+  },
+  {
+   "seed": 4,
+   "round": 8,
+   "condition": "ticket",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1000,
+   "early_stop_test_acc": 0.9808,
+   "final_test_acc": 0.9807,
+   "final_train_acc": 0.9983
+  },
+  {
+   "seed": 4,
+   "round": 8,
+   "condition": "reinit",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.97,
+   "final_test_acc": 0.97,
+   "final_train_acc": 0.9767
+  },
+  {
+   "seed": 4,
+   "round": 8,
+   "condition": "random",
+   "remaining": 0.16875657439231873,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9631,
+   "final_test_acc": 0.9631,
+   "final_train_acc": 0.9729
+  },
+  {
+   "seed": 4,
+   "round": 9,
+   "condition": "ticket",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1200,
+   "early_stop_test_acc": 0.9812,
+   "final_test_acc": 0.9811,
+   "final_train_acc": 0.9972
+  },
+  {
+   "seed": 4,
+   "round": 9,
+   "condition": "reinit",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9684,
+   "final_test_acc": 0.9684,
+   "final_train_acc": 0.9743
+  },
+  {
+   "seed": 4,
+   "round": 9,
+   "condition": "random",
+   "remaining": 0.1351652890443802,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9634,
+   "final_test_acc": 0.9634,
+   "final_train_acc": 0.9684
+  },
+  {
+   "seed": 4,
+   "round": 10,
+   "condition": "ticket",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1250,
+   "early_stop_test_acc": 0.9814,
+   "final_test_acc": 0.9816,
+   "final_train_acc": 0.9971
+  },
+  {
+   "seed": 4,
+   "round": 10,
+   "condition": "reinit",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9641,
+   "final_test_acc": 0.9641,
+   "final_train_acc": 0.9712
+  },
+  {
+   "seed": 4,
+   "round": 10,
+   "condition": "random",
+   "remaining": 0.10827573388814926,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9568,
+   "final_test_acc": 0.9568,
+   "final_train_acc": 0.9623
+  },
+  {
+   "seed": 4,
+   "round": 11,
+   "condition": "ticket",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1150,
+   "early_stop_test_acc": 0.9797,
+   "final_test_acc": 0.9812,
+   "final_train_acc": 0.9955
+  },
+  {
+   "seed": 4,
+   "round": 11,
+   "condition": "reinit",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9639,
+   "final_test_acc": 0.9639,
+   "final_train_acc": 0.967
+  },
+  {
+   "seed": 4,
+   "round": 11,
+   "condition": "random",
+   "remaining": 0.0867505669593811,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.955,
+   "final_test_acc": 0.955,
+   "final_train_acc": 0.9599
+  },
+  {
+   "seed": 4,
+   "round": 12,
+   "condition": "ticket",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1300,
+   "early_stop_test_acc": 0.9795,
+   "final_test_acc": 0.9811,
+   "final_train_acc": 0.9946
+  },
+  {
+   "seed": 4,
+   "round": 12,
+   "condition": "reinit",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9619,
+   "final_test_acc": 0.9619,
+   "final_train_acc": 0.9649
+  },
+  {
+   "seed": 4,
+   "round": 12,
+   "condition": "random",
+   "remaining": 0.06951916217803955,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9438,
+   "final_test_acc": 0.9438,
+   "final_train_acc": 0.9471
+  },
+  {
+   "seed": 4,
+   "round": 13,
+   "condition": "ticket",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.979,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9925
+  },
+  {
+   "seed": 4,
+   "round": 13,
+   "condition": "reinit",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9561,
+   "final_test_acc": 0.9561,
+   "final_train_acc": 0.9608
+  },
+  {
+   "seed": 4,
+   "round": 13,
+   "condition": "random",
+   "remaining": 0.05572501942515373,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9428,
+   "final_test_acc": 0.9428,
+   "final_train_acc": 0.9463
+  },
+  {
+   "seed": 4,
+   "round": 14,
+   "condition": "ticket",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1450,
+   "early_stop_test_acc": 0.9798,
+   "final_test_acc": 0.979,
+   "final_train_acc": 0.9899
+  },
+  {
+   "seed": 4,
+   "round": 14,
+   "condition": "reinit",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9532,
+   "final_test_acc": 0.9532,
+   "final_train_acc": 0.9567
+  },
+  {
+   "seed": 4,
+   "round": 14,
+   "condition": "random",
+   "remaining": 0.04467693343758583,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9377,
+   "final_test_acc": 0.9377,
+   "final_train_acc": 0.9401
+  },
+  {
+   "seed": 4,
+   "round": 15,
+   "condition": "ticket",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9785,
+   "final_test_acc": 0.9785,
+   "final_train_acc": 0.9882
+  },
+  {
+   "seed": 4,
+   "round": 15,
+   "condition": "reinit",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9545,
+   "final_test_acc": 0.9545,
+   "final_train_acc": 0.9549
+  },
+  {
+   "seed": 4,
+   "round": 15,
+   "condition": "random",
+   "remaining": 0.03582644462585449,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9335,
+   "final_test_acc": 0.9335,
+   "final_train_acc": 0.933
+  },
+  {
+   "seed": 4,
+   "round": 16,
+   "condition": "ticket",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9773,
+   "final_test_acc": 0.9773,
+   "final_train_acc": 0.986
+  },
+  {
+   "seed": 4,
+   "round": 16,
+   "condition": "reinit",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9536,
+   "final_test_acc": 0.9536,
+   "final_train_acc": 0.9546
+  },
+  {
+   "seed": 4,
+   "round": 16,
+   "condition": "random",
+   "remaining": 0.028737790882587433,
+   "early_stop_iter": 1500,
+   "early_stop_test_acc": 0.9264,
+   "final_test_acc": 0.9264,
+   "final_train_acc": 0.9259
+  }
+ ]
+}
