@@ -17,7 +17,7 @@ summary: Dive into Zero Knowledge Proofs - understand the theory behind ZK and l
 
 ## What is a Zero Knowledge Proof?
 
-Imagine you have a secret password, and you want to prove to someone that you know the password without actually telling them what it is. This sounds impossible - but it's exactly what Zero Knowledge Proofs (ZKPs) achieve.
+Say you have a secret password, and you want to prove to someone that you know it without telling them what it is. This sounds impossible, but it is exactly what Zero Knowledge Proofs (ZKPs) do.
 
 A Zero Knowledge Proof is a cryptographic method where one party (the **prover**) can prove to another party (the **verifier**) that they know a secret, without revealing any information about the secret itself.
 
@@ -57,13 +57,13 @@ Here's how it works: There's a cave with a magic door connecting left and right 
 3. If Alice knows the magic word, she can always come out the requested path (even if she entered the opposite side)
 4. If she doesn't know it, she can only exit the path she entered (50% chance of being caught)
 
-After many rounds, Bob becomes convinced Alice knows the secret - without ever learning the magic word.
+After many rounds, Bob becomes convinced Alice knows the secret, without ever learning the magic word.
 
 ## Interactive vs Non-Interactive Proofs
 
 ### Interactive Proofs
 
-In the cave example, Alice and Bob communicate back and forth - this is an **Interactive Zero Knowledge Proof**. Each round involves a challenge from the verifier and a response from the prover.
+In the cave example, Alice and Bob communicate back and forth. This is an **Interactive Zero Knowledge Proof**. Each round involves a challenge from the verifier and a response from the prover.
 
 ### Non-Interactive Proofs (NIZK)
 
@@ -73,45 +73,45 @@ This is incredibly useful in blockchain and privacy-preserving systems.
 
 ## Schnorr's Protocol: The Building Block
 
-Schnorr's protocol is one of the most elegant and widely-used NIZK proofs. It's based on the **discrete logarithm problem** - the assumption that it's computationally hard to find $x$ given $g^x$ (where $g$ is a generator of a cyclic group).
+Schnorr's protocol is one of the most elegant and widely-used NIZK proofs. It's based on the **discrete logarithm problem** - the assumption that it's computationally hard to find $$x$$ given $$g^x$$ (where $$g$$ is a generator of a cyclic group).
 
 ### The Setup
 
 Let's work with real numbers to understand the intuition (in practice, we use modular arithmetic):
 
-- Let $p$ be a large prime
-- Let $g$ be a generator of the group (think of it as a "base point")
-- Let $x$ be the **secret** (the private key)
-- Let $y = g^x$ be the **public key**
+- Let $$p$$ be a large prime
+- Let $$g$$ be a generator of the group (think of it as a "base point")
+- Let $$x$$ be the **secret** (the private key)
+- Let $$y = g^x$$ be the **public key**
 
-The prover wants to prove they know $x$ without revealing $x$.
+The prover wants to prove they know $$x$$ without revealing $$x$$.
 
 ### Schnorr's Protocol Step by Step
 
-**The Problem**: Prove knowledge of $x$ such that $y = g^x$ without revealing $x$.
+**The Problem**: Prove knowledge of $$x$$ such that $$y = g^x$$ without revealing $$x$$.
 
 **Step 1: Commitment**
 
-The prover picks a random value $k$ (called the nonce or commitment) and computes:
+The prover picks a random value $$k$$ (called the nonce or commitment) and computes:
 $$t = g^k$$
 
-The prover sends $t$ to the verifier. This is a "blinding factor" - it hides what comes next.
+The prover sends $$t$$ to the verifier. This is a "blinding factor" - it hides what comes next.
 
 **Step 2: Challenge**
 
-The verifier responds with a random challenge $c$. In the non-interactive version, $c$ is computed using a hash function:
+The verifier responds with a random challenge $$c$$. In the non-interactive version, $$c$$ is computed using a hash function:
 $$c = H(t || y)$$
 
-where $H$ is a cryptographic hash function and $\parallel$ means concatenation.
+where $$H$$ is a cryptographic hash function and $$\parallel$$ means concatenation.
 
 **Step 3: Response**
 
 The prover computes:
 $$s = k + c \cdot x$$
 
-The key insight is that the prover can compute $s$ because they know both $k$ and the secret $x$.
+The key insight is that the prover can compute $$s$$ because they know both $$k$$ and the secret $$x$$.
 
-**The Proof**: The prover sends $(c, s)$ to the verifier.
+**The Proof**: The prover sends $$(c, s)$$ to the verifier.
 
 **Step 4: Verification**
 
@@ -121,42 +121,42 @@ $$g^s \stackrel{?}{=} t \cdot y^c$$
 Let's verify this mathematically:
 $$g^s = g^{k + c \cdot x} = g^k \cdot g^{c \cdot x} = t \cdot (g^x)^c = t \cdot y^c$$
 
-If the equality holds, the verifier is convinced!
+If the equality holds, the verifier is convinced.
 
 ### Real Number Example
 
 Let's use actual numbers to see how this works:
 
 **Setup**:
-- Let $g = 2$ (simplified generator)
-- Let secret $x = 5$
-- Public key: $y = 2^5 = 32$
+- Let $$g = 2$$ (simplified generator)
+- Let secret $$x = 5$$
+- Public key: $$y = 2^5 = 32$$
 
 **Prover's Steps**:
 
-1. Pick random $k = 3$
-2. Compute commitment: $t = 2^3 = 8$
-3. Compute challenge: Let's say hash gives us $c = 7$ (in practice this comes from a hash function)
-4. Compute response: $s = k + c \cdot x = 3 + 7 \cdot 5 = 3 + 35 = 38$
+1. Pick random $$k = 3$$
+2. Compute commitment: $$t = 2^3 = 8$$
+3. Compute challenge: Let's say hash gives us $$c = 7$$ (in practice this comes from a hash function)
+4. Compute response: $$s = k + c \cdot x = 3 + 7 \cdot 5 = 3 + 35 = 38$$
 
-**The Proof**: Send $(c=7, s=38)$ to verifier
+**The Proof**: Send $$(c=7, s=38)$$ to verifier
 
 **Verifier's Steps**:
 
-1. Receive $(c=7, s=38)$
-2. Check: $g^s = 2^{38} = 274,877,906,944$
-3. Check: $t \cdot y^c = 8 \cdot 32^7 = 8 \cdot 34,359,738,368 = 274,877,906,944$
+1. Receive $$(c=7, s=38)$$
+2. Check: $$g^s = 2^{38} = 274{,}877{,}906{,}944$$
+3. Check: $$t \cdot y^c = 8 \cdot 32^7 = 8 \cdot 34{,}359{,}738{,}368 = 274{,}877{,}906{,}944$$
 
-They match! The verifier is convinced.
+They match, so the verifier is convinced.
 
 **What did the verifier learn?**
 
-- $c = 7$ (random challenge)
-- $s = 38$ (response)
+- $$c = 7$$ (random challenge)
+- $$s = 38$$ (response)
 
-But $s = k + cx$ means $38 = 3 + 7x$, so $x = 5$! Wait... in this real-number example, the verifier *can* solve for x. This is why we use modular arithmetic in practice.
+But $$s = k + cx$$ means $$38 = 3 + 7x$$, so $$x = 5$$. In this real-number example the verifier *can* solve for x. This is why we use modular arithmetic in practice.
 
-In modular arithmetic with large primes, the verifier **cannot** recover $x$ from $s$ and $c$ because they can't "undo" the modular exponentiation.
+In modular arithmetic with large primes, the verifier **cannot** recover $$x$$ from $$s$$ and $$c$$ because they can't "undo" the modular exponentiation.
 
 The verification check:
 
@@ -170,7 +170,7 @@ graph TD
     D -->|No| F[Reject]
 ```
 
-This equation holds for the prover (who knows x) but the verifier can only check the equality - they can't solve for x.
+This equation holds for the prover (who knows x) but the verifier can only check the equality. They can't solve for x.
 
 ## Why Schnorr's Protocol Matters
 
@@ -192,7 +192,7 @@ Schnorr is the foundation for many modern ZK systems:
 
 ## The Security Assumption
 
-Schnorr's security rests on the **Discrete Logarithm Assumption**: given $g$ and $g^x$, it's computationally infeasible to find $x$ when the group is large enough.
+Schnorr's security rests on the **Discrete Logarithm Assumption**: given $$g$$ and $$g^x$$, it's computationally infeasible to find $$x$$ when the group is large enough.
 
 This is the same assumption that underlies:
 - Diffie-Hellman key exchange
@@ -216,7 +216,7 @@ Zero Knowledge Proofs let you prove you know something without revealing it. Sch
 - Is widely used (blockchains, authentication)
 - Is the foundation for modern ZK systems
 
-The intuition is powerful: by adding a random "blinding" factor and responding to a challenge, we create a proof that only someone with the secret could generate - yet the verifier never sees the secret.
+The intuition is powerful: by adding a random "blinding" factor and responding to a challenge, we create a proof that only someone with the secret could generate, and the verifier never sees the secret.
 
 ---
 

@@ -21,7 +21,7 @@ Every wireless connection faces an invisible battlefield. Radio frequency (RF) i
 
 Your smartphone drops calls in crowded stadiums. GPS navigation fails in military operations. Smart car safety systems malfunction in traffic. These aren't just inconveniences; they represent fundamental vulnerabilities in our wireless world.
 
-Companies across consumer, automotive, and defense sectors invest billions in counter-measures. They must balance robust protection against tight constraints: size, weight, power, and cost (SWaP-C). This post explores how modern systems outsmart interference through clever engineering and emerging technologies.
+Companies across consumer, automotive, and defense sectors invest billions in counter-measures. They must balance strong protection against tight constraints: size, weight, power, and cost (SWaP-C). This post explores how modern systems outsmart interference through clever engineering and emerging technologies.
 
 # Understanding RF Interference
 
@@ -44,7 +44,7 @@ Most basic receivers use **threshold detection** they declare a signal present w
 - A deceptive jammer mimics real signals above the threshold
 - Replay attacks capture and rebroadcast valid traffic
 
-The core problem: many systems lack robust ways to verify signal authenticity beyond basic power measurements.
+The core problem: many systems have no reliable way to verify signal authenticity beyond basic power measurements.
 
 # Real-World Impact
 
@@ -100,7 +100,7 @@ Software-Defined Radios (SDRs) allow rapid reconfiguration of RF parameters. Sys
 
 # Case Study: Automotive Radar Wars
 
-Imagine driving in bumper-to-bumper traffic. Your car's adaptive cruise control relies on millimeter-wave radar to maintain safe distances. But five nearby cars use similar radar systems creating a symphony of interference.
+Picture bumper-to-bumper traffic. Your car's adaptive cruise control relies on millimeter-wave radar to maintain safe distances. But five nearby cars use similar radar systems creating a symphony of interference.
 
 **The problem**: Multiple radar signals overlap, causing false detections or missed vehicles.
 
@@ -134,7 +134,7 @@ Effective interference protection follows these design principles:
 
 # Conclusion
 
-RF interference represents an ongoing arms race between attackers and defenders. Success requires combining proven techniques (frequency hopping, adaptive filtering) with cutting-edge approaches (AI detection, quantum-resistant cryptography).
+RF interference represents an ongoing arms race between attackers and defenders. Success requires combining proven techniques (frequency hopping, adaptive filtering) with newer approaches (AI detection, quantum-resistant cryptography).
 
 The most resilient systems treat interference protection not as an add-on but as a fundamental design requirement. They anticipate threats, adapt in real-time, and maintain functionality even under sophisticated attacks.
 
@@ -160,7 +160,7 @@ flowchart TD
 
 # Further Reading
 
-- [Radar Jamming and Deception – Wikipedia](https://en.wikipedia.org/wiki/Radar_jamming_and_deception)
+- [Radar Jamming and Deception (Wikipedia)](https://en.wikipedia.org/wiki/Radar_jamming_and_deception)
 - [Gusain et al., "Automated and Blind Detection of Low Probability of Intercept RF Anomaly Signals," ACM MobiCom 2024](https://dspace.mit.edu/handle/1721.1/158078)
 - [Delgado-Aguilera et al., "AI-Driven Real-Time Interference Detection in Manned-Unmanned Aircraft Communications," Aerospace Science and Technology, Jan 2026](https://www.sciencedirect.com/science/article/pii/S127096382500793X)
 - [Judah & Kuzdeba, "Demonstrating confidence in RF machine learning systems," SPIE Defense + Commercial Sensing, Jun 2024](https://www.spiedigitallibrary.org/conference-proceedings-of-spie/13054/130540J/Demonstrating-confidence-in-RF-machine-learning-systems/10.1117/12.3014104.short)

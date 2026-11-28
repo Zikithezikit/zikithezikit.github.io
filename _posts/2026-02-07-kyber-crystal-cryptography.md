@@ -19,15 +19,15 @@ summary: Learn how Kyber Crystal Cryptography protects against quantum computer 
 
 Your bank accounts, private messages, and digital identity could be vulnerable within the next decade. While today's encryption keeps your data safe from classical computers, the rise of quantum computing threatens to break the very foundations of digital security we've relied on for decades.
 
-Enter Kyber Crystal Cryptography - our digital fortress against the quantum threat. This groundbreaking encryption method represents a fundamental shift in how we protect information, using mathematical structures so complex that even the most powerful quantum computers cannot solve them.
+Kyber Crystal Cryptography is one answer to the quantum threat. It protects information with mathematical problems that no known quantum algorithm can solve efficiently.
 
-Unlike traditional encryption that would crumble under quantum attacks, Kyber builds its security on the crystalline patterns of mathematical lattices, creating puzzles that remain unsolvable regardless of computing power. This isn't just an upgrade - it's a complete redesign of cryptographic security for the quantum era.
+Unlike traditional encryption that would crumble under quantum attacks, Kyber builds its security on the crystalline patterns of mathematical lattices, creating puzzles that remain unsolvable regardless of computing power. It is a redesign of public-key encryption, not a patch on the old schemes.
 
 ## Origins and Development
 
 Kyber was created by teams of researchers who wanted to build encryption that would stay secure even when quantum computers become powerful. They submitted it to NIST (the U.S. National Institute of Standards and Technology) for official approval.
 
-The name "Crystal" comes from the way the math works. Think of a crystal in nature - it has a very organized, repeating pattern. Kyber uses similar mathematical patterns to create puzzles that are extremely hard to solve unless you have the secret key.
+The name "Crystal" comes from the way the math works. A crystal in nature has an organized, repeating pattern. Kyber uses similar mathematical patterns to create puzzles that are extremely hard to solve unless you have the secret key.
 
 ## Key Features and Uses
 
@@ -54,11 +54,11 @@ Kyber is based on something called "Learning With Errors" (LWE). The main equati
 $$\mathbf{public\_matrix} \cdot \mathbf{secret\_vector} + \mathbf{error\_vector} = \mathbf{public\_vector} \pmod{modulus}$$
 
 **What This Means in Simple Terms:**
-- $\mathbf{public\_matrix}$: A grid of numbers everyone can see
-- $\mathbf{secret\_vector}$: Your secret list of numbers (like a password)
-- $\mathbf{error\_vector}$: Small random numbers that hide the secret
-- $\mathbf{public\_vector}$: The result that everyone can see
-- $modulus$: A big number we use to wrap around counting
+- $$\mathbf{public\_matrix}$$: A grid of numbers everyone can see
+- $$\mathbf{secret\_vector}$$: Your secret list of numbers (like a password)
+- $$\mathbf{error\_vector}$$: Small random numbers that hide the secret
+- $$\mathbf{public\_vector}$$: The result that everyone can see
+- $$modulus$$: A big number we use to wrap around counting
 
 **Why This Is Secure:**
 Think of it like a puzzle. Anyone can see the grid and the result, but they can't figure out your secret numbers because we added random "noise" to hide the answer. Even quantum computers get stuck on this puzzle.
@@ -106,16 +106,16 @@ $$
 $$
 
 **The Security Challenge:**
-Anyone can see $\mathbf{A}$ and $\mathbf{b}$, but finding $\mathbf{s}$ is extremely difficult because the error vector $\mathbf{e}$ hides the true relationship between them.
+Anyone can see $$\mathbf{A}$$ and $$\mathbf{b}$$, but finding $$\mathbf{s}$$ is extremely difficult because the error vector $$\mathbf{e}$$ hides the true relationship between them.
 
 ### How Keys Are Created
 
 1. **Public Key** (Everyone can see):
-   - A grid of numbers: $\mathbf{public\_matrix}$
-   - A list of numbers: $\mathbf{public\_vector} = \mathbf{public\_matrix} \cdot \mathbf{secret\_vector} + \mathbf{error\_vector}$
+   - A grid of numbers: $$\mathbf{public\_matrix}$$
+   - A list of numbers: $$\mathbf{public\_vector} = \mathbf{public\_matrix} \cdot \mathbf{secret\_vector} + \mathbf{error\_vector}$$
 
 2. **Private Key** (Keep secret):
-   - Just your secret list: $\mathbf{secret\_vector}$
+   - Just your secret list: $$\mathbf{secret\_vector}$$
 
 3. **How It Works**: 
    - You use your secret numbers to create the public part
@@ -123,7 +123,7 @@ Anyone can see $\mathbf{A}$ and $\mathbf{b}$, but finding $\mathbf{s}$ is extrem
 
 ### How Encryption Works
 
-When someone wants to send you a message $\mathbf{message}$ using your public key $(\mathbf{public\_matrix}, \mathbf{public\_vector})$:
+When someone wants to send you a message $$\mathbf{message}$$ using your public key $$(\mathbf{public\_matrix}, \mathbf{public\_vector})$$:
 
 **Step 1: Create the First Part of the Lock**
 $$\mathbf{cipher\_u} = \mathbf{public\_matrix}^T \cdot \mathbf{random\_vector} + \mathbf{encryption\_error} \pmod{modulus}$$
@@ -132,11 +132,11 @@ $$\mathbf{cipher\_u} = \mathbf{public\_matrix}^T \cdot \mathbf{random\_vector} +
 $$\mathbf{cipher\_v} = \mathbf{public\_vector}^T \cdot \mathbf{random\_vector} + \mathbf{message\_error} + \text{encode}(\mathbf{message}) \pmod{modulus}$$
 
 **What These Pieces Mean:**
-- $\mathbf{random\_vector}$: New random numbers for each message (like a one-time key)
-- $\mathbf{encryption\_error}$: Random noise to hide the first part
-- $\mathbf{message\_error}$: Random noise to hide the actual message
+- $$\mathbf{random\_vector}$$: New random numbers for each message (like a one-time key)
+- $$\mathbf{encryption\_error}$$: Random noise to hide the first part
+- $$\mathbf{message\_error}$$: Random noise to hide the actual message
 
-The sender creates a "locked box" using two pieces ($\mathbf{cipher\_u}$ and $\mathbf{cipher\_v}$) that only you can open with your secret key.
+The sender creates a "locked box" using two pieces ($$\mathbf{cipher\_u}$$ and $$\mathbf{cipher\_v}$$) that only you can open with your secret key.
 
 **Encryption and Decryption Flow:**
 
@@ -149,7 +149,7 @@ $$
 \end{array}
 $$
 
-**2. Encryption (Bob wants to send message $m$):**
+**2. Encryption (Bob wants to send message $$m$$):**
 $$
 \begin{array}{ll}
 \text{Input:} & \text{Public key } (\mathbf{A}, \mathbf{b}), \text{ message } m \\[4pt]
@@ -161,7 +161,7 @@ $$
 \end{array}
 $$
 
-**3. Decryption (Alice receives $C = (\mathbf{u}, v)$):**
+**3. Decryption (Alice receives $$C = (\mathbf{u}, v)$$):**
 $$
 \begin{array}{ll}
 \text{Input:} & \text{Ciphertext } (\mathbf{u}, v), \text{ private key } \mathbf{s} \\[4pt]
@@ -183,22 +183,22 @@ $$
 
 ### How Decryption Works
 
-When you receive the locked message, you use your secret key $\mathbf{secret\_vector}$ to open it:
+When you receive the locked message, you use your secret key $$\mathbf{secret\_vector}$$ to open it:
 
-**Unlock the Message:**
+**Recover the Message:**
 $$\mathbf{recovery\_value} = \mathbf{cipher\_v} - \mathbf{cipher\_u}^T \cdot \mathbf{secret\_vector}$$
 
 **What's Happening Inside:**
 $$\mathbf{recovery\_value} = \mathbf{message\_error} + \text{encode}(\mathbf{message}) - \mathbf{encryption\_error}^T \cdot \mathbf{secret\_vector} \pmod{modulus}$$
 
 **Getting the Original Message Back:**
-The math is designed so that all the random noise mostly cancels out, leaving just your original message. Think of it like subtracting the same random noise you added during encryption - only you have the secret numbers to do this correctly.
+The math is designed so that all the random noise mostly cancels out, leaving just your original message. Think of it like subtracting the same random noise you added during encryption. Only you have the secret numbers to do this correctly.
 
 The original message appears as long as the random numbers stay small enough to be removed during the decoding process.
 
 ## Guided Example: Simple Encryption and Decryption
 
-Let's walk through a simplified example of how Kyber-style encryption might work. This is a educational simplification - real implementations are much more complex.
+Let's walk through a simplified example of how Kyber-style encryption might work. This is a simplification for teaching. Real implementations are more complex.
 
 ### Setup Phase
 
@@ -293,10 +293,10 @@ $$\begin{align}
 **Concrete Mathematical Example:**
 
 **Input Values:**
-- Message: $\mathbf{message} = [42]$
-- Random Vector: $\mathbf{random\_vector} = \begin{bmatrix} 2 \\ 1 \\ 0 \\ 1 \end{bmatrix}$
-- Encryption Error: $\mathbf{encryption\_error} = \begin{bmatrix} 1 \\ 0 \\ -1 \\ 1 \end{bmatrix}$
-- Message Error: $\mathbf{message\_error} = 2$
+- Message: $$\mathbf{message} = [42]$$
+- Random Vector: $$\mathbf{random\_vector} = \begin{bmatrix} 2 \\ 1 \\ 0 \\ 1 \end{bmatrix}$$
+- Encryption Error: $$\mathbf{encryption\_error} = \begin{bmatrix} 1 \\ 0 \\ -1 \\ 1 \end{bmatrix}$$
+- Message Error: $$\mathbf{message\_error} = 2$$
 
 **First Ciphertext Component Calculation:**
 
@@ -367,10 +367,10 @@ $$\mathbf{recovery\_value} = \mathbf{cipher\_v} - \mathbf{cipher\_u}^T \cdot \ma
 **Concrete Mathematical Example:**
 
 **Input Values:**
-- Ciphertext: $\mathbf{cipher\_u} = \begin{bmatrix} 27 \\ 23 \\ 17 \\ 12 \end{bmatrix}$, $\mathbf{cipher\_v} = 37$
-- Secret Vector: $\mathbf{secret\_vector} = \begin{bmatrix} 1 \\ 2 \\ -1 \\ 3 \end{bmatrix}$
+- Ciphertext: $$\mathbf{cipher\_u} = \begin{bmatrix} 27 \\ 23 \\ 17 \\ 12 \end{bmatrix}$$, $$\mathbf{cipher\_v} = 37$$
+- Secret Vector: $$\mathbf{secret\_vector} = \begin{bmatrix} 1 \\ 2 \\ -1 \\ 3 \end{bmatrix}$$
 
-**Step 1: Calculate $\mathbf{cipher\_u}^T \cdot \mathbf{secret\_vector}$**
+**Step 1: Calculate $$\mathbf{cipher\_u}^T \cdot \mathbf{secret\_vector}$$**
 
 $$\begin{bmatrix} 27 & 23 & 17 & 12 \end{bmatrix} \begin{bmatrix} 1 \\ 2 \\ -1 \\ 3 \end{bmatrix} = 27(1) + 23(2) + 17(-1) + 12(3)$$
 
@@ -396,7 +396,7 @@ $$\mathbf{recovery\_value} = \mathbf{message\_error} + \text{encode}(\mathbf{mes
 $$\mathbf{recovery\_value} = 2 + 42 - 5 = 39$$
 
 **Understanding the Difference:**
-In our simplified example, we get 39 instead of 42 due to the error term $\mathbf{encryption\_error}^T \cdot \mathbf{secret\_vector} = 5$ that we didn't account for in the direct computation. In a real Kyber implementation:
+In our simplified example, we get 39 instead of 42 due to the error term $$\mathbf{encryption\_error}^T \cdot \mathbf{secret\_vector} = 5$$ that we didn't account for in the direct computation. In a real Kyber implementation:
 
 1. The message encoding process includes error correction
 2. The decryption process uses rounding to recover the original message
@@ -426,7 +426,7 @@ As the crystal gets bigger (more dimensions), finding that shortest line becomes
 **Learning With Errors (LWE):**
 
 **The Puzzle:**
-You see lots of math problems like: $\mathbf{matrix} \times \mathbf{secret} + \mathbf{noise} = \mathbf{answer}$
+You see lots of math problems like: $$\mathbf{matrix} \times \mathbf{secret} + \mathbf{noise} = \mathbf{answer}$$
 
 **The Challenge:**
 You can see the matrix and the answers, but there's random noise hiding the secret numbers. You need to figure out what secret numbers were used.

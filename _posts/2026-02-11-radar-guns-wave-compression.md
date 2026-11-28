@@ -21,7 +21,7 @@ You're driving down the highway when you see it: a police officer standing by th
 
 The answer lies in one of physics' most elegant phenomena: the **Doppler effect**. Every time a police radar gun "reads" your speed, it's actually measuring how your car's motion compresses and stretches invisible radio waves traveling at the speed of light.
 
-This isn't magic—it's mathematics. And it's so reliable that over 41 million speeding tickets are issued annually in the US alone, with courts accepting radar gun readings as evidence in virtually every jurisdiction.
+It is mathematics, and it is reliable enough that over 41 million speeding tickets are issued annually in the US alone, with courts accepting radar gun readings as evidence in virtually every jurisdiction.
 
 Let's break down how this fascinating technology turns wave physics into accurate speed measurements.
 
@@ -47,7 +47,7 @@ When your car moves toward a radar gun:
 
 1. **The radar transmits** radio waves at a known frequency (let's say 24.150 GHz for K-band)
 2. **Your car reflects** these waves back, but since it's moving, it adds a little extra "push" to each wave
-3. **The reflected waves** return with a slightly higher frequency - they've been compressed
+3. **The reflected waves** return with a slightly higher frequency: they've been compressed
 4. **The radar gun measures** this frequency difference and calculates your speed
 
 **Wave compression happens because:**
@@ -62,20 +62,20 @@ The Doppler frequency shift for radar systems follows this equation:
 $$\Delta f = \frac{2v \cos(\theta)}{\lambda}$$
 
 Where:
-- $\Delta f$ = Frequency shift (Hz)
-- $v$ = Target velocity (m/s) 
-- $\theta$ = Angle between radar beam and target motion
-- $\lambda$ = Radar wavelength (m)
+- $$\Delta f$$ = Frequency shift (Hz)
+- $$v$$ = Target velocity (m/s) 
+- $$\theta$$ = Angle between radar beam and target motion
+- $$\lambda$$ = Radar wavelength (m)
 
-**The factor of 2 is crucial** - the wave makes a round trip (to the car AND back), so the Doppler effect happens twice.
+**The factor of 2 matters**: the wave makes a round trip (to the car AND back), so the Doppler effect happens twice.
 
 **Real example:**
 - Radar frequency: 24.150 GHz (K-band)
 - Wavelength: 0.0124 meters
 - Your speed: 50 mph (22.35 m/s)
-- Directly approaching ($\theta = 0°$, so $\cos(\theta) = 1$)
+- Directly approaching ($$\theta = 0°$$, so $$\cos(\theta) = 1$$)
 
-$$\Delta f = \frac{2 \times 22.35 \times 1}{0.0124} = 3,603 \text{ Hz}$$
+$$\Delta f = \frac{2 \times 22.35 \times 1}{0.0124} = 3{,}603 \text{ Hz}$$
 
 The radar gun detects this 3.6 kHz shift and instantly converts it to 50 mph.
 
@@ -151,7 +151,7 @@ Police radar uses specific frequency bands for strategic reasons:
 
 ### The Signal Processing Magic
 
-Modern radar guns don't just measure one frequency shift - they use sophisticated processing:
+Modern radar guns measure more than one frequency shift. Their processing includes:
 
 **Signal Processing:**
 - **MTI (Moving Target Indication):** Filters out stationary objects
@@ -472,7 +472,7 @@ sequenceDiagram
 
 ### Operator Training Standards
 
-**Proper training is crucial** for reliable radar operation:
+**Proper training** is needed for reliable radar operation:
 
 ```mermaid
 graph LR
@@ -541,7 +541,7 @@ timeline
 
 ### Connected Vehicle Integration
 
-**The future includes vehicle-to-infrastructure communication** that could revolutionize speed enforcement:
+**The future includes vehicle-to-infrastructure communication** that could change speed enforcement:
 
 ```mermaid
 flowchart TB
@@ -621,12 +621,12 @@ And that's pretty fascinating when you think about it.
 
 **Technical Resources:**
 - [NHTSA Speed Measurement Device Standards](https://www.nhtsa.gov/equipment/ speed-measuring-devices)
-- [Doppler Effect Physics - Physics LibreTexts](https://phys.libretexts.org/Bookshelves/University_Physics/University_Physics_(OpenStax)/Book%3A_University_Physics_I_-_Mechanics_Sound_Oscillations_and_Waves_(OpenStax)/17%3A_Sound/17.08%3A_The_Doppler_Effect)
+- [Doppler Effect Physics (Physics LibreTexts)](https://phys.libretexts.org/Bookshelves/University_Physics/University_Physics_(OpenStax)/Book%3A_University_Physics_I_-_Mechanics_Sound_Oscillations_and_Waves_(OpenStax)/17%3A_Sound/17.08%3A_The_Doppler_Effect)
 - [RF Cafe Doppler Frequency Shift Equations](https://www.rfcafe.com/references/electrical/doppler.htm)
-- [Introduction to Radar Systems - Merrill Skolnik (Textbook)](https://www.pearson.com/en-us/subject-catalog/p/introduction-to-radar-systems/P200000003608/9780133113953)
+- [Introduction to Radar Systems, Merrill Skolnik (textbook)](https://www.pearson.com/en-us/subject-catalog/p/introduction-to-radar-systems/P200000003608/9780133113953)
 
 **Practical Applications:**
-- [Police Radar Training Manual - International Association of Chiefs of Police](https://www.theiacp.org/resources/traffic-safety)
+- [Police Radar Training Manual (International Association of Chiefs of Police)](https://www.theiacp.org/resources/traffic-safety)
 - [Calibration Procedures for Speed Measurement Equipment](https://www.nist.gov/si-research/calibrations)
 - [Court Cases on Radar Evidence Admissibility](https://law.justia.com/cases/state/)
 - [Weather Effects on Radar Propagation](https://www.weather.gov/)
@@ -640,7 +640,7 @@ And that's pretty fascinating when you think about it.
 **Hands-on Learning:**
 - [Homemade 6 GHz Pulse Compression Radar Project](https://hforsten.com/homemade-6-ghz-pulse-compression-radar.html)
 - [Radar Speed Gun Calibration Tools and Procedures](https://www.nist.gov/si-research/calibrations/time-frequency)
-- [How Police Radar Works - Vortex Radar (YouTube)](https://www.youtube.com/watch?v=DAwW7_nYG0c)
+- [How Police Radar Works (Vortex Radar, YouTube)](https://www.youtube.com/watch?v=DAwW7_nYG0c)
 
 **Historical Context:**
 - [Christian Doppler and the Doppler Effect (1842)](https://www.britannica.com/biography/Christian-Doppler)
@@ -654,4 +654,4 @@ And that's pretty fascinating when you think about it.
 
 ---
 
-**Want to dive deeper into the physics?** Check out the resources above for everything from basic wave mechanics to advanced signal processing algorithms. The world of radar technology combines elegant physics with practical engineering in ways that continue to evolve and improve our ability to measure and understand motion.
+The resources above go from basic wave mechanics to advanced signal processing.

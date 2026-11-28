@@ -17,9 +17,9 @@ summary: Your car key isn't just metal - it's a tiny computer using secret codes
 
 ## Your Car Key is a Secret Agent
 
-Your car key isn't just metal - it's a tiny computer having secret conversations with your car. Every time you press that button, they're swapping secret codes that change instantly.
+Your car key is a tiny computer that has secret conversations with your car. Every time you press that button, they're swapping secret codes that change instantly.
 
-Why? Because car thieves stopped using crowbars and started using laptops. A car is stolen every 40 seconds in the US - that's over 2,200 thefts daily.
+Why? Because car thieves stopped using crowbars and started using laptops. A car is stolen every 40 seconds in the US, over 2,200 thefts a day.
 
 Your key is your car's bodyguard, using the same crypto principles that protect online banking. Let's break down how it works in simple terms.
 
@@ -96,9 +96,9 @@ The security benefits are clear: replay attacks fail, future codes stay secret, 
 
 ### Keyless Entry: Convenience Plus Risk
 
-Modern keys unlock when you're nearby - but this creates new vulnerabilities.
+Modern keys unlock the car when you're nearby, and that creates new weaknesses.
 
-Here's how it should work: your car asks "Where's my key?" and your key responds "Right here! 2 feet away." The car says "Perfect, unlock!" But thieves can trick this system.
+Here's how it should work: your car asks "Where's my key?" and your key responds "Right here, 2 feet away." The car says "Fine, unlock." But thieves can trick this system.
 
 ## Thieves vs Your Key: The Battle
 
@@ -169,7 +169,7 @@ Multi-Factor Security combines key plus fingerprint plus PIN, creating multiple 
 
 ### Stop Relay Attacks (The #1 Threat)
 
-The $20 solution is a Faraday bag - a special pouch that blocks all signals. You drop your key in when you're home, it's been tested to work on 95% of cars, and costs $15-25 online.
+The $20 solution is a Faraday bag, a pouch that blocks all signals. You drop your key in when you're home, it's been tested to work on 95% of cars, and costs $15-25 online.
 
 Quick tips that work: don't hang keys near the door, put keys in a metal box or drawer at home, check your car manual since some let you disable keyless entry, listen for the lock confirmation beep, and some cars have a PIN drive feature you should enable.
 
@@ -193,7 +193,7 @@ Your car key evolved from simple metal to a crypto supercomputer. In the 1970s, 
 
 The arms race continues: as thieves get smarter, car security gets smarter. UWB is just the beginning.
 
-Your takeaway is that your key isn't just convenience - it's your car's bodyguard. Give it some protection like a $20 Faraday bag and it'll keep protecting your investment.
+Your key is also your car's bodyguard. A $20 Faraday bag keeps it from being used against you.
 
 ---
 
