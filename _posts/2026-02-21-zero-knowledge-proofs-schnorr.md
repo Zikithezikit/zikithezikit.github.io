@@ -3,6 +3,7 @@ title: Zero Knowledge Proofs - From Theory to Schnorr's Protocol
 author: yoav
 description: Learn how Zero Knowledge Proofs work, from the basic concept to Schnorr's NIZK protocol with real number examples.
 date: 2026-02-21 10:00:00 +0200
+lang: en
 categories: [Cryptography, Mathematics, Security]
 tags: [zero-knowledge, zkp, nizk, schnorr, cryptography, math]
 pin: false

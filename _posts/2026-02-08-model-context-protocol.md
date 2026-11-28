@@ -3,10 +3,11 @@ title: Understanding Model Context Protocol (MCP)
 author: yoav
 description: Complete guide to Model Context Protocol (MCP) - architecture, implementation, practical examples, and how it's revolutionizing AI context management for developers.
 date: 2026-02-08 07:00:00 +0200
+lang: en
 categories: [AI, Development, Protocols]
-tags: [MCP, Model Context Protocol, AI, context management, development, protocol, artificial intelligence, context providers]
+tags: [mcp, model-context-protocol, ai, context-management, development, protocol, artificial-intelligence, context-providers]
 pin: false
-math: true
+math: false
 mermaid: true
 image:
    path: /assets/images/mcp-architecture.jpg

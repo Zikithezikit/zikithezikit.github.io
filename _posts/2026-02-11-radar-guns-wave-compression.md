@@ -3,8 +3,9 @@ title: "How Radar Guns Read Your Speed: The Wave Compression Secret"
 author: yoav
 description: Complete guide to how radar guns work - learn about Doppler effect, wave compression, frequency shift calculations, and the physics behind police speed detection technology.
 date: 2026-02-11 12:00:00 +0200
+lang: en
 categories: [Physics, Technology, Law Enforcement]
-tags: [radar, doppler effect, wave compression, speed detection, police technology, physics, electromagnetic waves]
+tags: [radar, doppler-effect, wave-compression, speed-detection, police-technology, physics, electromagnetic-waves]
 pin: false
 math: true
 mermaid: true

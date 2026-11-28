@@ -3,8 +3,9 @@ title: Understanding Domain-Specific Language Models (DSLMs)
 author: yoav
 description: Complete guide to Domain-Specific Language Models (DSLMs) - why specialized AI beats general models, implementation strategies, real-world examples, and when to implement DSLMs in your organization.
 date: 2026-02-09 12:00:00 +0200
+lang: en
 categories: [AI, Machine Learning, Enterprise]
-tags: [DSLM, domain-specific, AI, machine learning, enterprise AI, specialized models, artificial intelligence]
+tags: [dslm, domain-specific, ai, machine-learning, enterprise-ai, specialized-models, artificial-intelligence]
 pin: false
 math: false
 mermaid: false

@@ -3,10 +3,11 @@ title: How Your Car Key Uses Secret Codes to Stop Thieves
 author: yoav
 description: Simple guide to how car keys use encryption - learn about rolling codes, transponder chips, and why your key is smarter than you think.
 date: 2026-02-10 12:00:00 +0200
+lang: en
 categories: [Security, Automotive, Cryptography]
-tags: [car keys, encryption, rolling codes, relay attacks, simple crypto]
+tags: [car-keys, encryption, rolling-codes, relay-attacks, simple-crypto]
 pin: false
-math: true
+math: false
 mermaid: true
 image:
    path: /assets/images/car-keys-encryption.jpg

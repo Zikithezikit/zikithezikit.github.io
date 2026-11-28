@@ -3,8 +3,9 @@ title: "Using AI for Data Compression: A Theoretical Perspective"
 author: yoav
 description: Explore the theoretical foundations of AI-powered data compression - from rate-distortion theory to the deep connection between understanding and compression.
 date: 2026-02-17 12:00:00 +0200
+lang: en
 categories: [AI, Technology, Data Science]
-tags: [AI, machine learning, data compression, neural compression, information theory, entropy]
+tags: [ai, machine-learning, data-compression, neural-compression, information-theory, entropy]
 pin: false
 math: true
 mermaid: true

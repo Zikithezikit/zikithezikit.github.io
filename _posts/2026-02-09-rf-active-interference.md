@@ -3,6 +3,7 @@ title: "Beating the Airwaves: How Modern Systems Defeat RF Interference"
 author: yoav
 description: From fighter jets to smart cars, discover the cutting-edge techniques companies use to protect wireless systems from RF interference and jamming.
 date: 2026-02-09 12:00:00 +0200
+lang: en
 categories: [RF, Security, Embedded Systems]
 tags: [rf, interference, jamming, frequency-hopping, spread-spectrum, countermeasures, industry]
 pin: false
