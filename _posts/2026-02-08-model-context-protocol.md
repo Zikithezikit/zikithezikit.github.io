@@ -1,383 +1,391 @@
 ---
-title: Understanding Model Context Protocol (MCP)
+title: "Model Context Protocol: What Goes Over the Wire"
 author: yoav
-description: Complete guide to Model Context Protocol (MCP) - architecture, implementation, practical examples, and how it's revolutionizing AI context management for developers.
+description: "MCP is JSON-RPC 2.0 between an AI application and a server that offers tools, resources and prompts. One real exchange from a 19-line Python server, message by message."
 date: 2026-02-08 07:00:00 +0200
 lang: en
 categories: [AI, Development, Protocols]
-tags: [mcp, model-context-protocol, ai, context-management, development, protocol, artificial-intelligence, context-providers]
+tags: [mcp, model-context-protocol, json-rpc, llm-tools, python, stdio]
 pin: false
 math: false
 mermaid: true
 image:
    path: /assets/images/mcp-architecture.jpg
    alt: Model Context Protocol Architecture Diagram
-summary: Learn how Model Context Protocol (MCP) standardizes AI context management, with comprehensive technical explanations, practical implementations, and real-world examples for building better AI-powered applications.
 ---
 
-## Introduction to Model Context Protocol
+## 01. The question
 
-Every AI model conversation starts with context: the information that helps the model understand what you're asking for. But as applications become more complex, managing this context efficiently gets hard.
+An AI application is only as useful as what it can reach: files, a database, an issue tracker. Each of those has its own API. Without a shared protocol, every application needs its own integration for every source. Anthropic described the problem this way when it announced MCP on 25 November 2024: each new data source needs its own custom implementation [\[1\]](#ref-1).
 
-Enter **Model Context Protocol** (MCP), a groundbreaking standard that's transforming how we handle AI context management.
+The Model Context Protocol (MCP) is an open protocol for that connection. The specification says it takes some inspiration from the Language Server Protocol, which does the same job for programming languages and editors [\[2\]](#ref-2).
 
-MCP provides a structured, standardized way to manage context across different AI models and applications. Instead of each developer building their own context management system, MCP offers a universal protocol that works consistently across platforms, making AI integration more reliable and efficient.
+MCP is not an AI model and not a context manager. It is a message format. A server says what it can do, and an application asks it to do it.
 
-Think of MCP as the "HTTP for AI context". It defines how information is packaged, sent and kept up to date between AI models and the applications that use them. A shared standard matters more as AI shows up in more of the software tools we use every day.
+> Messages marked "measured" are from my own run of a Python server with `mcp` 2.3.0, speaking protocol revision 2026-07-28. Earlier revisions differ, and section 04 lists how.
+{: .prompt-info }
 
-## Origins and Development
+## 02. Who talks to whom?
 
-MCP emerged from the growing need for better AI context management in modern applications. As AI models became more powerful and widely adopted, developers faced common challenges:
+The specification names three roles [\[2\]](#ref-2):
 
-- How to maintain consistent context across different AI providers
-- How to efficiently share context between different parts of an application
-- How to standardize context management across teams and projects
-- How to handle context persistence and synchronization
+- The **host** is the AI application, such as Claude Code or Claude Desktop.
+- A **client** lives inside the host and holds one connection.
+- A **server** is a program that provides context and capabilities.
 
-The protocol was designed to address these challenges by providing a universal language for AI context management, much like HTTP standardized web communication.
-
-## What Exactly Is MCP?
-
-### The Big Picture
-
-**Usage Example:**
-Say you're debugging a login bug in your web application. You ask your AI assistant: "Why is the login failing for user John?"
-
-**Without MCP:** The AI can only see the login controller file you have open. It doesn't know about the database schema, the frontend login form, or the recent changes to the authentication system.
-
-**With MCP:** The AI instantly understands:
-- The login controller code
-- The user database table structure  
-- The frontend login form implementation
-- Recent git commits affecting authentication
-- Related API endpoints and their documentation
-- Test cases for the login functionality
-
-**How MCP Makes This Possible:**
-MCP acts as a **translation layer** that sits between AI applications and their data sources. When the AI asks about the login issue, MCP:
-
-1. **Receives the Request**: "Help debug login issue for user John"
-2. **Translates and Distributes**: Sends targeted requests to relevant context providers:
-   - File System Provider: "Get login controller and related files"
-   - Database Provider: "Get user table schema and John's record"
-   - Git Provider: "Get recent authentication changes"
-   - API Provider: "Get authentication endpoint documentation"
-3. **Collects and Unifies**: Gathers responses from all providers into a single, coherent context package
-4. **Delivers Complete Picture**: AI receives comprehensive understanding of the entire login system
-
-**What MCP Does:**
-MCP standardizes how context is requested, delivered, and maintained across all systems.
-
-**How It Works:**
-- **One Protocol, Many Sources**: MCP defines a single way to talk to files, databases, APIs, and any other data source
-- **Automatic Translation**: MCP converts between the language of AI apps and the language of data sources
-- **Universal Access**: Any AI app can connect to any data source without custom code
-- **Consistent Experience**: All context follows the same format and behavior regardless of source
-
-```
-BEFORE MCP: Each AI needs custom connections
-AI App → Custom Code → File System
-AI App → Custom Code → Database  
-AI App → Custom Code → APIs
-
-WITH MCP: One protocol connects everything
-AI App → MCP → Any Data Source
-```
-
-**The Core Innovation:**
-Before MCP, every AI application had to build custom adapters for each data source. After MCP, one standard protocol connects everything. MCP does for AI context what HTTP did for web browsing: one standard that everyone can use.
-
-### How MCP Works: The Core Concept
-
-**MCP acts as the middle layer that standardizes everything:**
-
-```
-AI Application
-    ↓ (asks for context)
-MCP Protocol
-    ↓ (translates and distributes)
-┌─────────────┬─────────────┬─────────────┐
-│   Files     │  Database   │    APIs     │
-│  Provider   │  Provider   │  Provider   │
-└─────────────┴─────────────┴─────────────┘
-    ↓ (provides information in their format)
-MCP Protocol
-    ↓ (standardizes and combines)
-AI Application (gets complete context)
-```
-
-### Key Components
-
-#### The Protocol: Universal Rules
-Standardized way everyone communicates:
-- **Discovery**: Finding available providers
-- **Requests**: Asking for specific context
-- **Updates**: Receiving real-time changes
-
-## How MCP Works: The Complete Flow
-
-### Protocol Handshake
+The host creates one client per server [\[3\]](#ref-3).
 
 ```mermaid
-sequenceDiagram
-    participant C as Client
-    participant S as MCP Server
-    participant P as Context Provider
-    
-    C->>S: Initialize Connection
-    S->>C: Server Capabilities
-    C->>S: Register Context Request
-    S->>P: Discover Available Context
-    P->>S: Context Provider List
-    S->>C: Registration Confirmed
+graph LR
+    subgraph Host["Host (AI application)"]
+        C1[Client 1]
+        C2[Client 2]
+    end
+    C1 ---|connection| S1["Server A: local, runs as a subprocess"]
+    C2 ---|connection| S2["Server B: remote, over HTTP"]
 ```
 
-### 1. Discovery Phase
+_One host, two clients, two servers. The roles are from the specification [\[2\]](#ref-2) [\[3\]](#ref-3)._
 
-```
-Application: "Hello, I'm a coding assistant"
-    ↓
-MCP Server: "I have File, Database, and Git providers"
-    ↓
-Application: "I need code files and recent changes"
-    ↓
-MCP Server: "Here are access methods and capabilities"
-```
+"Local" and "remote" describe where the server runs. A local server uses the stdio transport and usually serves one client. A remote server uses Streamable HTTP and usually serves many [\[3\]](#ref-3).
 
-### 2. Context Request Cycle
+## 03. What can a server offer?
 
-```
-Application Request: "Understand login authentication"
-    ↓
-MCP Distributes to All Providers:
-┌─────────────┬─────────────┬─────────────┐
-│  Files:     │  Database:  │   Git:      │
-│ auth.py     │ user table  │ recent auth │
-│ related     │ schema      │ commits     │
-│ files       │             │             │
-└─────────────┴─────────────┴─────────────┘
-    ↓
-MCP Combines into Unified Context
-    ↓
-Application Receives Complete Picture
-```
+Three things. Each has a list method and a method that uses the item.
 
-### 3. Real-time Updates
+| Primitive | What it is | Who decides to use it | List | Use |
+|---|---|---|---|---|
+| Tools | Functions the model can run | The model, with a human able to deny [\[4\]](#ref-4) | `tools/list` | `tools/call` |
+| Resources | Data that gives context, identified by a URI | The host application [\[5\]](#ref-5) | `resources/list`, `resources/templates/list` | `resources/read` |
+| Prompts | Message templates with arguments | The user, for example as a slash command [\[6\]](#ref-6) | `prompts/list` | `prompts/get` |
 
-```
-Application: "Subscribe to auth code changes"
-    ↓
-Providers Monitor Sources:
-📁 Files: Watch auth.py for modifications
-🗄️ Database: Monitor user table schema  
-🔄 Git: Track new authentication commits
-    ↓
-Changes Detected → Automatic Updates → Application Notified
-```
+_Methods and control model from the 2026-07-28 specification pages for tools, resources and prompts [\[4\]](#ref-4) [\[5\]](#ref-5) [\[6\]](#ref-6)._
 
-### State Management
+A database server could offer a query tool, a resource holding the schema, and a prompt with example questions [\[3\]](#ref-3).
 
-#### Version Control
-Every context piece has a version:
-- v1.0: Initial context
-- v1.1: After file change  
-- v1.2: After database update
-- v1.3: After git commit
+The protocol stops at the server's edge. It does not say how an application uses a model or what goes into the model's prompt [\[3\]](#ref-3). A server does not merge context from other servers or decide what the model sees. The host does that.
 
-#### Conflict Resolution
-```
-Conflicting Information:
-├─ File System: "function has 3 parameters"
-├─ Documentation: "function has 2 parameters"
-└─ MCP Resolution: 
-   • Use most recent source
-   • OR merge information
-   • OR ask application to choose
-```
+## 04. What does a message look like?
 
-## The Black Magic: How It All Works Together
+Every message is JSON-RPC 2.0 [\[7\]](#ref-7). There are four shapes:
 
-Let's walk through exactly what happens when you ask an AI to help debug "John's login issue" - showing how MCP provides the correct context AND how the AI uses tools to solve the problem.
+- A request has `jsonrpc`, an `id` (a string or integer, never null), a `method` and optional `params`.
+- A result response has the same `id` and a `result` object. In this revision `result` always has a `resultType`, and `"complete"` means the request is finished.
+- An error response has the same `id` and an `error` with an integer `code` and a `message`.
+- A notification has a `method` and no `id`. The receiver sends no reply.
 
-### Step 1: User Request
-```
-You: "Help debug why John's login is failing"
+Revision 2026-07-28 is stateless: each request carries everything the server needs [\[7\]](#ref-7). The client puts three fields in `params._meta` on every request:
+
+| Key under `_meta` | Required |
+|---|---|
+| `io.modelcontextprotocol/protocolVersion` | Yes |
+| `io.modelcontextprotocol/clientCapabilities` | Yes |
+| `io.modelcontextprotocol/clientInfo` | No, but clients should send it |
+
+_From the base protocol page [\[7\]](#ref-7)._
+
+A request missing a required field is rejected with code `-32602` [\[7\]](#ref-7). A server that does not support the requested version answers with an `UnsupportedProtocolVersion` error, code `-32022`, and lists the versions it does support [\[8\]](#ref-8).
+
+Revisions up to 2025-11-25 worked differently. The client opened with an `initialize` request carrying its protocol version, capabilities and client info. The server answered with its own. The client then sent a `notifications/initialized` notification before normal use [\[9\]](#ref-9). Revision 2026-07-28 has no handshake. A client may call `server/discover` to learn a server's versions and capabilities, but it does not have to [\[8\]](#ref-8) [\[10\]](#ref-10). Tutorials that show `initialize` describe the older revisions.
+
+## 05. A server with one tool and one resource
+
+This is the official quickstart [\[11\]](#ref-11) plus a `main` guard so that it runs over stdio. Save it as `server.py`.
+
+```python
+from mcp.server import MCPServer
+
+mcp = MCPServer("Demo")
+
+
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """Add two numbers."""
+    return a + b
+
+
+@mcp.resource("greeting://{name}")
+def greeting(name: str) -> str:
+    """Greet someone by name."""
+    return f"Hello, {name}!"
+
+
+if __name__ == "__main__":
+    mcp.run()
 ```
 
-### Step 2: MCP Provides Context
-MCP analyzes your request and gathers the complete context:
+The type hints `a: int, b: int` become the tool's `inputSchema`, and the docstring becomes its `description`. Section 06 shows both in the `tools/list` result (measured). The resource URI has a `{name}` part, so it is a resource template.
 
-**MCP Analysis:**
-```
-Keywords: "debug", "login", "John"
-Intent: User-specific authentication troubleshooting
-Required Context: Authentication system, user data, recent changes
-```
+## 06. One exchange, message by message
 
-**MCP Context Gathering:**
-```
-System Mapping via MCP:
-├─ Essential Context:
-│  ├─ loginController.py ✅ (current login logic)
-│  ├─ users table where user_id='John' ✅ (John's account data)
-│  ├─ auth_logs table for John ✅ (failure reasons)
-│  └─ recent auth commits ✅ (recent changes)
-├─ Supporting Context:
-│  ├─ userService.py ✅ (authentication logic)
-│  ├─ sessionManager.py ✅ (session handling)
-│  ├─ /api/login endpoint ✅ (API handling)
-│  └─ authentication.test.js ✅ (expected behavior)
-```
+I started `server.py` as a subprocess. I wrote one request per line to its stdin and read one line back from its stdout. That is the stdio transport [\[12\]](#ref-12). Four requests, four responses.
 
-**MCP Context Package:**
+Every request below also carries the same `_meta` object as the first one. I leave it out after that. I also leave out `ttlMs`, `cacheScope` and `_meta` from the results after the first, which are identical each time.
+
+### Discover
+
 ```json
 {
-  "primary": {
-    "files": ["loginController.py"],
-    "database": ["users table for John", "auth_logs for John"],
-    "events": ["3 failed login attempts in last hour"]
-  },
-  "supporting": {
-    "files": ["userService.py", "sessionManager.py"],
-    "apis": ["/api/login"],
-    "changes": ["commit #1234: added email validation 2 days ago"],
-    "tests": ["authentication.test.js shows expected behavior"]
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "server/discover",
+  "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": { "name": "raw-client", "version": "0.1" },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    }
   }
 }
 ```
 
-### Step 3: AI Analyzes Context with MCP Information
-Now the AI receives the complete context and can identify the actual problem:
+_Request 1 (measured). The client declares no capabilities._
 
-**AI Analysis (with MCP context):**
-```
-Issue Found:
-- John's email in users table: "john.doe@invalid" 
-- Recent commit #1234 added strict email validation
-- loginController calls userService.authenticate()
-- authenticate() now rejects "john.doe@invalid" as invalid
-- auth_logs show: "Invalid email format" for John's attempts
-```
-
-### Step 4: AI Plans and Calls Tools
-The AI now knows exactly what needs to be done and calls the appropriate tools:
-
-**Tool Plan:**
-```
-1. 🔍 Search Files: "Find email validation function"
-2. 📝 Read File: "Read validation logic"
-3. 🗄️ Query Database: "Update John's email to valid format"
-4. 📝 Modify File: "Add user-friendly error message"
-5. 🌐 API Call: "Test John's login with corrected email"
-6. 📊 Analyze: "Verify fix doesn't break other users"
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "resultType": "complete",
+    "supportedVersions": ["2026-07-28"],
+    "capabilities": {
+      "tools": { "listChanged": true },
+      "resources": { "listChanged": true, "subscribe": true },
+      "prompts": { "listChanged": true }
+    },
+    "ttlMs": 0,
+    "cacheScope": "private",
+    "_meta": {
+      "io.modelcontextprotocol/serverInfo": { "name": "Demo", "version": "" }
+    }
+  }
+}
 ```
 
-### Step 5: Tool Execution with MCP Context
-Each tool call is informed by MCP context:
+_Response 1 (measured). The server declares all three primitives, including prompts, although it defines none. `ttlMs` is a freshness hint in milliseconds and `cacheScope` says who may reuse the response [\[3\]](#ref-3)._
 
-**Tool 1: 🔍 Search Files**
-```
-AI calls: "search('email validation')"
-MCP helps: Knows validation is in userService.py, not a separate file
-Result: Found email validation in userService.py line 45
+### List the tools
+
+```json
+{ "jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {} }
 ```
 
-**Tool 2: 📝 Read File**
-```
-AI calls: "read('userService.py')"
-MCP provides: Complete file with relationships to other auth files
-Result: AI sees validation logic and how it's used
-```
+_Request 2, without `_meta`._
 
-**Tool 3: 🗄️ Query Database**
-```
-AI calls: "update users table set email='john.doe@valid.com' where user_id='John'"
-MCP context: Knows database schema has email_format_validation column
-Result: Updates John's email and marks validation as passed
-```
-
-**Tool 4: 📝 Modify File**
-```
-AI calls: "modify('loginController.py', 'Add user-friendly error message')"
-MCP context: Knows existing error handling patterns
-Result: AI adds error message that matches project style
-```
-
-**Tool 5: 🌐 API Call**
-```
-AI calls: "test_login('john.doe@valid.com', 'password123')"
-MCP context: Knows all required headers and session handling
-Result: Test passes - John can now login successfully
-```
-
-### Step 6: AI Provides Complete Solution
-
-**Without MCP + Tools:**
-```
-AI Response: "I see there's a login issue. You might want to check the authentication code."
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "resultType": "complete",
+    "tools": [
+      {
+        "name": "add",
+        "description": "Add two numbers.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "a": { "title": "A", "type": "integer" },
+            "b": { "title": "B", "type": "integer" }
+          },
+          "required": ["a", "b"],
+          "title": "addArguments"
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": { "result": { "title": "Result", "type": "integer" } },
+          "required": ["result"],
+          "title": "addOutput"
+        }
+      }
+    ]
+  }
+}
 ```
 
-**With MCP + Tools:**
-```
-AI Response: "I found and fixed John's login issue! 
+_Response 2 (measured). The description and schemas come from the Python function. A host passes this to the model so that it knows what it can call [\[3\]](#ref-3)._
 
-🔍 **Problem**: John's email was 'john.doe@invalid' but recent commit #1234 added strict email validation.
+### Call the tool
 
-🔧 **Solution**: 
-1. Updated John's email to 'john.doe@valid.com' in the database
-2. Added user-friendly error message to loginController.py for future invalid emails
-3. Tested the fix - John can now login successfully
-
-✅ **Verification**: The fix doesn't affect other users and follows your project's coding patterns.
-
-The login failure was caused by the email validation update conflicting with John's invalid email format. All set!"
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": { "name": "add", "arguments": { "a": 2, "b": 3 } }
+}
 ```
 
-### How the Three Components Work Together
+_Request 3, without `_meta`._
 
-```
-User Request → MCP (Context) → AI (Analysis) → Tools (Action) → Results
-     ↓              ↓                 ↓              ↓
-"Fix John's      Provides login     Analyzes issue   Actually
-login issue"      system context    and plans       fixes it
-                 + relationships   solution        
-```
-
-**MCP's Role**: Gives AI complete understanding of your system
-**AI's Role**: Analyzes context and plans intelligent solutions  
-**Tools' Role**: Execute the actual changes and fixes
-
-### Key Distinction: MCP vs AI vs Tools
-
-```
-MCP Server = Context Manager (Librarian)
-├─ Knows where data is stored
-├─ Knows relationships between data
-└─ Provides context to AI
-
-AI Model = Context Consumer (Thinker)
-├─ Receives context from MCP
-├─ Analyzes and understands context
-├─ Plans intelligent solutions
-└─ Makes decisions about what to do
-
-Tools = Action Executors (Doer)
-├─ Perform specific tasks
-├─ Manipulate data and systems
-├─ Execute actual changes
-└─ Test and verify results
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "result": {
+    "resultType": "complete",
+    "content": [{ "type": "text", "text": "5" }],
+    "isError": false,
+    "structuredContent": { "result": 5 }
+  }
+}
 ```
 
-### Key Takeaways
+_Response 3 (measured). `content` is for the model and `structuredContent` is for code. Both hold 2 + 3 = 5._
 
-1. **MCP = Context Manager**: Not an AI, but provides the context AI needs
-2. **Tools = Actions**: Let AI actually do things, not just talk about them  
-3. **Together They're Powerful**: MCP + AI + Tools = Complete AI agent that can understand, reason, and act
+### Read a resource
 
-This combination is what makes modern AI assistants useful. They can understand your system (via MCP), think about solutions (via AI), and actually implement them (via tools).
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "resources/read",
+  "params": { "uri": "greeting://Yoav" }
+}
+```
 
-## Learn More
+_Request 4, without `_meta`._
 
-**Resources:**
-- [Official Documentation](https://modelcontextprotocol.io)
-- [GitHub Repository](https://github.com/modelcontextprotocol)
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "result": {
+    "resultType": "complete",
+    "contents": [
+      { "uri": "greeting://Yoav", "mimeType": "text/plain", "text": "Hello, Yoav!" }
+    ]
+  }
+}
+```
+
+_Response 4 (measured). The server filled the `{name}` part of the template with `Yoav`._
+
+### Two kinds of failure
+
+The specification separates two kinds of tool error [\[4\]](#ref-4):
+
+- A protocol error is a JSON-RPC `error`. Examples are an unknown tool or a malformed request. Code `-32602` is used for an unknown tool.
+- A tool execution error is a normal result with `"isError": true`. Examples are bad input and failed API calls. The text is meant for the model, so that it can correct itself and retry.
+
+I tried both cases. Sending the string `"x"` for `a` returned a result with `isError` true and a validation message. Calling a tool named `nope` also returned a result with `isError` true, and the text `Unknown tool: nope`. The specification lists an unknown tool as a protocol error [\[4\]](#ref-4), so `mcp` 2.3.0 differs from it here. I did not look into why.
+
+## 07. How does it travel?
+
+The 2026-07-28 specification defines two standard transports [\[13\]](#ref-13).
+
+**stdio.** The client launches the server as a subprocess. Messages are one JSON-RPC message per line on stdin and stdout, with no newline inside a message. The server may write logs to stderr. It must not write anything to stdout that is not an MCP message. A server should exit when stdin closes [\[12\]](#ref-12).
+
+**Streamable HTTP.** The server has one endpoint, such as `https://example.com/mcp`. Each message is its own POST. The `Accept` header lists both `application/json` and `text/event-stream`, and the server answers with either one JSON object or an event stream for that request [\[13\]](#ref-13).
+
+Three headers repeat fields from the body so that proxies can route without parsing it: `MCP-Protocol-Version`, `Mcp-Method`, and `Mcp-Name` (the tool name or resource URI). If a header disagrees with the body, the server returns `400` and error `-32020` [\[13\]](#ref-13).
+
+The call from section 06 over HTTP looks like this:
+
+```http
+POST /mcp HTTP/1.1
+Host: 127.0.0.1:8000
+Content-Type: application/json
+Accept: application/json, text/event-stream
+MCP-Protocol-Version: 2026-07-28
+Mcp-Method: tools/call
+Mcp-Name: add
+
+{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"add","arguments":{"a":2,"b":3},"_meta":{"io.modelcontextprotocol/protocolVersion":"2026-07-28","io.modelcontextprotocol/clientInfo":{"name":"curl","version":"0"},"io.modelcontextprotocol/clientCapabilities":{}}}}
+```
+
+I sent this with curl to the same server run with `mcp.run(transport="streamable-http")`. It answered `200` with `Content-Type: application/json` and the same result as response 3 (measured).
+
+Earlier revisions of Streamable HTTP assigned sessions with an `Mcp-Session-Id` header. Revision 2026-07-28 removed protocol-level sessions [\[13\]](#ref-13). The older HTTP+SSE transport from revision 2024-11-05 is deprecated [\[13\]](#ref-13).
+
+## 08. How does a client learn that something changed?
+
+A server's tool list can change. Change notifications are opt-in. The client sends `subscriptions/listen` with a filter such as `{"notifications": {"toolsListChanged": true}}`. The server confirms with `notifications/subscriptions/acknowledged`. Later it sends `notifications/tools/list_changed`, a notification with no `id`. The client then calls `tools/list` again [\[3\]](#ref-3).
+
+Only servers that declared `"listChanged": true` for tools send it [\[3\]](#ref-3). Delivery is best effort, so clients should also poll [\[3\]](#ref-3).
+
+## 09. Who approves a tool call?
+
+The specification puts these requirements on the host [\[2\]](#ref-2) [\[4\]](#ref-4):
+
+- The host must get explicit user consent before it calls any tool.
+- There should always be a human who can deny a tool call.
+- Tool descriptions and annotations are untrusted unless they come from a trusted server.
+
+> The protocol cannot enforce these rules [\[2\]](#ref-2). A host that approves every tool call automatically gives up the human check.
+{: .prompt-warning }
+
+## 10. Try it
+
+Python 3.11 or newer is required [\[11\]](#ref-11).
+
+```bash
+pip install mcp
+```
+
+Save this next to `server.py` as `client.py`. It launches the server over stdio and makes the same calls as section 06.
+
+```python
+import asyncio
+import sys
+
+from mcp import Client, StdioServerParameters
+
+
+async def main() -> None:
+    server = StdioServerParameters(command=sys.executable, args=["server.py"])
+    async with Client(server) as client:
+        tools = await client.list_tools()
+        print([t.name for t in tools.tools])  # ['add']
+        result = await client.call_tool("add", {"a": 2, "b": 3})
+        print(result.content[0].text)  # 5
+        print(result.structured_content)  # {'result': 5}
+        page = await client.read_resource("greeting://Yoav")
+        print(page.contents[0].text)  # Hello, Yoav!
+
+
+asyncio.run(main())
+```
+
+```bash
+python client.py
+```
+
+```text
+['add']
+5
+{'result': 5}
+Hello, Yoav!
+```
+
+_Output measured with `mcp` 2.3.0._
+
+To see the raw messages, use the `mcp dev server.py` command from the SDK's README [\[11\]](#ref-11). It opens the MCP Inspector.
+
+## Sources
+
+<span id="ref-1"></span>\[1\] Anthropic. (2024, November 25). _Introducing the Model Context Protocol_. [https://www.anthropic.com/news/model-context-protocol](https://www.anthropic.com/news/model-context-protocol)
+
+<span id="ref-2"></span>\[2\] Model Context Protocol. (2026). _Specification, revision 2026-07-28_. [https://modelcontextprotocol.io/specification/2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28)
+
+<span id="ref-3"></span>\[3\] Model Context Protocol. (2026). _Architecture overview_. [https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture](https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture)
+
+<span id="ref-4"></span>\[4\] Model Context Protocol. (2026). _Tools_ (revision 2026-07-28). [https://modelcontextprotocol.io/specification/2026-07-28/server/tools](https://modelcontextprotocol.io/specification/2026-07-28/server/tools)
+
+<span id="ref-5"></span>\[5\] Model Context Protocol. (2026). _Resources_ (revision 2026-07-28). [https://modelcontextprotocol.io/specification/2026-07-28/server/resources](https://modelcontextprotocol.io/specification/2026-07-28/server/resources)
+
+<span id="ref-6"></span>\[6\] Model Context Protocol. (2026). _Prompts_ (revision 2026-07-28). [https://modelcontextprotocol.io/specification/2026-07-28/server/prompts](https://modelcontextprotocol.io/specification/2026-07-28/server/prompts)
+
+<span id="ref-7"></span>\[7\] Model Context Protocol. (2026). _Base protocol_ (revision 2026-07-28). [https://modelcontextprotocol.io/specification/2026-07-28/basic](https://modelcontextprotocol.io/specification/2026-07-28/basic)
+
+<span id="ref-8"></span>\[8\] Model Context Protocol. (2026). _Versioning and compatibility_ (revision 2026-07-28). [https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning](https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning)
+
+<span id="ref-9"></span>\[9\] Model Context Protocol. (2025). _Lifecycle_ (revision 2025-11-25). [https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle](https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle)
+
+<span id="ref-10"></span>\[10\] Model Context Protocol. (2026). _Discovery_ (revision 2026-07-28). [https://modelcontextprotocol.io/specification/2026-07-28/server/discover](https://modelcontextprotocol.io/specification/2026-07-28/server/discover)
+
+<span id="ref-11"></span>\[11\] Model Context Protocol. (2026). _MCP Python SDK_ [Source code and README]. GitHub. [https://github.com/modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk)
+
+<span id="ref-12"></span>\[12\] Model Context Protocol. (2026). _stdio transport_ (revision 2026-07-28). [https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio)
+
+<span id="ref-13"></span>\[13\] Model Context Protocol. (2026). _Streamable HTTP transport_ (revision 2026-07-28). [https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http)
