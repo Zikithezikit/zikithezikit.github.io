@@ -1,517 +1,261 @@
 ---
-title: Understanding Kyber Crystal Cryptography
+title: "Kyber and ML-KEM: Key Exchange From Noisy Equations"
 author: yoav
-description: Complete guide to Kyber Crystal Cryptography (ML-KEM) - quantum-resistant encryption, performance benchmarks, and migration strategies for the quantum era.
+description: "ML-KEM, the NIST standard derived from Kyber, builds a shared key from noisy linear equations. A 3-dimensional toy shows the whole round trip by hand. The real ML-KEM-768 public key is 1,184 bytes."
 date: 2026-02-07 12:00:00 +0200
 lang: en
 categories: [Cryptography, Security, Quantum Computing]
-tags: [cryptography, quantum, security, encryption, post-quantum, kyber, ml-kem, nist, quantum-resistant, lattice-cryptography, learning-with-errors]
+tags: [ml-kem, kyber, post-quantum-cryptography, lattice-cryptography, learning-with-errors, key-encapsulation, nist, python]
 pin: false
 math: true
 mermaid: false
 image:
    path: /assets/images/quantum-cryptography-kyber.jpg
    alt: Image of Kyber Crystals from Star Wars
-summary: Learn how Kyber Crystal Cryptography protects against quantum computer attacks, with comprehensive explanations, mathematical foundations, real-world applications, and step-by-step migration guide for the quantum era.
 ---
 
-## Introduction to Kyber Crystal Cryptography
+## 01. The question
 
-Your bank accounts, private messages, and digital identity could be vulnerable within the next decade. While today's encryption keeps your data safe from classical computers, the rise of quantum computing threatens to break the very foundations of digital security we've relied on for decades.
+Two parties who have never met need a shared secret key. Today they get it from RSA or from Diffie-Hellman. Shor's algorithm factors integers and computes discrete logarithms in polynomial time on a quantum computer [\[1\]](#ref-1). Those are the two problems that RSA and Diffie-Hellman rest on. NIST says key establishment built on them is vulnerable to a sufficiently capable quantum computer [\[2, p. 1\]](#ref-2).
 
-Kyber Crystal Cryptography is one answer to the quantum threat. It protects information with mathematical problems that no known quantum algorithm can solve efficiently.
+ML-KEM is the replacement NIST standardised in FIPS 203, published on 13 August 2024 [\[2\]](#ref-2). It is derived from a scheme called Kyber. ML-KEM is a key-encapsulation mechanism (KEM), so it does not encrypt a message. It produces a shared key. The standard describes the steps [\[2, p. i\]](#ref-2):
 
-Unlike traditional encryption that would crumble under quantum attacks, Kyber builds its security on the crystalline patterns of mathematical lattices, creating puzzles that remain unsolvable regardless of computing power. It is a redesign of public-key encryption, not a patch on the old schemes.
+1. Alice generates an encapsulation key and a decapsulation key. She keeps the decapsulation key private and sends the encapsulation key to Bob.
+2. Bob uses the encapsulation key to make a shared secret key and a ciphertext.
+3. Bob sends the ciphertext to Alice.
+4. Alice uses the ciphertext and her decapsulation key to compute the same shared secret key.
 
-## Origins and Development
+This post shows the idea inside, with a toy small enough to compute by hand. Then it lists what the real scheme changes.
 
-Kyber was created by teams of researchers who wanted to build encryption that would stay secure even when quantum computers become powerful. They submitted it to NIST (the U.S. National Institute of Standards and Technology) for official approval.
+> The toy numbers are made up for the example. Sizes and parameters of ML-KEM come from FIPS 203 and carry a page number. Anything marked "my calculation" is arithmetic I did on those values.
+{: .prompt-info }
 
-The name "Crystal" comes from the way the math works. A crystal in nature has an organized, repeating pattern. Kyber uses similar mathematical patterns to create puzzles that are extremely hard to solve unless you have the secret key.
+## 02. Where does Kyber come from?
 
-## Key Features and Uses
+NIST issued a call for post-quantum algorithms in December 2016. By the November 2017 deadline 82 candidates had been submitted, and 69 met the requirements for the first round [\[3, p. 1\]](#ref-3). The rest of the path:
 
-### What Can Kyber Be Used For?
+| Date | Step | Source |
+|---|---|---|
+| January 2019 | 26 algorithms move to round 2 | [\[3, p. 1\]](#ref-3) |
+| July 2020 | 15 algorithms move to round 3: 7 finalists and 8 alternates | [\[3, p. 1\]](#ref-3) |
+| 5 July 2022 | CRYSTALS-KYBER is selected for key establishment | [\[4\]](#ref-4) |
+| 13 August 2024 | FIPS 203 (ML-KEM) is published | [\[2\]](#ref-2) |
 
-- **Key Exchange**: Creating secure connections between computers
-- **Digital Signatures**: Making sure messages really come from who they claim
-- **Secure Communications**: Keeping data safe even from quantum computers
-- **Blockchain and Cryptocurrency**: Protecting financial systems in the future
+Kyber was designed by the CRYSTALS team and described in a 2018 paper by Bos et al. [\[5\]](#ref-5). CRYSTALS stands for "Cryptographic Suite for Algebraic Lattices" [\[6\]](#ref-6). ML-KEM is derived from the round-three version of Kyber, and Appendix C of the standard lists the differences [\[2, p. 1\]](#ref-2). The name ML-KEM stands for module-lattice-based KEM [\[2, p. 13\]](#ref-2).
 
-### Why Is Kyber Better Than Regular Encryption?
+Kyber is a KEM only. Signatures are other standards: NIST selected CRYSTALS-Dilithium, FALCON and SPHINCS+ for them in the same 2022 announcement [\[4\]](#ref-4).
 
-- **Quantum Resistance**: Quantum computers can't break it easily
-- **Efficiency**: Works just as fast as current encryption methods
-- **Security Proofs**: Built on solid math that experts trust
-- **Official Standard**: Chosen by NIST to become a future standard
+## 03. What is a noisy linear equation?
 
-## How Kyber Works: The Basic Idea
+Take a secret vector $$\mathbf{s}$$ of $$n$$ small numbers and a public $$n \times n$$ matrix $$\mathbf{A}$$ of numbers modulo $$q$$. The product $$\mathbf{A}\mathbf{s}$$ is easy to compute. Given $$\mathbf{A}$$ and $$\mathbf{A}\mathbf{s}$$, finding $$\mathbf{s}$$ is a linear system, and Gaussian elimination solves it.
 
-### The Core Mathematical Idea
-
-Kyber is based on something called "Learning With Errors" (LWE). The main equation looks like this:
-
-$$\mathbf{public\_matrix} \cdot \mathbf{secret\_vector} + \mathbf{error\_vector} = \mathbf{public\_vector} \pmod{modulus}$$
-
-**What This Means in Simple Terms:**
-- $$\mathbf{public\_matrix}$$: A grid of numbers everyone can see
-- $$\mathbf{secret\_vector}$$: Your secret list of numbers (like a password)
-- $$\mathbf{error\_vector}$$: Small random numbers that hide the secret
-- $$\mathbf{public\_vector}$$: The result that everyone can see
-- $$modulus$$: A big number we use to wrap around counting
-
-**Why This Is Secure:**
-Think of it like a puzzle. Anyone can see the grid and the result, but they can't figure out your secret numbers because we added random "noise" to hide the answer. Even quantum computers get stuck on this puzzle.
-
-**The Learning With Errors Puzzle:**
-
-Public Knowledge: Everyone can see these components
+Now add a small random error vector $$\mathbf{e}$$ to the result:
 
 $$
-\begin{array}{c}
-\textbf{Public Matrix} \\
-\mathbf{A} = \begin{bmatrix}
-a_{11} & a_{12} & \cdots & a_{1n} \\
-a_{21} & a_{22} & \cdots & a_{2n} \\
-\vdots & \vdots & \ddots & \vdots \\
-a_{m1} & a_{m2} & \cdots & a_{mn}
-\end{bmatrix} \\
-\\
-\textbf{Public Vector} \\
-\mathbf{b} = \mathbf{A} \cdot \mathbf{s} + \mathbf{e} \\
-\text{where } \mathbf{b} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
-\end{array}
+\mathbf{b} = \mathbf{A}\mathbf{s} + \mathbf{e} \pmod{q}
 $$
 
-Hidden Information: Only the key owner knows
+Everyone sees $$\mathbf{A}$$ and $$\mathbf{b}$$. Only the key owner knows $$\mathbf{s}$$ and $$\mathbf{e}$$. The task of recovering $$\mathbf{s}$$ from $$(\mathbf{A}, \mathbf{b})$$ is the Learning With Errors (LWE) problem, introduced by Regev in 2005. In the standard's words, the noise is such that standard algorithms such as Gaussian elimination are intractable [\[2, p. 13\]](#ref-2).
+
+ML-KEM uses a variant called Module-LWE (MLWE). The numbers in $$\mathbf{s}$$, $$\mathbf{A}$$ and $$\mathbf{e}$$ are replaced by polynomials from a ring $$R_q$$ [\[2, p. 13\]](#ref-2). Section 06 gives the sizes. The structure of the equations stays the same.
+
+The scheme is believed to be secure, not proven. FIPS 203 says it is "believed" to be secure, even against adversaries with a quantum computer [\[2, p. i\]](#ref-2).
+
+## 04. How do two parties end up with the same bit?
+
+The public-key part of ML-KEM follows the pattern below. This is plain LWE with one bit, the shape of K-PKE in FIPS 203 (Algorithms 13 to 15 [\[2, pp. 29-31\]](#ref-2)) without the ring structure.
+
+**Key generation (Alice).** She picks a small secret $$\mathbf{s}$$ and a small error $$\mathbf{e}$$ and publishes
 
 $$
-\begin{array}{c}
-\textbf{Secret Vector} \\
-\mathbf{s} = \begin{bmatrix} s_1 \\ s_2 \\ \vdots \\ s_n \end{bmatrix} \\
-\\
-\textbf{Error Vector} \\
-\mathbf{e} = \begin{bmatrix} e_1 \\ e_2 \\ \vdots \\ e_n \end{bmatrix} \\
-\text{(small random values that hide the secret)}
-\end{array}
+(\mathbf{A},\ \mathbf{b}), \qquad \mathbf{b} = \mathbf{A}\mathbf{s} + \mathbf{e} \pmod{q}
 $$
 
-The Core Relationship:
+**Encryption of one bit $$m$$ (Bob).** He picks a fresh small vector $$\mathbf{r}$$ and small errors $$\mathbf{e}_1$$ and $$e_2$$. He sends
 
 $$
-\underbrace{\mathbf{A}}_{\text{public}} \cdot 
-\underbrace{\mathbf{s}}_{\text{secret}} + 
-\underbrace{\mathbf{e}}_{\text{noise}} = 
-\underbrace{\mathbf{b}}_{\text{public}}
+\mathbf{u} = \mathbf{A}^{T}\mathbf{r} + \mathbf{e}_1, \qquad
+v = \mathbf{b}^{T}\mathbf{r} + e_2 + m \cdot \lfloor q/2 \rfloor \qquad \pmod{q}
 $$
 
-**The Security Challenge:**
-Anyone can see $$\mathbf{A}$$ and $$\mathbf{b}$$, but finding $$\mathbf{s}$$ is extremely difficult because the error vector $$\mathbf{e}$$ hides the true relationship between them.
+The bit is stored as 0 or $$\lfloor q/2 \rfloor$$, the two values farthest apart modulo $$q$$.
 
-### How Keys Are Created
+**Decryption (Alice).** She computes $$w = v - \mathbf{s}^{T}\mathbf{u}$$. Put $$\mathbf{b} = \mathbf{A}\mathbf{s} + \mathbf{e}$$ into $$v$$ and expand:
 
-1. **Public Key** (Everyone can see):
-   - A grid of numbers: $$\mathbf{public\_matrix}$$
-   - A list of numbers: $$\mathbf{public\_vector} = \mathbf{public\_matrix} \cdot \mathbf{secret\_vector} + \mathbf{error\_vector}$$
-
-2. **Private Key** (Keep secret):
-   - Just your secret list: $$\mathbf{secret\_vector}$$
-
-3. **How It Works**: 
-   - You use your secret numbers to create the public part
-   - The random error makes it impossible for others to reverse-engineer your secret
-
-### How Encryption Works
-
-When someone wants to send you a message $$\mathbf{message}$$ using your public key $$(\mathbf{public\_matrix}, \mathbf{public\_vector})$$:
-
-**Step 1: Create the First Part of the Lock**
-$$\mathbf{cipher\_u} = \mathbf{public\_matrix}^T \cdot \mathbf{random\_vector} + \mathbf{encryption\_error} \pmod{modulus}$$
-
-**Step 2: Create the Second Part of the Lock**
-$$\mathbf{cipher\_v} = \mathbf{public\_vector}^T \cdot \mathbf{random\_vector} + \mathbf{message\_error} + \text{encode}(\mathbf{message}) \pmod{modulus}$$
-
-**What These Pieces Mean:**
-- $$\mathbf{random\_vector}$$: New random numbers for each message (like a one-time key)
-- $$\mathbf{encryption\_error}$$: Random noise to hide the first part
-- $$\mathbf{message\_error}$$: Random noise to hide the actual message
-
-The sender creates a "locked box" using two pieces ($$\mathbf{cipher\_u}$$ and $$\mathbf{cipher\_v}$$) that only you can open with your secret key.
-
-**Encryption and Decryption Flow:**
-
-**1. Key Generation (Alice):**
 $$
-\begin{array}{ll}
-\text{Private:} & \mathbf{s} = \text{secret vector} \\[4pt]
-\text{Public:} & \mathbf{A}, \mathbf{b} = \mathbf{A} \cdot \mathbf{s} + \mathbf{e} \\[4pt]
-\text{Relationship:} & (\mathbf{A}, \mathbf{b}) \text{ is shared publicly}
-\end{array}
+\begin{aligned}
+w &= (\mathbf{A}\mathbf{s} + \mathbf{e})^{T}\mathbf{r} + e_2 + m\lfloor q/2 \rfloor - \mathbf{s}^{T}(\mathbf{A}^{T}\mathbf{r} + \mathbf{e}_1) \\
+  &= \underbrace{\mathbf{e}^{T}\mathbf{r} + e_2 - \mathbf{s}^{T}\mathbf{e}_1}_{\text{noise}} + m\lfloor q/2 \rfloor
+\end{aligned}
 $$
 
-**2. Encryption (Bob wants to send message $$m$$):**
-$$
-\begin{array}{ll}
-\text{Input:} & \text{Public key } (\mathbf{A}, \mathbf{b}), \text{ message } m \\[4pt]
-\text{Generate:} & \mathbf{r} = \text{random vector (one-time)} \\[4pt]
-\text{Compute:} & \mathbf{u} = \mathbf{A}^T \cdot \mathbf{r} + \mathbf{e}_1 \\[4pt]
-                & v = \mathbf{b}^T \cdot \mathbf{r} + \text{encode}(m) + e_2 \\[4pt]
-\text{Ciphertext:} & C = (\mathbf{u}, v) \\[4pt]
-\text{Send:} & C \text{ to Alice}
-\end{array}
-$$
+The big terms $$\mathbf{s}^{T}\mathbf{A}^{T}\mathbf{r}$$ cancel. What is left is a sum of products of small numbers, plus the encoded bit. If the noise is smaller than $$q/4$$ in absolute value, $$w$$ is closer to $$m\lfloor q/2 \rfloor$$ than to the other encoding, and Alice reads the bit by taking the nearer one.
 
-**3. Decryption (Alice receives $$C = (\mathbf{u}, v)$$):**
+An eavesdropper sees $$\mathbf{A}$$, $$\mathbf{b}$$, $$\mathbf{u}$$ and $$v$$. To subtract the same big term she needs $$\mathbf{s}$$.
+
+## 05. A toy small enough to do by hand
+
+ML-KEM-768 uses $$q = 3329$$, vectors of $$k = 3$$ polynomials with 256 coefficients each, and small values from a centered binomial distribution with $$\eta_1 = \eta_2 = 2$$ [\[2, pp. 23, 39\]](#ref-2). The toy uses $$n = 3$$ numbers, $$q = 97$$ and small values in $$\{-1, 0, 1\}$$. The steps are the same as in section 04.
+
+Inputs, all made up for the example:
+
 $$
-\begin{array}{ll}
-\text{Input:} & \text{Ciphertext } (\mathbf{u}, v), \text{ private key } \mathbf{s} \\[4pt]
-\text{Compute:} & w = v - \mathbf{u}^T \cdot \mathbf{s} \\[4pt]
-\text{Recover:} & m = \text{decode}(w) \\[4pt]
-\text{Result:} & \text{Original message recovered successfully}
-\end{array}
+\mathbf{A} = \begin{bmatrix} 31 & 58 & 12 \\ 76 & 5 & 90 \\ 44 & 63 & 27 \end{bmatrix},\quad
+\mathbf{s} = \begin{bmatrix} 1 \\ -1 \\ 1 \end{bmatrix},\quad
+\mathbf{e} = \begin{bmatrix} 1 \\ 0 \\ -1 \end{bmatrix}
 $$
 
-**4. Attacker's Challenge:**
+### Alice makes the key
+
+Each row of $$\mathbf{A}$$ times $$\mathbf{s}$$:
+
 $$
-\begin{array}{ll}
-\text{Attacker knows:} & (\mathbf{A}, \mathbf{b}) \text{ and } (\mathbf{u}, v) \\[4pt]
-\text{Attacker needs:} & \text{secret vector } \mathbf{s} \\[4pt]
-\text{Problem:} & \text{Without } \mathbf{s}, \text{ computing } \mathbf{u}^T \cdot \mathbf{s} \text{ is infeasible} \\[4pt]
-\text{Result:} & \text{Cannot recover the message}
-\end{array}
+\mathbf{A}\mathbf{s} =
+\begin{bmatrix} 31 - 58 + 12 \\ 76 - 5 + 90 \\ 44 - 63 + 27 \end{bmatrix} =
+\begin{bmatrix} -15 \\ 161 \\ 8 \end{bmatrix}
 $$
 
-### How Decryption Works
+Add $$\mathbf{e}$$ and reduce modulo 97:
 
-When you receive the locked message, you use your secret key $$\mathbf{secret\_vector}$$ to open it:
+$$
+\mathbf{b} = \begin{bmatrix} -14 \\ 161 \\ 7 \end{bmatrix} \bmod 97 = \begin{bmatrix} 83 \\ 64 \\ 7 \end{bmatrix}
+$$
 
-**Recover the Message:**
-$$\mathbf{recovery\_value} = \mathbf{cipher\_v} - \mathbf{cipher\_u}^T \cdot \mathbf{secret\_vector}$$
+The public key is $$(\mathbf{A}, \mathbf{b})$$. The secret is $$\mathbf{s}$$.
 
-**What's Happening Inside:**
-$$\mathbf{recovery\_value} = \mathbf{message\_error} + \text{encode}(\mathbf{message}) - \mathbf{encryption\_error}^T \cdot \mathbf{secret\_vector} \pmod{modulus}$$
+### Bob encrypts the bit 1
 
-**Getting the Original Message Back:**
-The math is designed so that all the random noise mostly cancels out, leaving just your original message. Think of it like subtracting the same random noise you added during encryption. Only you have the secret numbers to do this correctly.
+The bit 1 is encoded as $$\lfloor 97/2 \rfloor = 48$$. Bob picks $$\mathbf{r} = (1, 1, 0)$$, $$\mathbf{e}_1 = (0, 1, -1)$$ and $$e_2 = 1$$.
 
-The original message appears as long as the random numbers stay small enough to be removed during the decoding process.
+The vector $$\mathbf{A}^{T}\mathbf{r}$$ is the sum of the first two rows of $$\mathbf{A}$$, since $$\mathbf{r}$$ selects them:
 
-## Guided Example: Simple Encryption and Decryption
+$$
+\mathbf{A}^{T}\mathbf{r} = \begin{bmatrix} 31 + 76 \\ 58 + 5 \\ 12 + 90 \end{bmatrix} = \begin{bmatrix} 107 \\ 63 \\ 102 \end{bmatrix},
+\qquad
+\mathbf{u} = \begin{bmatrix} 107 \\ 64 \\ 101 \end{bmatrix} \bmod 97 = \begin{bmatrix} 10 \\ 64 \\ 4 \end{bmatrix}
+$$
 
-Let's walk through a simplified example of how Kyber-style encryption might work. This is a simplification for teaching. Real implementations are more complex.
+For the second part, $$\mathbf{b}^{T}\mathbf{r} = 83 + 64 = 147$$, so
 
-### Setup Phase
+$$
+v = 147 + 1 + 48 = 196 \bmod 97 = 2
+$$
 
-First, we establish our cryptographic parameters:
+Bob sends $$(\mathbf{u}, v) = ((10, 64, 4),\ 2)$$.
 
-$$\begin{align}
-n &= 4 \text{ (lattice dimension)} \\
-q &= 97 \text{ (prime modulus)} \\
-\sigma &= 3.2 \text{ (error standard deviation)}
-\end{align}$$
+### Alice decrypts
 
+$$
+\mathbf{s}^{T}\mathbf{u} = 10 - 64 + 4 = -50, \qquad w = 2 - (-50) = 52
+$$
 
+The distance from 52 to 0 is 45. The distance from 52 to 48 is 4. The nearer one is 48, so Alice reads the bit 1.
 
-### Key Generation
+The noise in $$w$$ is $$52 - 48 = 4$$. The formula from section 04 gives the same value:
 
-The mathematical foundation for key generation follows the LWE equation:
-
-$$\mathbf{public\_vector} = \mathbf{public\_matrix} \cdot \mathbf{secret\_vector} + \mathbf{error\_vector} \pmod{modulus}$$
-
-**Concrete Mathematical Example:**
-
-Let's work through the actual numbers:
-
-**Secret Vector:**
-$$\mathbf{secret\_vector} = \begin{bmatrix} 1 \\ 2 \\ -1 \\ 3 \end{bmatrix}$$
-
-**Public Matrix:**
-$$\mathbf{public\_matrix} = \begin{bmatrix} 
-5 & 8 & 1 & 2 \\ 
-7 & 3 & 9 & 4 \\ 
-2 & 6 & 8 & 1 \\ 
-9 & 4 & 7 & 3 
-\end{bmatrix}$$
-
-**Error Vector:**
-$$\mathbf{error\_vector} = \begin{bmatrix} 1 \\ -1 \\ 0 \\ 2 \end{bmatrix}$$
-
-**Matrix Multiplication Step:**
-$$\mathbf{public\_matrix} \cdot \mathbf{secret\_vector} = \begin{bmatrix} 
-5(1) + 8(2) + 1(-1) + 2(3) \\ 
-7(1) + 3(2) + 9(-1) + 4(3) \\ 
-2(1) + 6(2) + 8(-1) + 1(3) \\ 
-9(1) + 4(2) + 7(-1) + 3(3) 
-\end{bmatrix} = \begin{bmatrix} 
-5 + 16 - 1 + 6 \\ 
-7 + 6 - 9 + 12 \\ 
-2 + 12 - 8 + 3 \\ 
-9 + 8 - 7 + 9 
-\end{bmatrix} = \begin{bmatrix} 
-26 \\ 
-16 \\ 
-9 \\ 
-19 
-\end{bmatrix}$$
-
-**Adding Error and Modulo:**
-$$\mathbf{public\_vector} = \begin{bmatrix} 
-26 \\ 
-16 \\ 
-9 \\ 
-19 
-\end{bmatrix} + \begin{bmatrix} 
-1 \\ 
--1 \\ 
-0 \\ 
-2 
-\end{bmatrix} = \begin{bmatrix} 
-27 \\ 
-15 \\ 
-9 \\ 
-21 
-\end{bmatrix} \pmod{97} = \begin{bmatrix} 
-27 \\ 
-15 \\ 
-9 \\ 
-21 
-\end{bmatrix}$$
+$$
+\mathbf{e}^{T}\mathbf{r} + e_2 - \mathbf{s}^{T}\mathbf{e}_1 = 1 + 1 - (-2) = 4
+$$
 
+### Will it always decode?
 
+Every entry of $$\mathbf{e}$$, $$\mathbf{r}$$, $$\mathbf{s}$$, $$\mathbf{e}_1$$ and $$e_2$$ is in $$\{-1, 0, 1\}$$. So the noise is at most $$3 + 1 + 3 = 7$$ in absolute value. That is below $$q/4 = 24.25$$ (my calculation).
 
+I also ran every choice of $$\mathbf{r}$$, $$\mathbf{e}_1$$, $$e_2$$ and bit for this key: $$3^3 \cdot 3^3 \cdot 3 \cdot 2 = 4{,}374$$ encryptions. All 4,374 decoded correctly (measured with `_figures/2026-02-07-kyber-crystal-cryptography/toy.py` in the site repository).
 
+### What the toy does not have
 
-### Encryption
+The toy is not secure. With $$n = 3$$ there are only 27 ternary secrets. A loop over all of them, keeping those where $$\mathbf{b} - \mathbf{A}\mathbf{s}$$ has every entry in $$\{-1, 0, 1\}$$, returns exactly one: $$\mathbf{s} = (1, -1, 1)$$. At the real sizes the search space and the lattice problem are far larger, and the standard bases its claim on the hardness of MLWE [\[2, p. 13\]](#ref-2).
 
-The encryption process computes two ciphertext components:
+## 06. What does ML-KEM change?
 
-$$\begin{align}
-\mathbf{cipher\_u} &= \mathbf{public\_matrix}^T \cdot \mathbf{random\_vector} + \mathbf{encryption\_error} \pmod{modulus} \\
-\mathbf{cipher\_v} &= \mathbf{public\_vector}^T \cdot \mathbf{random\_vector} + \mathbf{message\_error} + \text{encode}(\mathbf{message}) \pmod{modulus}
-\end{align}$$
+Four things, all from FIPS 203.
 
-**Concrete Mathematical Example:**
+- **Polynomials instead of numbers.** Each entry is a polynomial with $$n = 256$$ coefficients modulo $$q = 3329$$. The vectors have $$k$$ entries, with $$k = 3$$ for ML-KEM-768 [\[2, p. 39\]](#ref-2).
+- **256 bits at once.** The message in K-PKE.Encrypt is 32 bytes, one bit per coefficient [\[2, pp. 30-31\]](#ref-2).
+- **Compression.** The ciphertext parts $$\mathbf{u}$$ and $$v$$ are compressed with parameters $$d_u$$ and $$d_v$$. The ciphertext is $$32(d_u k + d_v)$$ bytes [\[2, p. 30\]](#ref-2).
+- **A transform on top.** ML-KEM first builds an encryption scheme from MLWE, then applies the Fujisaki-Okamoto transform to get a KEM. The result is secure in a significantly more general attack model than the encryption scheme alone, and is believed to be IND-CCA2 secure [\[2, p. 13\]](#ref-2).
 
-**Input Values:**
-- Message: $$\mathbf{message} = [42]$$
-- Random Vector: $$\mathbf{random\_vector} = \begin{bmatrix} 2 \\ 1 \\ 0 \\ 1 \end{bmatrix}$$
-- Encryption Error: $$\mathbf{encryption\_error} = \begin{bmatrix} 1 \\ 0 \\ -1 \\ 1 \end{bmatrix}$$
-- Message Error: $$\mathbf{message\_error} = 2$$
+For ML-KEM-768 the formulas reproduce the sizes in the standard. The encapsulation key is $$384k + 32 = 1{,}184$$ bytes (the formula is from Algorithm 14 [\[2, p. 30\]](#ref-2)). The ciphertext is $$32(10 \cdot 3 + 4) = 1{,}088$$ bytes, with $$d_u = 10$$ and $$d_v = 4$$ (my calculation).
 
-**First Ciphertext Component Calculation:**
+## 07. How big are the keys?
 
-$$\mathbf{public\_matrix}^T \cdot \mathbf{random\_vector} = \begin{bmatrix} 
-5 & 7 & 2 & 9 \\ 
-8 & 3 & 6 & 4 \\ 
-1 & 9 & 8 & 7 \\ 
-2 & 4 & 1 & 3 
-\end{bmatrix} \begin{bmatrix} 2 \\ 1 \\ 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 
-5(2) + 7(1) + 2(0) + 9(1) \\ 
-8(2) + 3(1) + 6(0) + 4(1) \\ 
-1(2) + 9(1) + 8(0) + 7(1) \\ 
-2(2) + 4(1) + 1(0) + 3(1) 
-\end{bmatrix} = \begin{bmatrix} 
-10 + 7 + 0 + 9 \\ 
-16 + 3 + 0 + 4 \\ 
-2 + 9 + 0 + 7 \\ 
-4 + 4 + 0 + 3 
-\end{bmatrix} = \begin{bmatrix} 
-26 \\ 
-23 \\ 
-18 \\ 
-11 
-\end{bmatrix}$$
+Sizes in bytes, from Tables 2 and 3 of FIPS 203 [\[2, p. 39\]](#ref-2):
 
-**Adding Encryption Error:**
-$$\mathbf{cipher\_u} = \begin{bmatrix} 
-26 \\ 
-23 \\ 
-18 \\ 
-11 
-\end{bmatrix} + \begin{bmatrix} 
-1 \\ 
-0 \\ 
--1 \\ 
-1 
-\end{bmatrix} = \begin{bmatrix} 
-27 \\ 
-23 \\ 
-17 \\ 
-12 
-\end{bmatrix} \pmod{97} = \begin{bmatrix} 
-27 \\ 
-23 \\ 
-17 \\ 
-12 
-\end{bmatrix}$$
+| Parameter set | $$k$$ | Encapsulation key | Decapsulation key | Ciphertext | Shared secret |
+|---|---:|---:|---:|---:|---:|
+| ML-KEM-512 | 2 | 800 | 1,632 | 768 | 32 |
+| ML-KEM-768 | 3 | 1,184 | 2,400 | 1,088 | 32 |
+| ML-KEM-1024 | 4 | 1,568 | 3,168 | 1,568 | 32 |
 
-**Second Ciphertext Component Calculation:**
+The standard claims security category 1, 3 and 5 for the three sets, in that order, and NIST recommends ML-KEM-768 as the default [\[2, p. 40\]](#ref-2). The Kyber authors recommend the same set, and recommend using Kyber together with an established pre-quantum scheme such as elliptic-curve Diffie-Hellman [\[6\]](#ref-6).
 
-$$\mathbf{cipher\_v} = \mathbf{public\_vector}^T \cdot \mathbf{random\_vector} + \mathbf{message\_error} + \text{encode}(\mathbf{message})$$
+An RSA-2048 public key contains a 2,048-bit modulus, which is 256 bytes (formula: 2,048 / 8). The ML-KEM-768 encapsulation key is 1,184 bytes, about 4.6 times as large (my calculation). This post gives no timings. I did not measure them, and the reference implementations report cycle counts per platform [\[6\]](#ref-6).
 
-$$\mathbf{public\_vector}^T \cdot \mathbf{random\_vector} = \begin{bmatrix} 27 & 15 & 9 & 21 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \\ 0 \\ 1 \end{bmatrix} = 27(2) + 15(1) + 9(0) + 21(1) = 54 + 15 + 0 + 21 = 90$$
+## 08. What software has it?
 
-$$\mathbf{cipher\_v} = 90 + 2 + 42 = 134 \pmod{97} = 37$$
+- OpenSSL 3.5.0, released on 8 April 2025, lists support for ML-KEM, ML-DSA and SLH-DSA [\[7\]](#ref-7).
+- liboqs is an open source C library for quantum-safe algorithms. Its KEM list includes ML-KEM [\[8\]](#ref-8).
+- kyber-py is a pure Python implementation of ML-KEM. Its README says it is an educational project and must not be used for cryptographic applications [\[9\]](#ref-9).
 
-**Final Ciphertext:**
-$$\mathbf{cipher\_u} = \begin{bmatrix} 27 \\ 23 \\ 17 \\ 12 \end{bmatrix}, \quad \mathbf{cipher\_v} = 37$$
+## 09. Try it
 
+The real scheme, with kyber-py [\[9\]](#ref-9). Educational use only.
 
+```bash
+pip install kyber-py
+```
 
-### Decryption
+```python
+from kyber_py.ml_kem import ML_KEM_768
 
-Decryption uses the private key to compute:
+ek, dk = ML_KEM_768.keygen()            # Alice: encapsulation key (public), decapsulation key (secret)
+key, c = ML_KEM_768.encaps(ek)          # Bob: shared secret and ciphertext
+assert ML_KEM_768.decaps(dk, c) == key  # Alice gets the same shared secret
+print(len(ek), len(dk), len(c), len(key))
+```
 
-$$\mathbf{recovery\_value} = \mathbf{cipher\_v} - \mathbf{cipher\_u}^T \cdot \mathbf{secret\_vector} = \mathbf{message\_error} + \text{encode}(\mathbf{message}) - \mathbf{encryption\_error}^T \cdot \mathbf{secret\_vector} \pmod{modulus}$$
+Output with kyber-py 1.2.0 (measured):
 
-**Concrete Mathematical Example:**
+```
+1184 2400 1088 32
+```
 
-**Input Values:**
-- Ciphertext: $$\mathbf{cipher\_u} = \begin{bmatrix} 27 \\ 23 \\ 17 \\ 12 \end{bmatrix}$$, $$\mathbf{cipher\_v} = 37$$
-- Secret Vector: $$\mathbf{secret\_vector} = \begin{bmatrix} 1 \\ 2 \\ -1 \\ 3 \end{bmatrix}$$
+The four sizes match Table 3 of the standard. The toy from section 05, in plain Python:
 
-**Step 1: Calculate $$\mathbf{cipher\_u}^T \cdot \mathbf{secret\_vector}$$**
+```python
+q, half = 97, 48
+A = [[31, 58, 12], [76, 5, 90], [44, 63, 27]]
+s, e = [1, -1, 1], [1, 0, -1]                    # secret and key error
+b = [(sum(A[i][j] * s[j] for j in range(3)) + e[i]) % q for i in range(3)]
 
-$$\begin{bmatrix} 27 & 23 & 17 & 12 \end{bmatrix} \begin{bmatrix} 1 \\ 2 \\ -1 \\ 3 \end{bmatrix} = 27(1) + 23(2) + 17(-1) + 12(3)$$
+r, e1, e2, bit = [1, 1, 0], [0, 1, -1], 1, 1     # Bob: randomness, errors, the bit
+u = [(sum(A[i][j] * r[i] for i in range(3)) + e1[j]) % q for j in range(3)]
+v = (sum(b[i] * r[i] for i in range(3)) + e2 + bit * half) % q
 
-$$= 27 + 46 - 17 + 36 = 92$$
+w = (v - sum(u[j] * s[j] for j in range(3))) % q # Alice
+print(b, u, v, w)                                # [83, 64, 7] [10, 64, 4] 2 52
+print(1 if abs(w - half) < min(w, q - w) else 0) # 1
+```
 
-**Step 2: Compute Recovery Value**
+Set `bit` to 0 and `w` becomes 4, nearest to 0, so the script prints 0 (measured). Set `r` to `[30, 1, 0]` and the noise passes 24: both bits then decode wrongly (measured).
 
-$$\mathbf{recovery\_value} = \mathbf{cipher\_v} - \mathbf{cipher\_u}^T \cdot \mathbf{secret\_vector}$$
+## Sources
 
-$$\mathbf{recovery\_value} = 37 - 92 = -55 \pmod{97} = 42$$
+<span id="ref-1"></span>\[1\] Shor, P. W. (1997). _Polynomial-time algorithms for prime factorization and discrete logarithms on a quantum computer_. SIAM J. Comput. 26, 1484. arXiv:quant-ph/9508027. [https://arxiv.org/abs/quant-ph/9508027](https://arxiv.org/abs/quant-ph/9508027)
 
-**Verification with Expanded Form:**
+<span id="ref-2"></span>\[2\] NIST (2024). _FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard_. [https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf)
 
-Let's verify using the full expanded equation:
+<span id="ref-3"></span>\[3\] Alagic, G., et al. (2022). _Status Report on the Third Round of the NIST Post-Quantum Cryptography Standardization Process_. NIST IR 8413-upd1. [https://doi.org/10.6028/NIST.IR.8413-upd1](https://doi.org/10.6028/NIST.IR.8413-upd1)
 
-$$\mathbf{encryption\_error}^T \cdot \mathbf{secret\_vector} = \begin{bmatrix} 1 & 0 & -1 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 2 \\ -1 \\ 3 \end{bmatrix}$$
+<span id="ref-4"></span>\[4\] NIST (2022). _PQC candidates to be standardized and round 4 advancers_, news item of 5 July 2022. [https://csrc.nist.gov/news/2022/pqc-candidates-to-be-standardized-and-round-4](https://csrc.nist.gov/news/2022/pqc-candidates-to-be-standardized-and-round-4)
 
-$$= 1(1) + 0(2) + (-1)(-1) + 1(3) = 1 + 0 + 1 + 3 = 5$$
+<span id="ref-5"></span>\[5\] Bos, J., Ducas, L., Kiltz, E., Lepoint, T., Lyubashevsky, V., Schanck, J. M., Schwabe, P., Seiler, G., & Stehlé, D. (2018). _CRYSTALS-Kyber: a CCA-secure module-lattice-based KEM_. IEEE EuroS&P 2018. [https://eprint.iacr.org/2017/634](https://eprint.iacr.org/2017/634)
 
-**Check the Recovery Formula:**
-$$\mathbf{recovery\_value} = \mathbf{message\_error} + \text{encode}(\mathbf{message}) - \mathbf{encryption\_error}^T \cdot \mathbf{secret\_vector}$$
+<span id="ref-6"></span>\[6\] CRYSTALS team. _Kyber_. [https://pq-crystals.org/kyber/index.shtml](https://pq-crystals.org/kyber/index.shtml)
 
-$$\mathbf{recovery\_value} = 2 + 42 - 5 = 39$$
+<span id="ref-7"></span>\[7\] OpenSSL project. _OpenSSL 3.5 release notes_. [https://openssl-library.org/news/openssl-3.5-notes/](https://openssl-library.org/news/openssl-3.5-notes/)
 
-**Understanding the Difference:**
-In our simplified example, we get 39 instead of 42 due to the error term $$\mathbf{encryption\_error}^T \cdot \mathbf{secret\_vector} = 5$$ that we didn't account for in the direct computation. In a real Kyber implementation:
+<span id="ref-8"></span>\[8\] Open Quantum Safe project. _liboqs_. [https://openquantumsafe.org/liboqs/](https://openquantumsafe.org/liboqs/)
 
-1. The message encoding process includes error correction
-2. The decryption process uses rounding to recover the original message
-3. The error terms are carefully bounded to ensure successful decryption
-
-For our educational example, if we modify the decryption to account for the error term:
-$$\mathbf{recovered\_message} = 37 - 92 + 5 = -50 \pmod{97} = 47$$
-
-The exact value depends on the specific encoding/decoding scheme used. In practice, Kyber uses sophisticated encoding methods that guarantee message recovery when the error terms stay within designed bounds.
-
-
-
-## Security Considerations
-
-### Why It's Quantum-Resistant
-
-The security of Kyber is based on the hardness of solving lattice problems, specifically the **Shortest Vector Problem (SVP)** and **Learning With Errors (LWE)** problem. These problems can be formalized as:
-
-**Shortest Vector Problem (SVP):**
-
-**The Puzzle:**
-Imagine you have a giant crystal with lots of points arranged in a grid pattern. You need to find the shortest line between any two points (except the zero-length line).
-
-**Why It's Hard:**
-As the crystal gets bigger (more dimensions), finding that shortest line becomes incredibly difficult - like finding the shortest path through an infinite maze.
-
-**Learning With Errors (LWE):**
-
-**The Puzzle:**
-You see lots of math problems like: $$\mathbf{matrix} \times \mathbf{secret} + \mathbf{noise} = \mathbf{answer}$$
-
-**The Challenge:**
-You can see the matrix and the answers, but there's random noise hiding the secret numbers. You need to figure out what secret numbers were used.
-
-**Why Quantum Computers Can't Break This:**
-Regular quantum algorithms (like Shor's algorithm) are good at finding patterns in regular multiplication problems. But when you add random noise to hide the answer, even quantum computers get stuck.
-
-
-## Real-World Implementation
-
-### Available Tools
-
-You can use Kyber with several existing libraries:
-- **liboqs**: A free toolkit for quantum-safe cryptography
-- **PQCrypto**: Specialized library for post-quantum methods
-- **OpenSSL**: The popular security library is adding Kyber support
-
-
-## Quantum Computing Threat Timeline and NIST Process
-
-### Historical Timeline
-
-**1994: Peter Shor's Algorithm**
-- Discovered quantum algorithm that can factor large numbers efficiently
-- Threatened RSA, DSA, and ECC cryptography foundations
-- Demonstrated quantum computers could break most current encryption
-
-**2016: NIST Post-Quantum Cryptography Competition Begins**
-- NIST announced competition for quantum-resistant algorithms
-- 82 initial submissions from academic and industry researchers
-- Goal: Standardize new cryptographic algorithms by 2024
-
-**2017: Kyber Development**
-- Researchers submit Kyber to NIST competition
-- Based on Module-LWE (Learning With Errors) problem
-- Designed for efficiency and strong security proofs
-
-**2019: Round 2 Selection**
-- 26 algorithms advance, including Kyber
-- Kyber recognized for performance advantages
-- Focus shifts to optimization and security analysis
-
-**2020-2022: Round 3 and Finalists**
-- 15 algorithms reach final round
-- Kyber advances alongside other lattice-based candidates
-- Intensive cryptanalysis and implementation testing
-
-**2022: NIST Announces Standard Selection**
-- Kyber selected as primary KEM (Key Encapsulation Mechanism) standard
-- Historic moment: First post-quantum algorithm standardization
-- Name changed to "ML-KEM" (Module-Lattice based Key Encapsulation Mechanism)
-
-
-### How Fast Is Kyber?
-
-Kyber works surprisingly fast for such secure encryption (using Kyber-768 for good security):
-- **Creating Keys**: ~2-3 milliseconds (about as fast as blinking)
-- **Encrypting**: ~0.5 milliseconds (instant to humans)
-- **Decrypting**: ~0.5 milliseconds (also instant)
-- **Key Size**: ~1.5 KB (smaller than most photos)
-
-### Kyber vs Regular Encryption
-
-| Method | Key Size | Speed | Quantum Safe? |
-|--------|----------|-------|---------------|
-| RSA-2048 (old) | 256 bytes | Very fast (~0.1 ms) | ❌ No |
-| Kyber-768 (new) | 1184 bytes | Fast (~0.5 ms) | ✅ Yes |
-
-Kyber keys are bigger than old ones, but the speed difference is barely noticeable to users.
-
-## Future Outlook
-
-### Official Status
-
-Kyber has been chosen by NIST (the U.S. standards organization) as the main method for quantum-safe encryption. This means it will become the standard that everyone uses in the future.
-
-## What This All Means
-
-Kyber Crystal Cryptography is our best bet for keeping information safe when quantum computers become powerful enough to break current encryption. By understanding how it works and using it correctly, we can protect our digital communications for decades to come.
-
-----
-
-
-## Want to Learn More?
-Sources
-   : - [NIST's Official Quantum-Safe Crypto Project](https://csrc.nist.gov/Projects/Post-Quantum-Cryptography)
-   : - [Kyber's Technical Details](https://pq-crystals.org/kyber/index.shtml)
-   : - [Learning With Errors Explained](https://en.wikipedia.org/wiki/Learning_with_errors)
+<span id="ref-9"></span>\[9\] Pope, G. _kyber-py_. [https://github.com/GiacomoPope/kyber-py](https://github.com/GiacomoPope/kyber-py)
