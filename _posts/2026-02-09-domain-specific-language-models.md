@@ -1,376 +1,141 @@
 ---
-title: Understanding Domain-Specific Language Models (DSLMs)
+title: "Domain-Specific Language Models: Four Ways to Build One"
 author: yoav
-description: Complete guide to Domain-Specific Language Models (DSLMs) - why specialized AI beats general models, implementation strategies, real-world examples, and when to implement DSLMs in your organization.
+description: "A domain-specific language model is a general model adapted to one field, by training from scratch, continuing pretraining, fine-tuning or retrieval. What each costs, with numbers from BloombergGPT, Code Llama and Med-PaLM."
 date: 2026-02-09 12:00:00 +0200
 lang: en
 categories: [AI, Machine Learning, Enterprise]
-tags: [dslm, domain-specific, ai, machine-learning, enterprise-ai, specialized-models, artificial-intelligence]
+tags: [domain-specific-models, language-models, fine-tuning, continued-pretraining, retrieval-augmented-generation, llm]
 pin: false
 math: false
 mermaid: false
 image:
    path: /assets/images/domain-specific-ai.jpg
    alt: Domain-Specific Language Model Architecture
-summary: Learn why Domain-Specific Language Models (DSLMs) often outperform general AI models in specialized fields, with comprehensive analysis of implementation approaches, use cases, and decision framework for enterprise adoption.
 ---
 
-## Introduction to Domain-Specific Language Models
+## 01. The question
 
-Your company just spent millions implementing a state-of-the-art AI system, but it's still giving dangerously wrong advice in critical situations. The medical AI suggests incorrect diagnoses, the legal AI misses key contract clauses, and the security AI fails to detect sophisticated threats. What went wrong?
+A general language model is trained on text from everywhere. A bank, a hospital or a software team has one field and its own documents. The question is how to get a model that works well in that field.
 
-The problem isn't the AI's capability. It's its focus. **Domain-Specific Language Models (DSLMs)** move from "AI that knows everything about nothing" to "AI that knows everything about one thing."
+The answer has a name: a domain-specific language model (DSLM). It is a language model whose training or inputs were chosen to fit one field. Published examples:
 
-Think of it this way: would you rather have a general practitioner performing brain surgery or a neurosurgeon? Both are doctors, but one specializes deeply in what matters most for the specific task at hand.
+- BloombergGPT, for finance. 50 billion parameters, trained on financial and general text [\[1\]](#ref-1).
+- Med-PaLM, for medical questions. Built by adapting an existing 540-billion-parameter model [\[2\]](#ref-2).
+- Code Llama, for programming. Built from Llama 2 [\[3\]](#ref-3).
 
-DSLMs are the specialists of the AI world: models trained for specific domains where generalist models struggle to provide reliable, accurate results.
+There is no single recipe. The three models above were built in three different ways. This post lists the ways, gives the numbers the papers report for each, and ends with a short decision example.
 
-## Origins and Development
+> Every number comes from a cited paper, or is marked "made up for the example". Scores are the authors' own and are not comparable across papers.
+{: .prompt-info }
 
-The rise of DSLMs wasn't accidental. It was a response to real-world failures of general AI models in critical applications. As organizations deployed general Large Language Models (LLMs) like ChatGPT in specialized environments, they quickly discovered that "knowing a little about everything" wasn't enough when lives, fortunes, or security were at stake.
+## 02. What are the four ways?
 
-Early adopters in healthcare, finance, and cybersecurity found that general models would:
-- Hallucinate medical terminology with confidence
-- Misinterpret legal requirements and regulations
-- Miss security threats that required deep domain expertise
-- Provide "reasonable-sounding but dangerously wrong" advice
+Each way changes a different thing.
 
-The DSLM movement emerged from organizations asking: "What if we could build AI that thinks like an expert rather than a generalist?"
+- **Pretraining from scratch.** Start from random weights and train on a corpus that includes a large amount of domain text. BloombergGPT mixed financial and general text [\[1, p. 4\]](#ref-1).
+- **Continued pretraining.** Start from a trained general model and keep training it on domain text, with the same next-word objective. Gururangan et al. call this domain-adaptive pretraining and tested it on four domains [\[4\]](#ref-4). Code Llama does this with code [\[3, p. 3\]](#ref-3).
+- **Fine-tuning.** Start from a trained model and train it on a small set of examples of the task. Med-PaLM did this with a method called instruction prompt tuning [\[2\]](#ref-2). Low-rank adaptation (LoRA) freezes the original weights and trains small added matrices, so only a fraction of the parameters change [\[5\]](#ref-5).
+- **Retrieval.** Do not change the model. At question time, fetch passages from a document store and give them to the model. Lewis et al. call the weights the parametric memory and the document store the non-parametric memory [\[6\]](#ref-6).
 
-## What Is a Domain-Specific Language Model?
+The first three change the weights. The fourth changes what the model sees.
 
-A **Domain-Specific Language Model (DSLM)** is an AI model trained or fine-tuned to deeply understand one specific field, instead of "everything."
+## 03. What does training from scratch cost?
 
-Think:
-- **Medical AI** that understands clinical notes, drug interactions, and diagnostic patterns
-- **Legal AI** that knows contract law, regulatory compliance, and case precedents
-- **Security AI** that understands logs, exploits, threat patterns, and security protocols
+BloombergGPT is the clearest published case. The abstract gives two corpus sizes [\[1, p. 1\]](#ref-1):
 
-Instead of being a generalist that provides broad coverage across all topics, a DSLM is a specialist that provides deep expertise in one critical domain.
+- 363 billion tokens of financial data, built from Bloomberg's archives.
+- 345 billion tokens from general datasets.
 
-                  User Query
-                        |
-                        v
-                 [Model Type Choice]
-                   /           \
-                  /             \
-         General LLM            DSLM
-              |                   |
-              v                   v
-    General Knowledge Base   Specialized Domain Knowledge
-              |                   |
-              v                   v
-    Broad but Shallow     Deep Expert Understanding
-    Understanding             
-              |                   |
-              v                   v
-    General Tasks:        Critical Tasks:
-    Chat, Writing,        Diagnosis, Analysis,
-    Brainstorming         Decisions
+Those add up to 708 billion. The training text counts 709 billion tokens available, which I take to be rounding. The paper reports the financial part as 51.27% of training [\[1, p. 7\]](#ref-1).
 
-## Why General Models Aren't Enough
+The model did not read all of it. Training stopped after 139,200 steps, about 53 days, at 569 billion tokens out of the 709 billion available [\[1, p. 16\]](#ref-1). That is 569 / 709 = 0.80 of one pass over the data, which matches the paper's "about 80% of one epoch".
 
-General LLMs (like ChatGPT-style models) are trained on vast but unfocused datasets:
-- Books and literature
-- Websites and blogs
-- Forums and social media
-- Code repositories
-- Random internet text from every domain imaginable
+The paper's claim is that the mix gives a model that outperforms existing models on financial tasks, and is on par or better on general benchmarks [\[1, p. 4\]](#ref-1). The authors also say they built what they call the largest domain-specific dataset yet [\[1, p. 4\]](#ref-1).
 
-This breadth comes at a cost: little depth in any single area. In specialized domains, this creates critical problems:
+Two things follow from the numbers. The corpus is hundreds of billions of tokens. And the paper says Bloomberg's analysts had collected financial documents over forty years [\[1, p. 4\]](#ref-1). Most teams do not have a corpus like that.
 
-### Hallucinated Terminology
-General models invent plausible-sounding but incorrect terminology. In medicine, they might suggest treatments that don't exist; in law, they might cite non-existent regulations.
+## 04. What does continued pretraining cost?
 
-### Shallow Understanding of Workflows
-They miss the nuances of domain-specific processes. A medical DSLM understands diagnostic workflows; a general model only knows textbook descriptions.
+Code Llama starts from Llama 2 weights and trains on a code-heavy dataset. The 7B, 13B and 34B models saw 500 billion tokens. The 70B model saw 1 trillion [\[3, p. 3\]](#ref-3).
 
-### Missed Edge Cases
-Critical exceptions and rare scenarios that only domain experts recognize. In security, these are the sophisticated attacks that general models miss entirely.
+Llama 2 was trained on 2 trillion tokens [\[3, p. 7\]](#ref-3). So the extra training for the smaller models is 500 / 2,000 = 25% of the original token count.
 
-### Poor Compliance Awareness
-Regulatory requirements vary dramatically by domain. Financial DSLMs understand SOX compliance; medical DSLMs know HIPAA requirements; general models struggle with specific regulatory frameworks.
+The 500 billion tokens are mostly code, with some natural language around it [\[3, p. 5\]](#ref-3):
 
-**Real-World Example:**
-A general model asked about "treating hypertension in a diabetic patient with renal impairment" might provide a textbook answer that dangerously ignores contraindications and drug interactions. A medical DSLM would recognize the complexity and provide specialized, safer recommendations.
+| Part of the dataset | Share |
+|---|---:|
+| Code | 85% |
+| Natural language related to code | 8% |
+| Natural language | 7% |
 
-## What Makes a DSLM Different?
+_Dataset mix for Code Llama at 500 billion tokens [\[3, p. 5\]](#ref-3)._
 
-### Specialized Training Data
+The authors report two results from this. Starting from Llama 2 beats the same architecture trained on code only, for the same budget [\[3, p. 1\]](#ref-3). And Llama 2 70B is roughly equivalent to Code Llama 7B on Python coding benchmarks [\[3, p. 7\]](#ref-3). The 70B model is 10 times the size of the 7B one.
 
-Instead of random internet text, DSLMs train on:
-- **Medical**: Clinical notes, research papers, drug databases, treatment protocols
-- **Legal**: Case law, contracts, regulations, legal precedents
-- **Financial**: Market data, financial statements, regulatory filings, fraud patterns
-- **Security**: Logs, threat intelligence, exploit databases, incident reports
-- **RF/Telecom**: Protocol specifications, spectrum data, technical standards
+## 05. What does fine-tuning change?
 
-**Quality over Quantity**: A medical DSLM trained on 10 million high-quality clinical records often outperforms a general model trained on 100 billion mixed documents for medical tasks.
+Fine-tuning trains on a set of task examples, not on a full corpus.
 
-### Domain-Specific Vocabulary
+Med-PaLM is the example. The authors tested the 540-billion-parameter PaLM and its instruction-tuned version Flan-PaLM on a set of medical question benchmarks [\[2\]](#ref-2):
 
-DSLMs understand the precise language of their domain:
+- Flan-PaLM scored 67.6% on MedQA, which uses US medical licensing exam questions. The authors say that beats the previous best by over 17%.
+- Instruction prompt tuning of Flan-PaLM produced Med-PaLM.
+- Human raters scored answers on factuality, precision, possible harm and bias. They found key gaps in Flan-PaLM's answers. The authors say Med-PaLM performs encouragingly but remains inferior to clinicians.
 
-| Domain | Critical Understanding |
-|--------|------------------------|
-| Security | "Key", "token", and "credential" have distinct meanings |
-| Medical | "Malignant" vs. "Benign" requires diagnostic context |
-| Legal | "Shall", "may", and "must" have binding legal differences |
-| Finance | "Risk" and "volatility" require quantitative precision |
-
-### Domain Constraints
-
-DSLMs are explicitly taught what **cannot** be done:
-- Medical DSLMs: Never diagnose without complete patient information
-- Legal DSLMs: Never provide legal advice for unverified jurisdictions
-- Security DSLMs: Never recommend known-vulnerable configurations
-- Financial DSLMs: Never suggest trades without proper risk assessment
-
-This constraint-based training dramatically reduces hallucinations and dangerous advice.
-
-## How DSLMs Are Built (Conceptually)
-
-### Fine-Tuning Approach
-
-Take a general model and retrain it on domain-specific data.
-
-**Pros:**
-- Cheaper than training from scratch
-- Faster deployment (weeks vs. months)
-- Leverages existing model capabilities
-
-**Cons:**
-- Inherits base model weaknesses
-- May retain unwanted general knowledge
-- Limited by original model architecture
-
-### Retrieval-Augmented Generation (RAG)
-
-Model combined with live access to domain documents and databases.
-
-**Pros:**
-- Always up-to-date information
-- Lower training cost
-- Explainable responses (can cite sources)
-
-**Cons:**
-- Depends on retrieval quality
-- Limited by available documentation
-- May miss implicit domain knowledge
-
-### Fully Domain-Native Models
-
-Built from scratch specifically for one domain.
-
-**Pros:**
-- Highest possible accuracy
-- Strongest alignment with domain needs
-- Optimized architecture for domain tasks
-
-**Cons:**
-- Very expensive (millions of dollars)
-- Requires massive domain-specific datasets
-- Longer development timeline (months to years)
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│                 DSLM Implementation Options                  │
-├──────────────────────────────────────────────────────────────┤
-│ Fine-Tuning:                                                 │
-│   Start with: General Model + Domain Data                    │
-│   Result: Fast, Cost-Effective                               │
-│                                                              │
-│ RAG Approach:                                                │
-│   Start with: General Model + Live Retrieval                 │
-│   Result: Current, Transparent                               │
-│                                                              │
-│ Domain-Native:                                               │
-│   Start with: Built from Scratch                             │
-│   Result: Highest Performance                                │
-└──────────────────────────────────────────────────────────────┘
-```
-
-## Real-World DSLM Examples
-
-| Domain | Example Use | Key Differentiator |
-|--------|-------------|-------------------|
-| **Healthcare** | Diagnosing from clinical notes | Understands medical terminology, drug interactions, diagnostic workflows |
-| **Legal** | Contract analysis | Knows legal precedents, regulatory compliance, contract law nuances |
-| **Finance** | Fraud detection | Recognizes financial patterns, market behaviors, regulatory requirements |
-| **Cybersecurity** | Log analysis & threat detection | Understands attack patterns, security protocols, vulnerability indicators |
-| **Programming** | Code-only LLMs | Deep understanding of code patterns, libraries, best practices |
-| **Telecom / RF** | Protocol analysis, spectrum planning | Specialized knowledge of wireless standards, RF engineering principles |
-
-### Detailed Example: Healthcare DSLM
-
-A healthcare DSLM might be trained on:
-- **100+ million** clinical encounters from hospital systems
-- **FDA drug databases** with interaction information
-- **Medical research papers** from PubMed and journals
-- **Clinical guidelines** from medical associations
-
-**Example Results:**
-- 95% accuracy in medication reconciliation vs. 72% for general models
-- 87% reduction in hallucinated diagnoses
-- 99.8% compliance with clinical guidelines
-- Ability to identify drug-drug interactions that general models miss
-
-## Why DSLMs Matter for the Cloud
-
-In cloud environments, DSLMs are increasingly used for:
-
-### Log Analysis (Security & Operations)
-Cloud-ops DSLMs understand that:
-- A spike in egress traffic might indicate data exfiltration, not just "high usage"
-- Unusual API call patterns could signal credential compromise
-- Resource utilization patterns vary by application type and time of day
-
-### Incident Response Automation
-Security DSLMs can:
-- Prioritize alerts based on actual threat intelligence
-- Suggest specific remediation steps for known attack patterns
-- Understand compliance implications of security incidents
-
-### Cost Optimization
-Financial DSLMs help:
-- Identify optimization opportunities specific to your usage patterns
-- Predict cost implications of architectural changes
-- Recommend cloud resource configurations based on workload requirements
-
-### Policy Compliance
-Regulatory DSLMs ensure:
-- Cloud configurations meet industry-specific requirements (HIPAA, SOX, PCI-DSS)
-- Data handling follows regional compliance rules
-- Audit trails maintain required legal standards
-
-**Real Example:**
-A cloud-ops DSLM analyzing AWS CloudTrail logs detected unusual IAM role creation activities at 3 AM, correlated this with recent supply chain attacks, and automatically started containment procedures, all within 5 minutes of the first suspicious activity.
-
-## Accuracy vs Flexibility Tradeoff
-
-| Characteristic | General LLM | DSLM |
-|----------------|-------------|------|
-| **Knowledge Base** | Wide but shallow | Narrow but deep |
-| **Accuracy** | 70-85% general tasks | 95-99% domain tasks |
-| **Hallucinations** | Common | Rare |
-| **Best For** | Chat, writing, brainstorming | Decisions, analysis, recommendations |
-| **Training Data** | Internet-scale (100B+ tokens) | Domain-specific (1-10B tokens) |
-| **Update Speed** | Retraining required | RAG enables real-time updates |
-| **Cost per Query** | Lower | Higher (justified by accuracy) |
-
-**Rule of thumb:**
-- Use general models for conversation and creative tasks
-- Use DSLMs for decisions and critical applications
-
-## Security & Compliance Advantages
-
-DSLMs offer significant security benefits that general models cannot match:
-
-### Auditability
-- **Transparent Training Data**: Know exactly what information influenced the model
-- **Explainable Outputs**: Can trace responses to specific training examples
-- **Version Control**: Track model changes and their impacts
-
-### Constraint Enforcement
-- **Built-in Guardrails**: Cannot suggest illegal or prohibited actions
-- **Compliance Rules**: Automatically enforces industry-specific regulations
-- **Risk Awareness**: Understands what advice is dangerous or inappropriate
-
-### Deployment Flexibility
-- **On-Premises Options**: Run in private data centers for sensitive data
-- **Air-Gapped Capabilities**: Function without internet connectivity
-- **Custom Security Integrations**: Integrate with existing security infrastructure
-
-**Why Banks, Governments, and Defense Organizations Prefer DSLMs:**
-- **Data Sovereignty**: Sensitive data never leaves controlled environments
-- **Regulatory Compliance**: Built-in adherence to industry regulations
-- **Accountability**: Clear chain of responsibility for model decisions
-- **Risk Management**: Predictable behavior in critical scenarios
-
-## Should You Implement DSLMs in Your Company?
-
-### Decision Framework
-
-**Consider DSLMs if you answer YES to any of these:**
-
-| Question | Indicator | DSLM Recommended |
-|----------|-----------|------------------|
-| **Accuracy Critical?** | Wrong answers cost >$10,000 or impact safety | Yes |
-| **Compliance Required?** | Industry regulations (HIPAA, SOX, FINRA) | Yes |
-| **Specialized Domain?** | Medical, legal, financial, security, technical | Yes |
-| **Data Sensitivity?** | Cannot use public cloud services | Yes |
-| **High Volume?** | >1,000 domain-specific queries daily | Yes |
-| **Edge Cases Matter?** | Rare but critical scenarios common | Yes |
-
-**Implementation Readiness Checklist:**
-
-#### Technical Requirements
-- **Domain-Specific Dataset**: Minimum 100,000 high-quality examples
-- **Subject Matter Experts**: Available for validation and feedback
-- **Computational Resources**: GPU access for training/inference
-- **ML Team**: Data scientists familiar with fine-tuning
-
-#### Business Requirements
-- **Clear ROI**: Cost-benefit analysis showing >3x return
-- **Executive Sponsorship**: Leadership buy-in for 6-12 month timeline
-- **Budget Allocation**: $100K-$1M+ depending on approach
-- **Success Metrics**: Defined KPIs for model performance
-
-#### Regulatory Requirements
-- **Compliance Framework**: Understanding of industry regulations
-- **Audit Trail**: Ability to log and review model decisions
-- **Data Governance**: Policies for sensitive data handling
-
-## Are DSLMs the Future?
-
-Not instead of general LLMs, but **alongside** them. The emerging pattern in enterprise AI is:
-
-```
-General LLM = Interface Layer
-    ↓ (Handles user interaction and basic understanding)
-DSLMs = Specialized Execution Engines  
-    ↓ (Provides domain expertise and accurate results)
-Human Expert = Final Decision Maker
-    ↓ (Validates and implements recommendations)
-```
-
-**Think of it like this:**
-- **General LLM**: Your smart assistant that understands what you want
-- **DSLMs**: Your team of specialized experts who do the actual work
-- **Human Experts**: Your experienced managers who make final decisions
-
-This hybrid approach leverages the strengths of each component:
-- General models excel at natural conversation and broad understanding
-- DSLMs provide the deep expertise needed for critical decisions
-- Humans bring judgment, ethics, and contextual understanding
-
-Market Projections (Industry Analysis):
-- **2025**: Specialized GenAI models (including DSLMs) market valued at $1.1B (Gartner)
-- **2027**: Expected to reach $15B+ as >50% of enterprise GenAI models become domain-specific
-- **Key Drivers**: Regulatory compliance, accuracy requirements, data security
-- **Top Industries**: Healthcare, finance, legal, government, cybersecurity
-
-## Strong Closing Thought
-
-**General AI knows a little about everything. Domain-specific AI knows everything about one thing.**
-
-And in critical systems, where wrong answers have real consequences, specialists beat generalists.
-
-The question isn't whether DSLMs will replace general AI models. The question is whether your organization can afford to rely on generalists when specialists are available for the tasks that matter most.
-
----
-
-## Learn More
-
-**Resources:**
-- [Domain-Specific AI Research Papers](https://arxiv.org/list/cs.CL/recent)
-- [Enterprise AI Implementation Guide](https://github.com/microsoft/AI-For-Beginners)
-- [DSLM Case Studies and Benchmarks](https://paperswithcode.com/sota/domain-adaptation-language-modeling)
-- [Industry-Specific AI Standards](https://www.nist.gov/artificial-intelligence)
-- [Gartner DSLM Market Analysis](https://www.gartner.com/en/newsroom/press-releases/2025-07-10-gartner-forecasts-worldwide-end-user-spending-on-generative-ai-models-to-total-us-dollars-14-billion-in-2025)
-
-**Tools and Platforms:**
-- [Hugging Face Fine-tuning Guides](https://huggingface.co/docs/transformers/training)
-- [LangChain RAG Documentation](https://python.langchain.com/docs/modules/data_connection/)
-- [OpenAI Fine-tuning API](https://platform.openai.com/docs/guides/fine-tuning)
-- [Azure AI Studio](https://azure.microsoft.com/en-us/products/ai-studio/)
+So a tuned model can score well on exam questions and still fall short of a clinician. The same paper reports that comprehension, recall and reasoning improved with model size and with tuning.
+
+LoRA lowers the price of fine-tuning. For GPT-3 175B, the LoRA authors report 10,000 times fewer trainable parameters and 3 times less GPU memory than full fine-tuning with Adam [\[5\]](#ref-5).
+
+## 06. What does retrieval change?
+
+Retrieval leaves the weights alone. The document store can be read and updated without retraining [\[6\]](#ref-6). That fits knowledge that changes, such as prices, policies and manuals.
+
+In the original paper, the store is a dense vector index of Wikipedia and the model is a pretrained sequence-to-sequence model. On three open-domain question answering tasks it beat parametric-only models. Its generated text was more specific, more diverse and more factual than a parametric-only baseline [\[6\]](#ref-6).
+
+Retrieval has limits. They follow from how it works. If the right passage is not fetched, the model has nothing to use. And a passage can only give facts. It does not teach the model the field's vocabulary or its way of reasoning. This is my reasoning, not a result from the paper.
+
+## 07. How do the four compare?
+
+| | Changes the weights | What you need | Updating knowledge | Reported anchor |
+|---|---|---|---|---|
+| From scratch | Yes, all | A corpus of hundreds of billions of tokens | Retrain | 569B tokens, about 53 days [\[1, p. 16\]](#ref-1) |
+| Continued pretraining | Yes, all | Billions of domain tokens | Continue training | 500B tokens on top of 2T [\[3, p. 3\]](#ref-3) |
+| Fine-tuning | Yes, or a small part with LoRA | Labelled examples of the task | Tune again | 3 times less memory with LoRA [\[5\]](#ref-5) |
+| Retrieval | No | A searchable document store | Edit the store | No retraining [\[6\]](#ref-6) |
+
+_The first three columns are my summary of the papers. The last column quotes them. The "what you need" column is my reading, not a threshold any paper states._
+
+The methods can be combined. BloombergGPT's paper contrasts its approach with models trained only on domain data and with models that adapt a very large general model, and cites Med-PaLM as one of the second kind [\[1, p. 4\]](#ref-1). Retrieval can sit on top of any of them.
+
+## 08. Which one to pick?
+
+A decision example. Everything in it is made up for the example.
+
+A support team has 5,000 runbook pages. Each page averages 2,000 tokens. The pages change every week. The team wants answers that point to the page they came from.
+
+The corpus is 5,000 × 2,000 = 10,000,000 tokens. BloombergGPT's financial data alone is 363 billion tokens [\[1, p. 1\]](#ref-1). That is 363,000,000,000 / 10,000,000 = 36,300 times more. Training from scratch is out, and so is continued pretraining on a corpus this small. I assume 10 million tokens is too little for it, based on the sizes in sections 03 and 04. No paper gives a minimum.
+
+The steps:
+
+1. The answers live in pages that change weekly, and the team wants citations. Start with retrieval. Editing a page updates the system, with no retraining [\[6\]](#ref-6).
+2. Test on real questions with the right page already in the prompt. If the answers are right, stop here.
+3. If they are wrong in a systematic way, such as a wrong output format or a misused term, collect examples of good answers and fine-tune, with LoRA if memory is the limit [\[5\]](#ref-5).
+4. Whatever the choice, have a person who knows the field review a sample of answers. Flan-PaLM scored well on exam questions and still showed gaps under human review [\[2\]](#ref-2).
+
+> The sizes in this example are made up. Replace them with your own page count and token count before comparing.
+{: .prompt-warning }
+
+## Sources
+
+<span id="ref-1"></span>\[1\] Wu, S., Irsoy, O., Lu, S., Dabravolski, V., Dredze, M., Gehrmann, S., Kambadur, P., Rosenberg, D., & Mann, G. (2023). _BloombergGPT: A large language model for finance_. arXiv:2303.17564. [https://arxiv.org/abs/2303.17564](https://arxiv.org/abs/2303.17564)
+
+<span id="ref-2"></span>\[2\] Singhal, K., Azizi, S., et al. (2022). _Large language models encode clinical knowledge_. arXiv:2212.13138. [https://arxiv.org/abs/2212.13138](https://arxiv.org/abs/2212.13138)
+
+<span id="ref-3"></span>\[3\] Rozière, B., Gehring, J., Gloeckle, F., Sootla, S., et al. (2023). _Code Llama: Open foundation models for code_. arXiv:2308.12950. [https://arxiv.org/abs/2308.12950](https://arxiv.org/abs/2308.12950)
+
+<span id="ref-4"></span>\[4\] Gururangan, S., Marasović, A., Swayamdipta, S., Lo, K., Beltagy, I., Downey, D., & Smith, N. A. (2020). _Don't stop pretraining: Adapt language models to domains and tasks_. ACL 2020. arXiv:2004.10964. [https://arxiv.org/abs/2004.10964](https://arxiv.org/abs/2004.10964)
+
+<span id="ref-5"></span>\[5\] Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., Wang, L., & Chen, W. (2021). _LoRA: Low-rank adaptation of large language models_. arXiv:2106.09685. [https://arxiv.org/abs/2106.09685](https://arxiv.org/abs/2106.09685)
+
+<span id="ref-6"></span>\[6\] Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). _Retrieval-augmented generation for knowledge-intensive NLP tasks_. NeurIPS 2020. arXiv:2005.11401. [https://arxiv.org/abs/2005.11401](https://arxiv.org/abs/2005.11401)
